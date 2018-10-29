@@ -1,4 +1,4 @@
-; Mon Oct 29 12:41:32 GMT+01:00 2018
+; Mon Oct 29 13:10:35 GMT+01:00 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -7,3 +7,43 @@
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract))
+
+(defclass MapaDeSesiones
+	(is-a USER)
+	(role concrete))
+
+(defclass Sesion
+	(is-a USER)
+	(role concrete))
+
+(defclass Dia
+	(is-a USER)
+	(role concrete))
+
+(defclass Enfermedades
+	(is-a USER)
+	(role concrete))
+
+(defclass Calentamiento
+	(is-a USER)
+	(role concrete))
+
+(defclass Ejercicio
+	(is-a USER)
+	(role concrete))
+
+(defclass Aerobico "Aerobico o resistencia"
+	(is-a Ejercicio)
+	(role concrete))
+
+(defclass Fuerza "Fuerza o musculación"
+	(is-a Ejercicio)
+	(role concrete))
+
+(defclass Equilibrio
+	(is-a Ejercicio)
+	(role concrete))
+
+(defclass Flexibilidad
+	(is-a Ejercicio)
+	(role concrete))

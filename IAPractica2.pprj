@@ -1,4 +1,4 @@
-; Mon Oct 29 12:41:32 GMT+01:00 2018
+; Mon Oct 29 13:10:35 GMT+01:00 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -20,9 +20,9 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[IAPractica2_ProjectKB_Class102]
-		[IAPractica2_ProjectKB_Class103]
-		[IAPractica2_ProjectKB_Class104]))
+		[IAPractica2_ProjectKB_Class105]
+		[IAPractica2_ProjectKB_Class106]
+		[IAPractica2_ProjectKB_Class107]))
 
 ([CLSES_TAB] of  Widget
 
@@ -44,17 +44,17 @@
 
 	(name "SearchTab_Query"))
 
-([IAPractica2_ProjectKB_Class102] of  String
+([IAPractica2_ProjectKB_Class105] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([IAPractica2_ProjectKB_Class103] of  String
+([IAPractica2_ProjectKB_Class106] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([IAPractica2_ProjectKB_Class104] of  String
+([IAPractica2_ProjectKB_Class107] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))

@@ -24,13 +24,13 @@
 
 (defmodule MAIN (export ?ALL))
 
-(defrule MAIN::initialRule "Regla inicial"
+(defrule MAIN::initial_rule "Regla inicial"
 	(initial-fact)
 	=>
 	(printout t "SCB de rutinas" crlf)
 	(printout t "por Sergi Aragall, Alberto Camacho y Albert Teira" crlf)
 	(assert (newRutine))
-	(focus questionModule)
+	(focus question_module)
 )
 
 ; --------------------------------------------------------------------------------------------------------------------
@@ -39,13 +39,13 @@
 ; Definir preguntas para más adelante poder inferir
 
 ; Definimos el módulo para las preguntas
-(defmodule questionModule
+(defmodule question_module
 	(import MAIN ?ALL)
 	(export ?ALL)
 )
 
 ; Función para comprobar que la respuesta que se entra sea valida
-(deffunction questionModule::pregunta-opciones (?question $?allowed-values)
+(deffunction question_module::pregunta_opciones (?question $?allowed-values)
    (printout t ?question)
    (bind ?answer (read))
    ; lexemp -> string/symbol, integerp -> integer
@@ -60,22 +60,32 @@
 )
 
 ; Función para las preguntas de SI o NO
-(deffunction questionModule::pregunta-si-no (?question)
-   (bind ?response (pregunta-opciones ?question s n)))
+(deffunction question_module::pregunta_si_no (?question)
+   (bind ?response (pregunta_opciones ?question s n)))
    (if (eq ?response s)
        then TRUE
    else FALSE)
 )
 
-(defrule questionModule::regla1 ""
+(defrule question_module::dolor_cabeza
 	(declare (salience 10))
 	(newRutine)
 	=>
-    (if (pregunta-si-no "Le duele la cabeza? [s/n] ") then
+    (if (pregunta_si_no "Le duele la cabeza? [s/n]") then
 	   (printout t "Si" crlf)
     else
 		(printout t "No" crlf)
 	)
+)
+
+;;; Añadir preguntas
+
+; Para pasar al modulo de inferencia
+(defrule question_module::end_questions
+	(declare (salience 0))
+	(newRutine)
+	=>
+	(focus inference_module)
 )
 
 ; --------------------------------------------------------------------------------------------------------------------
@@ -84,8 +94,8 @@
 ; Módulo para hacer la inferencia de datos según las preguntas
 
 ; Definimos el módulo para la inferencia de datos
-(defmodule inferenceModule
+(defmodule inference_module
 	(import MAIN ?ALL)
-    (import modulo_preguntas ?ALL)
+    (import question_module ?ALL)
     (export ?ALL)
 )

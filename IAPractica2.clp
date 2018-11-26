@@ -3,6 +3,77 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; Clases definidas en la ontología (exportar de CLIPS)
 
+; Mon Nov 26 23:19:34 CET 2018
+; 
+;+ (version "3.5")
+;+ (build "Build 663")
+
+
+(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
+	(is-a USER)
+	(role abstract)
+	(multislot Sesiones
+		(type INSTANCE)
+;+		(allowed-classes Sesion)
+		(cardinality 3 7)
+		(create-accessor read-write))
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Sesion
+	(is-a USER)
+	(role concrete))
+
+(defclass Calentamiento
+	(is-a USER)
+	(role concrete)
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass Ejercicio
+	(is-a USER)
+	(role concrete))
+
+(defclass Aerobico "Aerobico o resistencia"
+	(is-a Ejercicio)
+	(role concrete))
+
+(defclass Fuerza "Fuerza o musculación"
+	(is-a Ejercicio)
+	(role concrete))
+
+(defclass Equilibrio
+	(is-a Ejercicio)
+	(role concrete))
+
+(defclass Flexibilidad
+	(is-a Ejercicio)
+	(role concrete))
+
+(defclass Deporte
+	(is-a USER)
+	(role concrete))
+
+(defclass ConjuntoSesiones
+	(is-a USER)
+	(role concrete)
+	(multislot Sesiones
+		(type INSTANCE)
+;+		(allowed-classes Sesion)
+		(cardinality 3 7)
+		(create-accessor read-write)))
+		
+;DEFTEMPLATES:	
+
+(deftemplate esta-en-rango "Si esta en rango puesto"
+	(slot nombre (type STRING))
+)
+
+
 ; --------------------------------------------------------------------------------------------------------------------
 ; -----------------------------------------------  INSTANCES  --------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
@@ -38,6 +109,8 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; Definir preguntas para más adelante poder inferir
 
+
+
 ; Definimos el módulo para las preguntas
 (defmodule question_module
 	(import MAIN ?ALL)
@@ -69,9 +142,9 @@
 	(newRutine)
 	=>
     (if (yes-or-no-p "Diga su rango de edad? [65~80/>80]") then
-		//action
+     	(assert (esta-en-rango (nombre "ESTA EN RANGO")))
     else
-		//action
+		(assert (esta-en-rango (nombre "NO ESTA EN RANGO")))
 	)
 )
 
@@ -80,9 +153,9 @@
 	(newRutine)
 	=>
     (if (yes-or-no-p "Ha sufrido alguna caída recientemente? [s/n]") then
-		//action
+		;action
     else
-		//action
+		;action
 	)
 )
 
@@ -91,9 +164,9 @@
 	(newRutine)
 	=>
     (if (yes-or-no-p "Sufre problemas de movilidad? [s/n]") then
-		//action
+		;action
     else
-		//action
+		;action
 	)
 )
 
@@ -104,6 +177,7 @@
 	(declare (salience 0))
 	(newRutine)
 	=>
+	(assert (conclusions))
 	(focus inference_module)
 )
 
@@ -118,3 +192,14 @@
     (import question_module ?ALL)
     (export ?ALL)
 )
+
+(defrule inference_module::sacarPantalla
+	(declare (salience 10))
+	(conclusions)
+  ;	?f<-(esta-en-rango (nombre "ESTA EN RANGO"))
+	=>
+  ;(printout t ?nombre " esta en " ?f crlf)
+	(facts)
+)
+
+

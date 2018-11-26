@@ -48,13 +48,13 @@
 (deffunction ask-question (?question $?allowed-values)
    (printout t ?question)
    (bind ?answer (read))
-   (if (lexemep ?answer) 
+   (if (lexemep ?answer)
        then (bind ?answer (lowcase ?answer)))
    (while (not (member ?answer ?allowed-values)) do
-      (printout t ?question)
-      (bind ?answer (read))
-      (if (lexemep ?answer) 
-          then (bind ?answer (lowcase ?answer))))
+      (printout t "Respuesta invalida. " ?question)
+      (bind ?answer (read)))
+      (if (lexemep ?answer)
+          then (bind ?answer (lowcase ?answer)))
    ?answer)
 
 ; Función para las preguntas de SI o NO
@@ -64,14 +64,36 @@
        then TRUE 
        else FALSE))
 
-(defrule question_module::dolor_cabeza
+(defrule question_module::edad
 	(declare (salience 10))
 	(newRutine)
 	=>
-    (if (yes-or-no-p "Le duele la cabeza? [s/n]") then
-		(printout t s)
+    (if (yes-or-no-p "Diga su rango de edad? [65~80/>80]") then
+		//action
     else
-		(printout t n)
+		//action
+	)
+)
+
+(defrule question_module::caidas
+	(declare (salience 10))
+	(newRutine)
+	=>
+    (if (yes-or-no-p "Ha sufrido alguna caída recientemente? [s/n]") then
+		//action
+    else
+		//action
+	)
+)
+
+(defrule question_module::problemas-movilidad
+	(declare (salience 10))
+	(newRutine)
+	=>
+    (if (yes-or-no-p "Sufre problemas de movilidad? [s/n]") then
+		//action
+    else
+		//action
 	)
 )
 

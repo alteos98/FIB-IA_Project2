@@ -45,36 +45,33 @@
 )
 
 ; Función para comprobar que la respuesta que se entra sea valida
-(deffunction question_module::pregunta_opciones (?question $?allowed-values)
+(deffunction ask-question (?question $?allowed-values)
    (printout t ?question)
    (bind ?answer (read))
-   ; lexemp -> string/symbol, integerp -> integer
-   (if (lexemep ?answer)
+   (if (lexemep ?answer) 
        then (bind ?answer (lowcase ?answer)))
    (while (not (member ?answer ?allowed-values)) do
-      (printout t "Respuesta no valida. " ?question crlf)
+      (printout t ?question)
       (bind ?answer (read))
-      (if (lexemep ?answer)
+      (if (lexemep ?answer) 
           then (bind ?answer (lowcase ?answer))))
-   ?answer
-)
+   ?answer)
 
 ; Función para las preguntas de SI o NO
-(deffunction question_module::pregunta_si_no (?question)
-   (bind ?response (pregunta_opciones ?question s n)))
-   (if (eq ?response s)
-       then TRUE
-   else FALSE)
-)
+(deffunction yes-or-no-p (?question)
+   (bind ?response (ask-question ?question si no s n))
+   (if (or (eq ?response si) (eq ?response s))
+       then TRUE 
+       else FALSE))
 
 (defrule question_module::dolor_cabeza
 	(declare (salience 10))
 	(newRutine)
 	=>
-    (if (pregunta_si_no "Le duele la cabeza? [s/n]") then
-	   (printout t "Si" crlf)
+    (if (yes-or-no-p "Le duele la cabeza? [s/n]") then
+		(printout t s)
     else
-		(printout t "No" crlf)
+		(printout t n)
 	)
 )
 

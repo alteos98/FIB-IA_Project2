@@ -84,6 +84,51 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; Funciones generales
 
+; Función para comprobar que la respuesta que se entra sea valida
+(deffunction ask-question (?question $?allowed-values)
+   (printout t ?question)
+   (bind ?answer (read))
+   (if (lexemep ?answer)
+       then (bind ?answer (lowcase ?answer)))
+   (while (not (member ?answer ?allowed-values)) do
+      (printout t "Respuesta invalida. " ?question)
+      (bind ?answer (read)))
+      (if (lexemep ?answer)
+          then (bind ?answer (lowcase ?answer)))
+   ?answer)
+
+; Función para las preguntas de SI o NO
+(deffunction yes-or-no-p (?question)
+   (bind ?response (ask-question ?question si no s n))
+   (if (or (eq ?response si) (eq ?response s))
+       then TRUE
+       else FALSE))
+
+; Función para hacer preguntas númericas con un rango
+(deffunction pregunta-numerica (?pregunta ?rangini ?rangfi)
+	(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
+	(bind ?respuesta (read))
+	(while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
+		(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
+		(bind ?respuesta (read))
+	)
+	?respuesta
+)
+
+;;; Función para hacer preguntas con diferentes valores como respuesta
+(deffunction pregunta-valores (?pregunta $?valores-permitidos)
+    (progn$
+        (?var ?valores-permitidos)
+        (lowcase ?var))
+    (format t "¿%s? (%s) " ?pregunta (implode$ ?valores-permitidos))
+    (bind ?respuesta (read))
+    (while (not (member (lowcase ?respuesta) ?valores-permitidos)) do
+        (format t "¿%s? (%s) " ?pregunta (implode$ ?valores-permitidos))
+        (bind ?respuesta (read))
+    )
+    ?respuesta
+)
+
 ; --------------------------------------------------------------------------------------------------------------------
 ; ----------------------------------------------  TEMPLATES ----------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
@@ -116,26 +161,6 @@
 	(import MAIN ?ALL)
 	(export ?ALL)
 )
-
-; Función para comprobar que la respuesta que se entra sea valida
-(deffunction ask-question (?question $?allowed-values)
-   (printout t ?question)
-   (bind ?answer (read))
-   (if (lexemep ?answer)
-       then (bind ?answer (lowcase ?answer)))
-   (while (not (member ?answer ?allowed-values)) do
-      (printout t "Respuesta invalida. " ?question)
-      (bind ?answer (read)))
-      (if (lexemep ?answer)
-          then (bind ?answer (lowcase ?answer)))
-   ?answer)
-
-; Función para las preguntas de SI o NO
-(deffunction yes-or-no-p (?question)
-   (bind ?response (ask-question ?question si no s n))
-   (if (or (eq ?response si) (eq ?response s))
-       then TRUE 
-       else FALSE))
 
 (defrule question_module::edad
 	(declare (salience 10))

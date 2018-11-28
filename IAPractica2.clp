@@ -142,9 +142,9 @@
 	(newRutine)
 	=>
     (if (yes-or-no-p "Diga su rango de edad? [65~80/>80]") then
-     	(assert (esta-en-rango (nombre "ESTA EN RANGO")))
+     	(assert (esta-en-rango (nombre "SI")))
     else
-		(assert (esta-en-rango (nombre "NO ESTA EN RANGO")))
+		(assert (esta-en-rango (nombre "NO")))
 	)
 )
 
@@ -196,10 +196,12 @@
 (defrule inference_module::sacarPantalla
 	(declare (salience 10))
 	(conclusions)
-  ;	?f<-(esta-en-rango (nombre "ESTA EN RANGO"))
+  	?f<-(esta-en-rango (nombre ?nombre))
 	=>
-  ;(printout t ?nombre " esta en " ?f crlf)
-	(facts)
-)
+	(if (eq ?nombre "SI") then
+		(printout t "Asi que estas dentro de la franja de edad eh, viejito lesbiano" crlf)
+    else
+		(printout t "O eres joven, adulto o una momia en vida, seas lo que seas esta app no es para ti chaval" crlf)
+))
 
 

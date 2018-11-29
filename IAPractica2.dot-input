@@ -1,0 +1,14 @@
+digraph "IAPractica2" {
+
+"Aerobico" [shape=box, label="Aerobico", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Ejercicio"->"Aerobico" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Flexibilidad" [shape=box, label="Flexibilidad", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Ejercicio"->"Flexibilidad" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Ejercicio" [shape=box, label="Ejercicio", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Fuerza" [shape=box, label="Fuerza", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Ejercicio"->"Fuerza" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Equilibrio" [shape=box, label="Equilibrio", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Ejercicio"->"Equilibrio" [dir=back, label=isa, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Session" [shape=box, label="Session", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+"Deporte" [shape=box, label="Deporte", color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0"]
+}

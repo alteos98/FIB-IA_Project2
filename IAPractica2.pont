@@ -1,4 +1,4 @@
-; Mon Nov 26 23:19:34 CET 2018
+; Thu Nov 29 12:33:09 GMT 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -7,31 +7,106 @@
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
+	(multislot Dia
+		(type INTEGER)
+		(range 1 7)
+		(create-accessor read-write))
+	(single-slot Intensidad
+		(type INTEGER)
+		(range 0 2)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Nombre_Ejercicio
+;+		(comment "Nombre del ejercicio")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Duracion
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+		(default 0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot Sesiones
 		(type INSTANCE)
-;+		(allowed-classes Sesion)
+;+		(allowed-classes Session)
 		(cardinality 3 7)
+		(create-accessor read-write))
+	(single-slot Nombre_Deporte
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot nombre
 		(type STRING)
 ;+		(cardinality 0 1)
-		(create-accessor read-write)))
-
-(defclass Sesion
-	(is-a USER)
-	(role concrete))
-
-(defclass Calentamiento
-	(is-a USER)
-	(role concrete)
-	(single-slot nombre
+		(create-accessor read-write))
+	(multislot Ejercicios
+		(type INSTANCE)
+;+		(allowed-classes Ejercicio)
+		(create-accessor read-write))
+	(single-slot Repeticiones_Ejercicio
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+		(default 1)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Repeticiones
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot IAPractica2_Class7
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot Partes_Ejercitadas
+		(type STRING)
+		(create-accessor read-write))
+	(single-slot Beneficios
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
+(defclass Session
+	(is-a USER)
+	(role concrete)
+	(multislot Dia
+		(type INTEGER)
+		(range 1 7)
+		(create-accessor read-write))
+	(multislot Ejercicios
+		(type INSTANCE)
+;+		(allowed-classes Ejercicio)
+		(create-accessor read-write)))
+
 (defclass Ejercicio
 	(is-a USER)
-	(role concrete))
+	(role concrete)
+	(single-slot Intensidad
+		(type INTEGER)
+		(range 0 2)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Partes_Ejercitadas
+		(type STRING)
+		(create-accessor read-write))
+	(single-slot Repeticiones_Ejercicio
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+		(default 1)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Nombre_Ejercicio
+;+		(comment "Nombre del ejercicio")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Duracion
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+		(default 0)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass Aerobico "Aerobico o resistencia"
 	(is-a Ejercicio)
@@ -51,13 +126,8 @@
 
 (defclass Deporte
 	(is-a USER)
-	(role concrete))
-
-(defclass ConjuntoSesiones
-	(is-a USER)
 	(role concrete)
-	(multislot Sesiones
-		(type INSTANCE)
-;+		(allowed-classes Sesion)
-		(cardinality 3 7)
+	(single-slot Nombre_Deporte
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write)))

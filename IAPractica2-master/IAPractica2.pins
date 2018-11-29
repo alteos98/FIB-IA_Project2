@@ -1,0 +1,147 @@
+; Thu Nov 29 12:33:09 GMT 2018
+; 
+;+ (version "3.5")
+;+ (build "Build 663")
+
+([IAPractica2_Class10] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Caminar")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class11] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Correr")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class12] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Marcha")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class13] of  Aerobico
+
+	(Duracion 15)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Subir_Escaleras")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class14] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Subir_Escaleras")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class15] of  Aerobico
+
+	(Duracion 60)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Caminar")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class16] of  Aerobico
+
+	(Duracion 60)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Marcha")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class17] of  Aerobico
+
+	(Duracion 90)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Caminar")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class19] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Plantar")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class22] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Rodilla")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class23] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Cadera")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class24] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Levantar_Pierna")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class25] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Estiramiento_Muneca")
+	(Partes_Ejercitadas "Brazos")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class26] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Rotacion_Hombro")
+	(Partes_Ejercitadas
+		"Torso"
+		"Brazos")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class27] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Estiramiento_Quadriceps")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class28] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Levantar_Brazos")
+	(Partes_Ejercitadas
+		"Brazos"
+		"Torso")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class29] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Extension_Cadera")
+	(Partes_Ejercitadas
+		"Piernas"
+		"Torso")
+	(Repeticiones_Ejercicio 2))
+
+([IAPractica2_Class30] of  Fuerza
+
+	(Duracion 5)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Flexiones")
+	(Partes_Ejercitadas
+		"Brazos"
+		"Piernas")
+	(Repeticiones_Ejercicio 5))

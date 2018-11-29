@@ -72,7 +72,7 @@
 (defclass Session
 	(is-a USER)
 	(role concrete)
-	(multislot Dia
+	(single-slot Dia
 		(type INTEGER)
 		(range 1 7)
 		(create-accessor read-write))
@@ -367,11 +367,9 @@
 		
 ;-------------------- DEFTEMPLATE ----------------------
 		
-(deftemplate question_module::esta-en-rango "Si esta en rango puesto"
-	(slot nombre (type STRING))
-)
-
 (deftemplate question_module::edad (slot numero (type INTEGER)))
+
+(deftemplate question_module::capacidad (slot valor (type INTEGER) (range 1 3)))
 
 ;------------ RULES ------------------------------
 
@@ -405,47 +403,26 @@
 					1- No realizo mas esfuerzos de los necesarios \
 					2- Ocasionalmente realizo alguna actividad fisica \
 					3- Regularmente realizo actividades fisicas" 1 2 3))
-		)
+		(assert (capacidad (valor ?f)))
+	)
 		
 
-
-
-(defrule question_module::edaddd
-	(declare (salience 10))
-	(newRutine)
-	=>
-    (if (yes-or-no-p "Diga su rango de edad? [65~80/>80]") then
-     	(assert (esta-en-rango (nombre "SI")))
-    else
-		(assert (esta-en-rango (nombre "NO")))
-	)
-)
-
+		
 (defrule question_module::caidas
 	(declare (salience 10))
 	(newRutine)
 	=>
-    (if (yes-or-no-p "Ha sufrido alguna caída recientemente? [s/n]") then
+   (if (yes-or-no-p "Ha sufrido alguna caída recientemente? [s/n]") then
 		;action
     else
 		;action
 	)
 )
 
-(defrule question_module::problemas-movilidad
-	(declare (salience 10))
-	(newRutine)
-	=>
-    (if (yes-or-no-p "Sufre problemas de movilidad? [s/n]") then
-		;action
-    else
-		;action
-	)
-)
 
-;;; Añadir preguntas
 
-; Para pasar al modulo de inferencia
+
+; PASAR MODULO INFERENCIA
 (defrule question_module::end_questions
 	(declare (salience 0))
 	(newRutine)
@@ -469,15 +446,60 @@
 (defrule inference_module::sacarPantalla
 	(declare (salience 10))
 	(conclusions)
-  	?f<-(esta-en-rango (nombre ?nombre))
+  	?f<-(capacidad (valor ?valor))
 	=>
-	(if (eq ?nombre "SI") then
-		(printout t "Asi que estas dentro de la franja de edad eh, viejito lesbiano" crlf)
-    else
-		(printout t "O eres joven, adulto o una momia en vida, seas lo que seas esta app no es para ti chaval" crlf)
-))
+	(printout t "Valor " ?valor crlf)
+	(make-instance ejercicio1 of Fuerza (Intensidad ?valor) (Partes_Ejercitadas "Tronco" "Polla") (Repeticiones_Ejercicio 5) (Nombre_Ejercicio "AlaEsGrande") (Duracion 90))	
+	)
 
+	
+(defrule inference_module::asignarEjercicio
+	(declare (salience 10))
+	(conclusions)
+	?f<-(capacidad (valor ?valor))
+	?fc <- (object (is-a Fuerza)(Intensidad ?valor) (Partes_Ejercitadas "Tronco" "Polla") (Repeticiones_Ejercicio 5) (Nombre_Ejercicio "AlaEsGrande") (Duracion 90))
+	=>
+	(make-instance sesion1 of Session (Dia 1) (Ejercicios ?fc))
+	)
 
+(defrule inference_module::finalizarAnalisis
+	(declare (salience 0))
+	(conclusions)
+	=>
+	(assert (escribir))
+	(focus output_module)	
+)
+	
+	
+	
+	
+; --------------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------  OUTPUT MODULE  ---------------------------------------------------
+; --------------------------------------------------------------------------------------------------------------------
+	
+(defmodule output_module
+    (import MAIN ?ALL)
+    (import question_module ?ALL)
+	(import inference_module ?ALL)
+    (export ?ALL)
+)
+
+(defrule output_module::sacarPantalla
+	(declare (salience 10))
+	(escribir)
+	?fc <- (object (is-a Session) (Dia ?d) (Ejercicios ?e))
+	=>
+	(printout t ?e crlf)
+)
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 -------------------- FINISH MODULE --------------------------
 

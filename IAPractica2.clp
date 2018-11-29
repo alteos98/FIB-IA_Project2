@@ -3,8 +3,8 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; Clases definidas en la ontología (exportar de CLIPS)
 
-; Mon Nov 26 23:19:34 CET 2018
-; 
+; Thu Nov 29 12:33:09 GMT 2018
+;
 ;+ (version "3.5")
 ;+ (build "Build 663")
 
@@ -12,31 +12,106 @@
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
+	(multislot Dia
+		(type INTEGER)
+		(range 1 7)
+		(create-accessor read-write))
+	(single-slot Intensidad
+		(type INTEGER)
+		(range 0 2)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Nombre_Ejercicio
+;+		(comment "Nombre del ejercicio")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Duracion
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+		(default 0)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot Sesiones
 		(type INSTANCE)
-;+		(allowed-classes Sesion)
+;+		(allowed-classes Session)
 		(cardinality 3 7)
+		(create-accessor read-write))
+	(single-slot Nombre_Deporte
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot nombre
 		(type STRING)
 ;+		(cardinality 0 1)
-		(create-accessor read-write)))
-
-(defclass Sesion
-	(is-a USER)
-	(role concrete))
-
-(defclass Calentamiento
-	(is-a USER)
-	(role concrete)
-	(single-slot nombre
+		(create-accessor read-write))
+	(multislot Ejercicios
+		(type INSTANCE)
+;+		(allowed-classes Ejercicio)
+		(create-accessor read-write))
+	(single-slot Repeticiones_Ejercicio
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+		(default 1)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Repeticiones
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot IAPractica2_Class7
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot Partes_Ejercitadas
+		(type STRING)
+		(create-accessor read-write))
+	(single-slot Beneficios
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
+(defclass Session
+	(is-a USER)
+	(role concrete)
+	(multislot Dia
+		(type INTEGER)
+		(range 1 7)
+		(create-accessor read-write))
+	(multislot Ejercicios
+		(type INSTANCE)
+;+		(allowed-classes Ejercicio)
+		(create-accessor read-write)))
+
 (defclass Ejercicio
 	(is-a USER)
-	(role concrete))
+	(role concrete)
+	(single-slot Intensidad
+		(type INTEGER)
+		(range 0 2)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Partes_Ejercitadas
+		(type STRING)
+		(create-accessor read-write))
+	(single-slot Repeticiones_Ejercicio
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+		(default 1)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Nombre_Ejercicio
+;+		(comment "Nombre del ejercicio")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Duracion
+		(type INTEGER)
+		(range 0 %3FVARIABLE)
+		(default 0)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass Aerobico "Aerobico o resistencia"
 	(is-a Ejercicio)
@@ -56,15 +131,10 @@
 
 (defclass Deporte
 	(is-a USER)
-	(role concrete))
-
-(defclass ConjuntoSesiones
-	(is-a USER)
 	(role concrete)
-	(multislot Sesiones
-		(type INSTANCE)
-;+		(allowed-classes Sesion)
-		(cardinality 3 7)
+	(single-slot Nombre_Deporte
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 		
 ;DEFTEMPLATES:	
@@ -78,6 +148,155 @@
 ; -----------------------------------------------  INSTANCES  --------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
 ; Instancias (de CLIPS también)
+
+; Thu Nov 29 12:33:09 GMT 2018
+;
+;+ (version "3.5")
+;+ (build "Build 663")
+
+([IAPractica2_Class10] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Caminar")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class11] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Correr")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class12] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Marcha")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class13] of  Aerobico
+
+	(Duracion 15)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Subir_Escaleras")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class14] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Subir_Escaleras")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class15] of  Aerobico
+
+	(Duracion 60)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Caminar")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class16] of  Aerobico
+
+	(Duracion 60)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Marcha")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class17] of  Aerobico
+
+	(Duracion 90)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Caminar")
+	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class19] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Plantar")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class22] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Rodilla")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class23] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Cadera")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class24] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Levantar_Pierna")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class25] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Estiramiento_Muneca")
+	(Partes_Ejercitadas "Brazos")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class26] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Rotacion_Hombro")
+	(Partes_Ejercitadas
+		"Torso"
+		"Brazos")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class27] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Estiramiento_Quadriceps")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class28] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Levantar_Brazos")
+	(Partes_Ejercitadas
+		"Brazos"
+		"Torso")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class29] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Extension_Cadera")
+	(Partes_Ejercitadas
+		"Piernas"
+		"Torso")
+	(Repeticiones_Ejercicio 2))
+
+([IAPractica2_Class30] of  Fuerza
+
+	(Duracion 5)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Flexiones")
+	(Partes_Ejercitadas
+		"Brazos"
+		"Piernas")
+	(Repeticiones_Ejercicio 5))
+
 
 ; --------------------------------------------------------------------------------------------------------------------
 ; ------------------------------------------------  FUNCTIONS  -------------------------------------------------------

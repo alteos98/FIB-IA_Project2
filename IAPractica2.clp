@@ -145,21 +145,28 @@
 
 (definstances Instancias
 
-; Fri Nov 30 16:27:31 GMT+01:00 2018
+; Fri Nov 30 19:58:55 GMT+01:00 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
 
+([IAPractica2_Class0] of  Aerobico
+
+	(Duracion 10)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Marcha")
+	(Partes_Ejercitadas "Piernas"))
+
 ([IAPractica2_Class10] of  Aerobico
 
-	(Duracion 30)
+	(Duracion 20)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Caminar")
 	(Partes_Ejercitadas "Piernas"))
 
 ([IAPractica2_Class10007] of  Flexibilidad
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Rotacion_Simple_Cadera")
 	(Partes_Ejercitadas
@@ -311,7 +318,7 @@
 
 ([IAPractica2_Class10026] of  Equilibrio
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 1)
 	(Nombre_Ejercicio "Saltos_Torsion")
 	(Partes_Ejercitadas
@@ -322,7 +329,7 @@
 
 ([IAPractica2_Class10027] of  Equilibrio
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Equilibrio_En_Barra")
 	(Partes_Ejercitadas "Piernas")
@@ -330,7 +337,7 @@
 
 ([IAPractica2_Class10028] of  Equilibrio
 
-	(Duracion 10)
+	(Duracion 5)
 	(Intensidad 2)
 	(Nombre_Ejercicio "Pie_Talon")
 	(Partes_Ejercitadas "Piernas")
@@ -338,7 +345,7 @@
 
 ([IAPractica2_Class10029] of  Equilibrio
 
-	(Duracion 1)
+	(Duracion 2)
 	(Intensidad 2)
 	(Nombre_Ejercicio "Plancha")
 	(Partes_Ejercitadas
@@ -356,7 +363,7 @@
 
 ([IAPractica2_Class12] of  Aerobico
 
-	(Duracion 30)
+	(Duracion 20)
 	(Intensidad 1)
 	(Nombre_Ejercicio "Marcha")
 	(Partes_Ejercitadas "Piernas"))
@@ -377,35 +384,43 @@
 
 ([IAPractica2_Class15] of  Aerobico
 
-	(Duracion 60)
+	(Duracion 30)
 	(Intensidad 1)
 	(Nombre_Ejercicio "Caminar")
 	(Partes_Ejercitadas "Piernas"))
 
 ([IAPractica2_Class16] of  Aerobico
 
-	(Duracion 60)
+	(Duracion 30)
 	(Intensidad 2)
 	(Nombre_Ejercicio "Marcha")
 	(Partes_Ejercitadas "Piernas"))
 
 ([IAPractica2_Class17] of  Aerobico
 
-	(Duracion 90)
+	(Duracion 40)
 	(Intensidad 2)
 	(Nombre_Ejercicio "Caminar")
 	(Partes_Ejercitadas "Piernas"))
 
 ([IAPractica2_Class19] of  Equilibrio
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Flexion_Plantar")
 	(Repeticiones_Ejercicio 3))
 
+([IAPractica2_Class2] of  Flexibilidad
+
+	(Duracion 10)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Rotacion_Doble_Cadera")
+	(Partes_Ejercitadas "Torso")
+	(Repeticiones_Ejercicio 20))
+
 ([IAPractica2_Class22] of  Equilibrio
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Flexion_Rodilla")
 	(Partes_Ejercitadas "Piernas")
@@ -413,7 +428,7 @@
 
 ([IAPractica2_Class23] of  Equilibrio
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Flexion_Cadera")
 	(Partes_Ejercitadas "Piernas")
@@ -421,7 +436,7 @@
 
 ([IAPractica2_Class24] of  Equilibrio
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Levantar_Pierna")
 	(Partes_Ejercitadas "Piernas")
@@ -429,7 +444,7 @@
 
 ([IAPractica2_Class25] of  Flexibilidad
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Estiramiento_Muneca")
 	(Partes_Ejercitadas "Brazos")
@@ -437,7 +452,7 @@
 
 ([IAPractica2_Class26] of  Flexibilidad
 
-	(Duracion 2)
+	(Duracion 3)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Rotacion_Hombro")
 	(Partes_Ejercitadas
@@ -447,7 +462,7 @@
 
 ([IAPractica2_Class27] of  Flexibilidad
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Estiramiento_Quadriceps")
 	(Partes_Ejercitadas "Piernas")
@@ -475,7 +490,7 @@
 
 ([IAPractica2_Class3] of  Flexibilidad
 
-	(Duracion 2)
+	(Duracion 5)
 	(Intensidad 1)
 	(Nombre_Ejercicio "Estiramiento_Tendones_Muslo")
 	(Partes_Ejercitadas "Piernas")
@@ -493,7 +508,7 @@
 
 ([IAPractica2_Class4] of  Flexibilidad
 
-	(Duracion 2)
+	(Duracion 3)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Estiramiento_Pantorrilla")
 	(Partes_Ejercitadas "Piernas")
@@ -501,21 +516,22 @@
 
 ([IAPractica2_Class5] of  Flexibilidad
 
-	(Duracion 2)
-	(Intensidad 2)
+	(Duracion 5)
+	(Intensidad 0)
 	(Nombre_Ejercicio "Estiramiento_Tobillo")
 	(Partes_Ejercitadas "Piernas")
 	(Repeticiones_Ejercicio 3))
 
 ([IAPractica2_Class6] of  Flexibilidad
 
-	(Duracion 2)
+	(Duracion 3)
 	(Intensidad 0)
 	(Nombre_Ejercicio "Estiramiento_Triceps")
 	(Partes_Ejercitadas
 		"Brazos"
 		"Torso")
 	(Repeticiones_Ejercicio 3))
+
 
 
 )

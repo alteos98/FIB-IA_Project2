@@ -657,13 +657,14 @@
 	(defrule question_module::question-colesterol
 		(declare (salience 10))
 		(newRutine)
-		(enfermedad-cardiovascular)
+		?f <- (enfermedad-cardiovascular)
 		=>
 		(bind ?f (ask-question "Cómo tiene el colesterol? \
 				1- Bajo \
 				2- Normal \
 				3- Alto" 1 2 3))
 		(assert (colesterol (nivel ?f)))
+		(retract ?f)
 	)
 
 	;CAÍDAS	

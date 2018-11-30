@@ -604,6 +604,8 @@
 
 (deftemplate question_module::capacidad (slot valor (type INTEGER) (range 1 3)))
 
+(deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
+
 ;------------ RULES ------------------------------
 
 	;PREGUNTA EDAD
@@ -639,9 +641,32 @@
 		(bind ?aux (- ?f 1))
 		(assert (capacidad (valor ?aux)))
 	)
-		
 
-		
+	;ENFERMEDADES CARDIOVASCULARES
+	(defrule question_module::question-enfermedad-cardiovascular
+		(declare (salience 10))
+		(newRutine)
+		=>
+		(if (yes-or-no-p "Sufre de alguna enfermedad cardiovascular? [S/N]") then
+			(assert (enfermedad-cardiovascular))
+		else
+			(assert (colesterol (nivel 0)))
+		)
+	)
+
+	(defrule question_module::question-colesterol
+		(declare (salience 10))
+		(newRutine)
+		(enfermedad-cardiovascular)
+		=>
+		(bind ?f (ask-question "Cómo tiene el colesterol? \
+				1- Bajo \
+				2- Normal \
+				3- Alto" 1 2 3))
+		(assert (colesterol (nivel ?f)))
+	)
+
+	;CAÍDAS	
 	(defrule question_module::caidas
 		(declare (salience 10))
 		(newRutine)

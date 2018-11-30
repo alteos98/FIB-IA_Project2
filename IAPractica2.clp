@@ -3,7 +3,7 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; Clases definidas en la ontología (exportar de CLIPS)
 
-; Fri Nov 30 01:06:10 GMT+01:00 2018
+; Fri Nov 30 09:52:54 GMT+01:00 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -23,7 +23,7 @@
 		(create-accessor read-write))
 	(single-slot Repeticiones_Ejercicio
 		(type INTEGER)
-		(range 0 10)
+		(range 0 100)
 		(default 1)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
@@ -94,7 +94,7 @@
 		(create-accessor read-write))
 	(single-slot Repeticiones_Ejercicio
 		(type INTEGER)
-		(range 0 10)
+		(range 0 100)
 		(default 1)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
@@ -143,14 +143,9 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; Instancias (de CLIPS también)
 
-; Thu Nov 29 12:33:09 GMT 2018
-;
-;+ (version "3.5")
-;+ (build "Build 663")
-
 (definstances Instancias
 
-; Fri Nov 30 01:02:30 GMT+01:00 2018
+; Fri Nov 30 10:00:41 GMT+01:00 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -161,6 +156,196 @@
 	(Intensidad 0)
 	(Nombre_Ejercicio "Caminar")
 	(Partes_Ejercitadas "Piernas"))
+
+([IAPractica2_Class10007] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Rotacion_Simple_Cadera")
+	(Partes_Ejercitadas
+		"Piernas"
+		"Torso")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class10008] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Pedalear")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 1))
+
+([IAPractica2_Class10009] of  Aerobico
+
+	(Duracion 60)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Pedalear")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 1))
+
+([IAPractica2_Class10010] of  Fuerza
+
+	(Duracion 5)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Elevar_Piernas")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 10))
+
+([IAPractica2_Class10011] of  Fuerza
+
+	(Duracion 4)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Extension_Cadera")
+	(Partes_Ejercitadas
+		"Piernas"
+		"Torso")
+	(Repeticiones_Ejercicio 4))
+
+([IAPractica2_Class10013] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Flexion_Cadera")
+	(Partes_Ejercitadas
+		"Piernas"
+		"Torso")
+	(Repeticiones_Ejercicio 1))
+
+([IAPractica2_Class10014] of  Fuerza
+
+	(Duracion 4)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Flexion_Cadera")
+	(Partes_Ejercitadas
+		"Piernas"
+		"Torso")
+	(Repeticiones_Ejercicio 2))
+
+([IAPractica2_Class10015] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Extension_Rodilla")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 10))
+
+([IAPractica2_Class10017] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Rodilla")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 10))
+
+([IAPractica2_Class10018] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Plantar")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 10))
+
+([IAPractica2_Class10019] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Levantarse_De_Silla")
+	(Partes_Ejercitadas
+		"Piernas"
+		"Torso")
+	(Repeticiones_Ejercicio 10))
+
+([IAPractica2_Class10020] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Extension_Triceps")
+	(Partes_Ejercitadas "Brazos")
+	(Repeticiones_Ejercicio 10))
+
+([IAPractica2_Class10021] of  Fuerza
+
+	(Duracion 4)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Extension_Triceps")
+	(Partes_Ejercitadas "Brazos")
+	(Repeticiones_Ejercicio 20))
+
+([IAPractica2_Class10022] of  Fuerza
+
+	(Duracion 6)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Extension_Triceps")
+	(Partes_Ejercitadas "Brazos")
+	(Repeticiones_Ejercicio 30))
+
+([IAPractica2_Class10023] of  Fuerza
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Flexion_Hombro")
+	(Partes_Ejercitadas
+		"Brazos"
+		"Torso")
+	(Repeticiones_Ejercicio 10))
+
+([IAPractica2_Class10024] of  Fuerza
+
+	(Duracion 4)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Flexion_Hombro")
+	(Partes_Ejercitadas
+		"Brazos"
+		"Torso")
+	(Repeticiones_Ejercicio 20))
+
+([IAPractica2_Class10025] of  Fuerza
+
+	(Duracion 6)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Flexion_Hombro")
+	(Partes_Ejercitadas
+		"Brazos"
+		"Torso")
+	(Repeticiones_Ejercicio 30))
+
+([IAPractica2_Class10026] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 1)
+	(Nombre_Ejercicio "Saltos_Torsion")
+	(Partes_Ejercitadas
+		"Torso"
+		"Piernas"
+		"Brazos")
+	(Repeticiones_Ejercicio 20))
+
+([IAPractica2_Class10027] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Equilibrio_En_Barra")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 1))
+
+([IAPractica2_Class10028] of  Equilibrio
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Pie_Talon")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 1))
+
+([IAPractica2_Class10029] of  Equilibrio
+
+	(Duracion 1)
+	(Intensidad 2)
+	(Nombre_Ejercicio "Plancha")
+	(Partes_Ejercitadas
+		"Torso"
+		"Piernas"
+		"Brazos")
+	(Repeticiones_Ejercicio 1))
 
 ([IAPractica2_Class11] of  Aerobico
 
@@ -288,6 +473,14 @@
 		"Torso")
 	(Repeticiones_Ejercicio 2))
 
+([IAPractica2_Class3] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Estiramiento_Tendones_Muslo")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
 ([IAPractica2_Class30] of  Fuerza
 
 	(Duracion 5)
@@ -297,6 +490,32 @@
 		"Brazos"
 		"Piernas")
 	(Repeticiones_Ejercicio 5))
+
+([IAPractica2_Class4] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Estiramiento_Pantorrilla")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class5] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Estiramiento_Tobillo")
+	(Partes_Ejercitadas "Piernas")
+	(Repeticiones_Ejercicio 3))
+
+([IAPractica2_Class6] of  Flexibilidad
+
+	(Duracion 2)
+	(Intensidad 0)
+	(Nombre_Ejercicio "Estiramiento_Triceps")
+	(Partes_Ejercitadas
+		"Brazos"
+		"Torso")
+	(Repeticiones_Ejercicio 3))
 
 )
 

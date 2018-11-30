@@ -537,14 +537,28 @@
 
 (defmodule MAIN (export ?ALL))
 
+
+	
+
 (defrule MAIN::initial_rule "Regla inicial"
-	(initial-fact)
+	?f <-(initial-fact)
+	?ej <- (object (is-a Ejercicio)(Intensidad ?valor))
 	=>
 	(printout t "SCB de rutinas" crlf)
 	(printout t "por Sergi Aragall, Alberto Camacho y Albert Teira" crlf)
 	(assert (newRutine))
+	(retract ?f) 
 	(focus question_module)
 )
+
+(defrule MAIN::cal_reset "Estan carregades les instancies?"
+	?f<-(initial-fact)
+	=>
+	(printout t "ERROR! falta cargar las instancias, haga (reset) antes de ejecutar el programa." crlf)
+	(retract ?f)
+)
+
+
 
 ; --------------------------------------------------------------------------------------------------------------------
 ; ---------------------------------------------  QUESTION MODULE  ----------------------------------------------------
@@ -606,6 +620,7 @@
 
 (deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
 
+
 ;------------ RULES ------------------------------
 
 	;PREGUNTA EDAD
@@ -634,14 +649,15 @@
 		(declare (salience 10))
 		(newRutine)
 		=>
-	    (bind ?f (ask-question "Indique la frequencia con la que realiza ejercicio: \
+	    (bind ?f (ask-question "Indique la frecuencia con la que realiza ejercicio: \
 					1- No realizo mas esfuerzos de los necesarios \
 					2- Ocasionalmente realizo alguna actividad fisica \
 					3- Regularmente realizo actividades fisicas" 1 2 3))
 		(bind ?aux (- ?f 1))
 		(assert (capacidad (valor ?aux)))
 	)
-
+	
+	
 	;ENFERMEDADES CARDIOVASCULARES
 	(defrule question_module::question-enfermedad-cardiovascular
 		(declare (salience 10))
@@ -657,22 +673,22 @@
 	(defrule question_module::question-colesterol
 		(declare (salience 10))
 		(newRutine)
-		?f <- (enfermedad-cardiovascular)
+		?g <- (enfermedad-cardiovascular)
 		=>
-		(bind ?f (ask-question "Cómo tiene el colesterol? \
-				1- Bajo \
-				2- Normal \
-				3- Alto" 1 2 3))
+		(bind ?f (ask-question "Como tiene el colesterol? \
+				1- Normal \
+				2- Elevado \
+				3- Muy Alto" 1 2 3))
 		(assert (colesterol (nivel ?f)))
-		(retract ?f)
+		(retract ?g)
 	)
 
-	;CAÍDAS	
+		
 	(defrule question_module::caidas
 		(declare (salience 10))
 		(newRutine)
 		=>
-		(if (yes-or-no-p "Ha sufrido alguna caída recientemente? [S/N]") then
+		(if (yes-or-no-p "Ha sufrido alguna caida recientemente? [S/N]") then
 			(assert (caida))
 		)
 	)
@@ -711,6 +727,13 @@
 			(case 7 then (make-instance sesion7 of Session (Dia ?s) (Ejercicios $?allowed-values)))
 		)
 )		
+
+(deffunction inference_module::randomSlot ($?allowed-values)
+	(bind ?tam (length $?allowed-values))
+	(bind ?i (random 1 ?tam))
+	(bind ?ejercicio (nth$ ?i $?allowed-values))
+	?ejercicio
+)
 			
 			
 (deftemplate inference_module::sesion (slot num (type INTEGER)))
@@ -734,12 +757,24 @@
 	(conclusions)
 	?f<-(sesion (num ?s))
 	(capacidad (valor ?valor))
-	?flex <- (object (is-a Flexibilidad)(Intensidad ?valor))
-	?eq <- (object (is-a Equilibrio)(Intensidad ?valor))
-	?fuer <- (object (is-a Fuerza)(Intensidad ?valor))
-	?res <- (object (is-a Aerobico)(Intensidad ?valor))
+	(colesterol (nivel ?nivel))
 	=>
-	(programaSesion ?s ?flex ?eq ?fuer ?res)
+	(bind $?flex (find-all-instances ((?inst Flexibilidad)) (= ?inst:Intensidad ?valor)))
+	(bind $?eq (find-all-instances ((?inst Equilibrio)) (= ?inst:Intensidad ?valor)))
+	(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Intensidad ?valor)))
+	
+	(bind ?value 1)
+	(if (= ?nivel 0) then (bind ?value ?valor))
+	(if (= ?nivel 1) then (if (< ?valor 2) then (bind ?value ?valor)))
+	(if (= ?nivel 2) then (bind ?value 0))
+	
+	(if (= ?nivel 3) then
+		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer))	
+	 else 
+		(bind $?res (find-all-instances ((?inst Aerobico)) (= ?inst:Intensidad ?value)))
+		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
+	)
+	
 	(retract ?f)
 	(assert (imprimir_sesion (num ?s)))
 	)
@@ -779,6 +814,24 @@
 )
 
 
+(defrule output_module::general
+		(declare (salience 10))
+		(escribir)
+		=>
+		(printout t "Este es el diario de sesiones asociado a su diagnostico: " crlf)
+)
+
+(defrule output_module::comentarColesterol
+		(declare (salience 10))
+		(escribir)
+		?f <- (colesterol (nivel ?lev))
+		=>
+		(if (= ?lev 1) then (printout t "Tenga precaucion con los ejercicios de resistencia y no lleve su cuerpo al maximo." crlf))
+		(if (= ?lev 2) then (printout t "No se preocupe por realizar al completo los ejercicios de resistencia, tenga cuidado y no haga esfuerzos excesivos." crlf))
+		(if (= ?lev 3) then (printout t "Evite los esfuerzos excesivos, no llegue a un nivel de cansancio elevado; nosotros nos hemos preocupado de recomendarle ejercicios aptos para usted." crlf))
+		(retract ?f)
+		)
+		
 (defrule output_module::sacarPantalla
 	(declare (salience 10))
 	(escribir)

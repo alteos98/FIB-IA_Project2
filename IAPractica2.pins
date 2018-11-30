@@ -1,4 +1,4 @@
-; Fri Nov 30 10:00:41 GMT+01:00 2018
+; Fri Nov 30 16:27:31 GMT+01:00 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -183,8 +183,8 @@
 
 ([IAPractica2_Class10028] of  Equilibrio
 
-	(Duracion 2)
-	(Intensidad 0)
+	(Duracion 10)
+	(Intensidad 2)
 	(Nombre_Ejercicio "Pie_Talon")
 	(Partes_Ejercitadas "Piernas")
 	(Repeticiones_Ejercicio 1))
@@ -309,7 +309,7 @@
 ([IAPractica2_Class28] of  Fuerza
 
 	(Duracion 2)
-	(Intensidad 0)
+	(Intensidad 1)
 	(Nombre_Ejercicio "Levantar_Brazos")
 	(Partes_Ejercitadas
 		"Brazos"
@@ -329,7 +329,7 @@
 ([IAPractica2_Class3] of  Flexibilidad
 
 	(Duracion 2)
-	(Intensidad 0)
+	(Intensidad 1)
 	(Nombre_Ejercicio "Estiramiento_Tendones_Muslo")
 	(Partes_Ejercitadas "Piernas")
 	(Repeticiones_Ejercicio 3))
@@ -355,7 +355,7 @@
 ([IAPractica2_Class5] of  Flexibilidad
 
 	(Duracion 2)
-	(Intensidad 0)
+	(Intensidad 2)
 	(Nombre_Ejercicio "Estiramiento_Tobillo")
 	(Partes_Ejercitadas "Piernas")
 	(Repeticiones_Ejercicio 3))

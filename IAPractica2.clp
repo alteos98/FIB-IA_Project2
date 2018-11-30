@@ -145,7 +145,7 @@
 
 (definstances Instancias
 
-; Fri Nov 30 10:00:41 GMT+01:00 2018
+; Fri Nov 30 16:27:31 GMT+01:00 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -330,8 +330,8 @@
 
 ([IAPractica2_Class10028] of  Equilibrio
 
-	(Duracion 2)
-	(Intensidad 0)
+	(Duracion 10)
+	(Intensidad 2)
 	(Nombre_Ejercicio "Pie_Talon")
 	(Partes_Ejercitadas "Piernas")
 	(Repeticiones_Ejercicio 1))
@@ -456,7 +456,7 @@
 ([IAPractica2_Class28] of  Fuerza
 
 	(Duracion 2)
-	(Intensidad 0)
+	(Intensidad 1)
 	(Nombre_Ejercicio "Levantar_Brazos")
 	(Partes_Ejercitadas
 		"Brazos"
@@ -476,7 +476,7 @@
 ([IAPractica2_Class3] of  Flexibilidad
 
 	(Duracion 2)
-	(Intensidad 0)
+	(Intensidad 1)
 	(Nombre_Ejercicio "Estiramiento_Tendones_Muslo")
 	(Partes_Ejercitadas "Piernas")
 	(Repeticiones_Ejercicio 3))
@@ -502,7 +502,7 @@
 ([IAPractica2_Class5] of  Flexibilidad
 
 	(Duracion 2)
-	(Intensidad 0)
+	(Intensidad 2)
 	(Nombre_Ejercicio "Estiramiento_Tobillo")
 	(Partes_Ejercitadas "Piernas")
 	(Repeticiones_Ejercicio 3))
@@ -516,6 +516,7 @@
 		"Brazos"
 		"Torso")
 	(Repeticiones_Ejercicio 3))
+
 
 )
 
@@ -635,21 +636,20 @@
 					1- No realizo mas esfuerzos de los necesarios \
 					2- Ocasionalmente realizo alguna actividad fisica \
 					3- Regularmente realizo actividades fisicas" 1 2 3))
-		(assert (capacidad (valor ?f)))
+		(bind ?aux (- ?f 1))
+		(assert (capacidad (valor ?aux)))
 	)
 		
 
 		
-(defrule question_module::caidas
-	(declare (salience 10))
-	(newRutine)
-	=>
-   (if (yes-or-no-p "Ha sufrido alguna caída recientemente? [s/n]") then
-		;action
-    else
-		;action
+	(defrule question_module::caidas
+		(declare (salience 10))
+		(newRutine)
+		=>
+		(if (yes-or-no-p "Ha sufrido alguna caída recientemente? [S/N]") then
+			(assert (caida))
+		)
 	)
-)
 
 
 
@@ -675,24 +675,50 @@
     (export ?ALL)
 )
 
-(defrule inference_module::sacarPantalla
+(deffunction inference_module::programaSesion (?s $?allowed-values)
+	(switch ?s (case 1 then (make-instance sesion1 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+			(case 2 then (make-instance sesion2 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+			(case 3 then (make-instance sesion3 of Session (Dia ?s) (Ejercicios $?allowed-values)))	
+			(case 4 then (make-instance sesion4 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+			(case 5 then (make-instance sesion5 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+			(case 6 then (make-instance sesion6 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+			(case 7 then (make-instance sesion7 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+		)
+)		
+			
+			
+(deftemplate inference_module::sesion (slot num (type INTEGER)))
+
+(deftemplate inference_module::imprimir_sesion (slot num (type INTEGER)))
+
+
+
+(defrule inference_module::numeroSesiones
 	(declare (salience 10))
 	(conclusions)
-  	?f<-(capacidad (valor ?valor))
+	(capacidad (valor ?valor))
 	=>
-	(printout t "Valor " ?valor crlf)
-	(make-instance ejercicio1 of Fuerza (Intensidad ?valor) (Partes_Ejercitadas "Tronco" "Polla") (Repeticiones_Ejercicio 5) (Nombre_Ejercicio "AlaEsGrande") (Duracion 90))	
+	(if (= ?valor 0) then (assert (sesion (num 5))) (assert (sesion (num 3))) (assert (sesion (num 1))))
+	(if (= ?valor 1) then (assert (sesion (num 7))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 1))))
+	(if (= ?valor 2) then (assert (sesion (num 7))) (assert (sesion (num 6))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 2))) (assert (sesion (num 1))))
+	)
+	
+(defrule inference_module::programarSesion
+	(declare (salience 10))
+	(conclusions)
+	?f<-(sesion (num ?s))
+	(capacidad (valor ?valor))
+	?flex <- (object (is-a Flexibilidad)(Intensidad ?valor))
+	?eq <- (object (is-a Equilibrio)(Intensidad ?valor))
+	?fuer <- (object (is-a Fuerza)(Intensidad ?valor))
+	?res <- (object (is-a Aerobico)(Intensidad ?valor))
+	=>
+	(programaSesion ?s ?flex ?eq ?fuer ?res)
+	(retract ?f)
+	(assert (imprimir_sesion (num ?s)))
 	)
 
-	
-(defrule inference_module::asignarEjercicio
-	(declare (salience 10))
-	(conclusions)
-	?f<-(capacidad (valor ?valor))
-	?fc <- (object (is-a Fuerza)(Intensidad ?valor) (Partes_Ejercitadas "Tronco" "Polla") (Repeticiones_Ejercicio 5) (Nombre_Ejercicio "AlaEsGrande") (Duracion 90))
-	=>
-	(make-instance sesion1 of Session (Dia 1) (Ejercicios ?fc))
-	)
+
 
 (defrule inference_module::finalizarAnalisis
 	(declare (salience 0))
@@ -716,15 +742,36 @@
     (export ?ALL)
 )
 
+(deffunction output_module::imprimir_ejercicios (?sesion)
+	(bind ?i 1)
+	(while (<= ?i (length$ (send ?sesion get-Ejercicios)))
+	do
+		(bind ?ejercicio (nth$ ?i (send ?sesion get-Ejercicios)))
+		(printout t " - Realizaremos el ejercicio " (send ?ejercicio get-Nombre_Ejercicio) " durante un tiempo de " (send ?ejercicio get-Duracion) " minutos." crlf)
+		(bind ?i (+ ?i 1))
+ )
+)
+
+
 (defrule output_module::sacarPantalla
 	(declare (salience 10))
 	(escribir)
-	?fc <- (object (is-a Session) (Dia ?d) (Ejercicios ?e))
+	?f<-(imprimir_sesion (num ?n))
+	?fc <- (object (is-a Session) (Dia ?n) (Ejercicios $?e))
 	=>
-	(printout t ?e crlf)
+	(printout t "EJERCICIOS PARA EL DIA " ?n ":" crlf)
+	(imprimir_ejercicios ?fc)
+	(retract ?f)
 )
 	
-	
+(defrule output_module::cuidadoCaidas
+	(declare (salience 10))
+	(escribir)
+	?f<-(caida)
+	=>
+	(printout t "Se recomienda realizar los ejercicios con cuidado, focalizandose en los ejercicios de equilibrio. " crlf)
+	(retract ?f)
+	)
 	
 	
 	

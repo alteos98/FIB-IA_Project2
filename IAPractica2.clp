@@ -3,8 +3,8 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; Clases definidas en la ontología (exportar de CLIPS)
 
-; Thu Nov 29 12:33:09 GMT 2018
-;
+; Fri Nov 30 01:06:10 GMT+01:00 2018
+; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
 
@@ -21,23 +21,44 @@
 		(range 0 2)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Nombre_Ejercicio
-;+		(comment "Nombre del ejercicio")
-		(type STRING)
-;+		(cardinality 1 1)
+	(single-slot Repeticiones_Ejercicio
+		(type INTEGER)
+		(range 0 10)
+		(default 1)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Duracion
 		(type INTEGER)
-		(range 0 %3FVARIABLE)
+		(range 0 180)
 		(default 0)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Beneficios
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot IAPractica2_Class7
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot Nombre_Deporte
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Ejercicios
+		(type INSTANCE)
+;+		(allowed-classes Ejercicio)
+		(create-accessor read-write))
+	(multislot Partes_Ejercitadas
+		(type STRING)
 		(create-accessor read-write))
 	(multislot Sesiones
 		(type INSTANCE)
 ;+		(allowed-classes Session)
 		(cardinality 3 7)
 		(create-accessor read-write))
-	(single-slot Nombre_Deporte
+	(single-slot Nombre_Ejercicio
+;+		(comment "Nombre del ejercicio")
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
@@ -45,30 +66,9 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
-	(multislot Ejercicios
-		(type INSTANCE)
-;+		(allowed-classes Ejercicio)
-		(create-accessor read-write))
-	(single-slot Repeticiones_Ejercicio
-		(type INTEGER)
-		(range 0 %3FVARIABLE)
-		(default 1)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot Repeticiones
 		(type INTEGER)
-		(range 0 %3FVARIABLE)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot IAPractica2_Class7
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot Partes_Ejercitadas
-		(type STRING)
-		(create-accessor read-write))
-	(single-slot Beneficios
-		(type STRING)
+		(range 0 10)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -92,12 +92,9 @@
 		(range 0 2)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot Partes_Ejercitadas
-		(type STRING)
-		(create-accessor read-write))
 	(single-slot Repeticiones_Ejercicio
 		(type INTEGER)
-		(range 0 %3FVARIABLE)
+		(range 0 10)
 		(default 1)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
@@ -108,16 +105,19 @@
 		(create-accessor read-write))
 	(single-slot Duracion
 		(type INTEGER)
-		(range 0 %3FVARIABLE)
+		(range 0 180)
 		(default 0)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot Partes_Ejercitadas
+		(type STRING)
 		(create-accessor read-write)))
 
 (defclass Aerobico "Aerobico o resistencia"
 	(is-a Ejercicio)
 	(role concrete))
 
-(defclass Fuerza "Fuerza o musculación"
+(defclass Fuerza "Fuerza o musculacion"
 	(is-a Ejercicio)
 	(role concrete))
 
@@ -136,12 +136,6 @@
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
-		
-;DEFTEMPLATES:	
-
-(deftemplate esta-en-rango "Si esta en rango puesto"
-	(slot nombre (type STRING))
-)
 
 
 ; --------------------------------------------------------------------------------------------------------------------
@@ -151,6 +145,13 @@
 
 ; Thu Nov 29 12:33:09 GMT 2018
 ;
+;+ (version "3.5")
+;+ (build "Build 663")
+
+(definstances Instancias
+
+; Fri Nov 30 01:02:30 GMT+01:00 2018
+; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
 
@@ -297,61 +298,18 @@
 		"Piernas")
 	(Repeticiones_Ejercicio 5))
 
+)
 
 ; --------------------------------------------------------------------------------------------------------------------
 ; ------------------------------------------------  FUNCTIONS  -------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
 ; Funciones generales
 
-; Función para comprobar que la respuesta que se entra sea valida
-(deffunction ask-question (?question $?allowed-values)
-   (printout t ?question)
-   (bind ?answer (read))
-   (if (lexemep ?answer)
-       then (bind ?answer (lowcase ?answer)))
-   (while (not (member ?answer ?allowed-values)) do
-      (printout t "Respuesta invalida. " ?question)
-      (bind ?answer (read)))
-      (if (lexemep ?answer)
-          then (bind ?answer (lowcase ?answer)))
-   ?answer)
-
-; Función para las preguntas de SI o NO
-(deffunction yes-or-no-p (?question)
-   (bind ?response (ask-question ?question si no s n))
-   (if (or (eq ?response si) (eq ?response s))
-       then TRUE
-       else FALSE))
-
-; Función para hacer preguntas númericas con un rango
-(deffunction pregunta-numerica (?pregunta ?rangini ?rangfi)
-	(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
-	(bind ?respuesta (read))
-	(while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
-		(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
-		(bind ?respuesta (read))
-	)
-	?respuesta
-)
-
-;;; Función para hacer preguntas con diferentes valores como respuesta
-(deffunction pregunta-valores (?pregunta $?valores-permitidos)
-    (progn$
-        (?var ?valores-permitidos)
-        (lowcase ?var))
-    (format t "¿%s? (%s) " ?pregunta (implode$ ?valores-permitidos))
-    (bind ?respuesta (read))
-    (while (not (member (lowcase ?respuesta) ?valores-permitidos)) do
-        (format t "¿%s? (%s) " ?pregunta (implode$ ?valores-permitidos))
-        (bind ?respuesta (read))
-    )
-    ?respuesta
-)
 
 ; --------------------------------------------------------------------------------------------------------------------
 ; ----------------------------------------------  TEMPLATES ----------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; Yo crearía un template donde vayamos guardando la solución
+
 
 ; --------------------------------------------------------------------------------------------------------------------
 ; --------------------------------------------------  MAIN  ----------------------------------------------------------
@@ -374,49 +332,110 @@
 ; Definir preguntas para más adelante poder inferir
 
 
-
 ; Definimos el módulo para las preguntas
 (defmodule question_module
 	(import MAIN ?ALL)
 	(export ?ALL)
 )
 
-(defrule question_module::edad
-	(declare (salience 10))
-	(newRutine)
-	=>
-    (if (yes-or-no-p "Diga su rango de edad? [65~80/>80]") then
-     	(assert (esta-en-rango (nombre "SI")))
-    else
-		(assert (esta-en-rango (nombre "NO")))
+;------------------------ FUNCIONES PREGUNTA --------------------
+
+;pregunta y comprueba que el valor devuelto sea uno entre los puestos
+(deffunction question_module::ask-question (?question $?allowed-values)
+   (printout t ?question crlf)
+   (bind ?answer (read))
+   (if (lexemep ?answer)
+       then (bind ?answer (lowcase ?answer)))
+   (while (not (member ?answer ?allowed-values)) do
+      (printout t "ERROR, INTRODUZCA UN VALOR CORRECTO:  " ?question crlf)
+      (bind ?answer (read)))
+      (if (lexemep ?answer)
+          then (bind ?answer (lowcase ?answer)))
+   ?answer)
+
+;pregunta y comprueba si el resultado es si o no
+(deffunction question_module::yes-or-no-p (?question)
+   (bind ?response (ask-question ?question si no s n SI NO S N Y y yes YES))
+   (if (or (eq ?response no) (eq ?response n) (eq ?response N) (eq ?response NO))
+       then FALSE
+       else TRUE))
+
+;pregunta y comprueba que el valor devuelto este entre el rango
+(deffunction question_module::pregunta-numerica (?pregunta ?rangini ?rangfi)
+	(printout t ?pregunta "[" ?rangini "," ?rangfi "]" crlf)
+	(bind ?respuesta (read))
+	
+	(while (or (not(numberp ?respuesta))(not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi)))) do		
+		(printout t "ERROR, INTRODUZCA UN VALOR CONTENIDO EN EL INTERVALO: " ?pregunta "[" ?rangini "," ?rangfi "]" crlf)
+		(bind ?respuesta (read))
 	)
+	?respuesta
 )
 
+
+;------------------------ FUNCIONES AUXILIARES --------------------
+
+
+		
+		
+;-------------------- DEFTEMPLATE ----------------------
+		
+(deftemplate question_module::edad (slot numero (type INTEGER)))
+
+(deftemplate question_module::capacidad (slot valor (type INTEGER) (range 1 3)))
+
+;------------ RULES ------------------------------
+
+	;PREGUNTA EDAD
+	(defrule question_module::pregunta_edad
+		(declare (salience 10))
+		(newRutine)
+		=>
+    	(bind ?f (pregunta-numerica "Indique cual es su edad" 0 100) )
+		(assert (edad (numero ?f)))
+		(if (< ?f 65) then
+			(focus finish)
+		))
+		
+	(defrule question_module::es_menor
+		(declare (salience 10))
+		(edad (numero ?f))
+		=>
+		(if (< ?f 65) then
+			(pop-focus)
+		))
+		
+		
+		
+	;REALIZA EJERCICIO
+	(defrule question_module::realiza_ejercicio
+		(declare (salience 10))
+		(newRutine)
+		=>
+	    (bind ?f (ask-question "Indique la frequencia con la que realiza ejercicio: \
+					1- No realizo mas esfuerzos de los necesarios \
+					2- Ocasionalmente realizo alguna actividad fisica \
+					3- Regularmente realizo actividades fisicas" 1 2 3))
+		(assert (capacidad (valor ?f)))
+	)
+		
+
+		
 (defrule question_module::caidas
 	(declare (salience 10))
 	(newRutine)
 	=>
-    (if (yes-or-no-p "Ha sufrido alguna caída recientemente? [s/n]") then
+   (if (yes-or-no-p "Ha sufrido alguna caída recientemente? [s/n]") then
 		;action
     else
 		;action
 	)
 )
 
-(defrule question_module::problemas-movilidad
-	(declare (salience 10))
-	(newRutine)
-	=>
-    (if (yes-or-no-p "Sufre problemas de movilidad? [s/n]") then
-		;action
-    else
-		;action
-	)
-)
 
-;;; Añadir preguntas
 
-; Para pasar al modulo de inferencia
+
+; PASAR MODULO INFERENCIA
 (defrule question_module::end_questions
 	(declare (salience 0))
 	(newRutine)
@@ -440,12 +459,72 @@
 (defrule inference_module::sacarPantalla
 	(declare (salience 10))
 	(conclusions)
-  	?f<-(esta-en-rango (nombre ?nombre))
+  	?f<-(capacidad (valor ?valor))
 	=>
-	(if (eq ?nombre "SI") then
-		(printout t "Asi que estas dentro de la franja de edad eh, viejito lesbiano" crlf)
-    else
-		(printout t "O eres joven, adulto o una momia en vida, seas lo que seas esta app no es para ti chaval" crlf)
-))
+	(printout t "Valor " ?valor crlf)
+	(make-instance ejercicio1 of Fuerza (Intensidad ?valor) (Partes_Ejercitadas "Tronco" "Polla") (Repeticiones_Ejercicio 5) (Nombre_Ejercicio "AlaEsGrande") (Duracion 90))	
+	)
 
+	
+(defrule inference_module::asignarEjercicio
+	(declare (salience 10))
+	(conclusions)
+	?f<-(capacidad (valor ?valor))
+	?fc <- (object (is-a Fuerza)(Intensidad ?valor) (Partes_Ejercitadas "Tronco" "Polla") (Repeticiones_Ejercicio 5) (Nombre_Ejercicio "AlaEsGrande") (Duracion 90))
+	=>
+	(make-instance sesion1 of Session (Dia 1) (Ejercicios ?fc))
+	)
 
+(defrule inference_module::finalizarAnalisis
+	(declare (salience 0))
+	(conclusions)
+	=>
+	(assert (escribir))
+	(focus output_module)	
+)
+	
+	
+	
+	
+; --------------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------  OUTPUT MODULE  ---------------------------------------------------
+; --------------------------------------------------------------------------------------------------------------------
+	
+(defmodule output_module
+    (import MAIN ?ALL)
+    (import question_module ?ALL)
+	(import inference_module ?ALL)
+    (export ?ALL)
+)
+
+(defrule output_module::sacarPantalla
+	(declare (salience 10))
+	(escribir)
+	?fc <- (object (is-a Session) (Dia ?d) (Ejercicios ?e))
+	=>
+	(printout t ?e crlf)
+)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+; -------------------- FINISH MODULE --------------------------
+
+(defmodule finish
+;(import MAIN ?ALL)
+    (import question_module ?ALL)
+    (export ?ALL)
+)
+
+(defrule finish::sacarFuera
+	(declare (salience 10))
+	=>
+	(printout t "Vaya, parece que no esta dentro de la franja de edad necesaria para usar la aplicacion, \ 
+				pero no tema, ya tendra tiempo para ser viejo; por ahora disfrute de los resquizos de juventud que le quedan" crlf)
+	(pop-focus))

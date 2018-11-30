@@ -1,4 +1,4 @@
-; Thu Nov 29 12:32:53 GMT 2018
+; Fri Nov 30 01:06:10 GMT+01:00 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -20,9 +20,9 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[IAPractica2_ProjectKB_Class10093]
-		[IAPractica2_ProjectKB_Class10094]
-		[IAPractica2_ProjectKB_Class10095]))
+		[IAPractica2_ProjectKB_Class10069]
+		[IAPractica2_ProjectKB_Class10070]
+		[IAPractica2_ProjectKB_Class10071]))
 
 ([CLSES_TAB] of  Widget
 
@@ -51,150 +51,38 @@
 ([IAPractica2_ProjectKB_Class10] of  Property_List
 )
 
-([IAPractica2_ProjectKB_Class10041] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "Repeticiones")
-	(property_list [IAPractica2_ProjectKB_Class10042])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([IAPractica2_ProjectKB_Class10042] of  Property_List
-)
-
-([IAPractica2_ProjectKB_Class10043] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "Repeticiones")
-	(property_list [IAPractica2_ProjectKB_Class10044])
-	(widget_class_name "edu.stanford.smi.protege.widget.IntegerFieldWidget")
-	(width 100)
-	(x 0)
-	(y 120))
-
-([IAPractica2_ProjectKB_Class10044] of  Property_List
-)
-
-([IAPractica2_ProjectKB_Class10045] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "Repet")
-	(property_list [IAPractica2_ProjectKB_Class10046])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([IAPractica2_ProjectKB_Class10046] of  Property_List
-)
-
-([IAPractica2_ProjectKB_Class10047] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "Repet")
-	(property_list [IAPractica2_ProjectKB_Class10048])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([IAPractica2_ProjectKB_Class10048] of  Property_List
-)
-
-([IAPractica2_ProjectKB_Class10049] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "Repet")
-	(property_list [IAPractica2_ProjectKB_Class10050])
-	(widget_class_name "edu.stanford.smi.protege.widget.IntegerFieldWidget")
-	(width 100)
-	(x 0)
-	(y 120))
-
-([IAPractica2_ProjectKB_Class10050] of  Property_List
-)
-
-([IAPractica2_ProjectKB_Class10051] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "Repet")
-	(property_list [IAPractica2_ProjectKB_Class10052])
-	(widget_class_name "edu.stanford.smi.protege.widget.IntegerFieldWidget")
-	(width 100)
-	(x 0)
-	(y 120))
-
-([IAPractica2_ProjectKB_Class10052] of  Property_List
-)
-
-([IAPractica2_ProjectKB_Class10053] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "Repet")
-	(property_list [IAPractica2_ProjectKB_Class10054])
-	(widget_class_name "edu.stanford.smi.protege.widget.IntegerListWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([IAPractica2_ProjectKB_Class10054] of  Property_List
-)
-
-([IAPractica2_ProjectKB_Class10055] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "Repet")
-	(property_list [IAPractica2_ProjectKB_Class10056])
-	(widget_class_name "edu.stanford.smi.protege.widget.IntegerListWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([IAPractica2_ProjectKB_Class10056] of  Property_List
-)
-
-([IAPractica2_ProjectKB_Class10093] of  String
+([IAPractica2_ProjectKB_Class10069] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([IAPractica2_ProjectKB_Class10094] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([IAPractica2_ProjectKB_Class10095] of  String
+([IAPractica2_ProjectKB_Class10070] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([IAPractica2_ProjectKB_Class10096] of  Map_Entry
+([IAPractica2_ProjectKB_Class10071] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([IAPractica2_ProjectKB_Class10072] of  Map_Entry
+
+	(key "suppress_instance_counting")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([IAPractica2_ProjectKB_Class10073] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([IAPractica2_ProjectKB_Class10097] of  Map_Entry
+([IAPractica2_ProjectKB_Class10074] of  Map_Entry
 
 	(key "change_tracking_active")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
-
-([IAPractica2_ProjectKB_Class10098] of  Map_Entry
-
-	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
@@ -559,9 +447,9 @@
 ([KB_052335_Class1] of  Map
 
 	(entries
-		[IAPractica2_ProjectKB_Class10096]
-		[IAPractica2_ProjectKB_Class10097]
-		[IAPractica2_ProjectKB_Class10098]))
+		[IAPractica2_ProjectKB_Class10072]
+		[IAPractica2_ProjectKB_Class10073]
+		[IAPractica2_ProjectKB_Class10074]))
 
 ([KB_052335_Class100] of  String
 
@@ -655,7 +543,7 @@
 	(name "classes_file_name")
 	(string_value "IAPractica2.pont"))
 
-([KB_443509_Class3] of  Map
+([KB_576093_Class3] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
@@ -742,10 +630,10 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_FACET_FORM_WIDGET]
+		[STANDARD_CLASS_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
-		[PAL_FORM_WIDGET]
-		[STANDARD_CLASS_FORM_WIDGET])
+		[STANDARD_FACET_FORM_WIDGET]
+		[PAL_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")

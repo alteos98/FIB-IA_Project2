@@ -770,14 +770,15 @@
 )
 
 (deffunction inference_module::programaSesion (?s $?allowed-values)
-	(switch ?s (case 1 then (make-instance sesion1 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 2 then (make-instance sesion2 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 3 then (make-instance sesion3 of Session (Dia ?s) (Ejercicios $?allowed-values)))	
-			(case 4 then (make-instance sesion4 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 5 then (make-instance sesion5 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 6 then (make-instance sesion6 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 7 then (make-instance sesion7 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-		)
+	(make-instance (gensym) of Session (Dia ?s) (Ejercicios $?allowed-values))
+;	(switch ?s (case 1 then (make-instance sesion1 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 2 then (make-instance sesion2 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 3 then (make-instance sesion3 of Session (Dia ?s) (Ejercicios $?allowed-values)))	
+;			(case 4 then (make-instance sesion4 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 5 then (make-instance sesion5 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 6 then (make-instance sesion6 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 7 then (make-instance sesion7 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;		)
 )		
 
 (deffunction inference_module::randomSlot ($?allowed-values)
@@ -794,42 +795,42 @@
 
 
 
-(defrule inference_module::numeroSesiones
-	(declare (salience 10))
-	(conclusions)
-	(capacidad (valor ?valor))
-	=>
-	(if (= ?valor 0) then (assert (sesion (num 5))) (assert (sesion (num 3))) (assert (sesion (num 1))))
-	(if (= ?valor 1) then (assert (sesion (num 7))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 1))))
-	(if (= ?valor 2) then (assert (sesion (num 7))) (assert (sesion (num 6))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 2))) (assert (sesion (num 1))))
-	)
+;(defrule inference_module::numeroSesiones
+;	(declare (salience 10))
+;	(conclusions)
+;	(capacidad (valor ?valor))
+;	=>
+;	(if (= ?valor 0) then (assert (sesion (num 5))) (assert (sesion (num 3))) (assert (sesion (num 1))))
+;	(if (= ?valor 1) then (assert (sesion (num 7))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 1))))
+;	(if (= ?valor 2) then (assert (sesion (num 7))) (assert (sesion (num 6))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 2))) (assert (sesion (num 1))))
+;	)
 	
-(defrule inference_module::programarSesion
-	(declare (salience 10))
-	(conclusions)
-	?f<-(sesion (num ?s))
-	(capacidad (valor ?valor))
-	(colesterol (nivel ?nivel))
-	=>
-	(bind $?flex (find-all-instances ((?inst Flexibilidad)) (= ?inst:Intensidad ?valor)))
-	(bind $?eq (find-all-instances ((?inst Equilibrio)) (= ?inst:Intensidad ?valor)))
-	(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Intensidad ?valor)))
-	
-	(bind ?value 1)
-	(if (= ?nivel 0) then (bind ?value ?valor))
-	(if (= ?nivel 1) then (if (< ?valor 2) then (bind ?value ?valor)))
-	(if (= ?nivel 2) then (bind ?value 0))
-	
-	(if (= ?nivel 3) then
-		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer))	
-	 else 
-		(bind $?res (find-all-instances ((?inst Aerobico)) (= ?inst:Intensidad ?value)))
-		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
-	)
-	
-	(retract ?f)
-	(assert (imprimir_sesion (num ?s)))
-	)
+;(defrule inference_module::programarSesion
+;	(declare (salience 10))
+;	(conclusions)
+;	?f<-(sesion (num ?s))
+;	(capacidad (valor ?valor))
+;	(colesterol (nivel ?nivel))
+;	=>
+;	(bind $?flex (find-all-instances ((?inst Flexibilidad)) (= ?inst:Intensidad ?valor)))
+;	(bind $?eq (find-all-instances ((?inst Equilibrio)) (= ?inst:Intensidad ?valor)))
+;	(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Intensidad ?valor)))
+;	
+;	(bind ?value 1)
+;	(if (= ?nivel 0) then (bind ?value ?valor))
+;	(if (= ?nivel 1) then (if (< ?valor 2) then (bind ?value ?valor)))
+;	(if (= ?nivel 2) then (bind ?value 0))
+;	
+;	(if (= ?nivel 3) then
+;		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer))	
+;	 else 
+;		(bind $?res (find-all-instances ((?inst Aerobico)) (= ?inst:Intensidad ?value)))
+;		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
+;	)
+;	
+;	(retract ?f)
+;	(assert (imprimir_sesion (num ?s)))
+;	)
 
 
 
@@ -873,36 +874,36 @@
 		(printout t "Este es el diario de sesiones asociado a su diagnostico: " crlf)
 )
 
-(defrule output_module::comentarColesterol
-		(declare (salience 10))
-		(escribir)
-		?f <- (colesterol (nivel ?lev))
-		=>
-		(if (= ?lev 1) then (printout t "Tenga precaucion con los ejercicios de resistencia y no lleve su cuerpo al maximo." crlf))
-		(if (= ?lev 2) then (printout t "No se preocupe por realizar al completo los ejercicios de resistencia, tenga cuidado y no haga esfuerzos excesivos." crlf))
-		(if (= ?lev 3) then (printout t "Evite los esfuerzos excesivos, no llegue a un nivel de cansancio elevado; nosotros nos hemos preocupado de recomendarle ejercicios aptos para usted." crlf))
-		(retract ?f)
-		)
+;(defrule output_module::comentarColesterol
+;		(declare (salience 10))
+;		(escribir)
+;		?f <- (colesterol (nivel ?lev))
+;		=>
+;		(if (= ?lev 1) then (printout t "Tenga precaucion con los ejercicios de resistencia y no lleve su cuerpo al maximo." crlf))
+;		(if (= ?lev 2) then (printout t "No se preocupe por realizar al completo los ejercicios de resistencia, tenga cuidado y no haga esfuerzos excesivos." crlf))
+;		(if (= ?lev 3) then (printout t "Evite los esfuerzos excesivos, no llegue a un nivel de cansancio elevado; nosotros nos hemos preocupado de recomendarle ejercicios aptos para usted." crlf))
+;		(retract ?f)
+;		)
 		
-(defrule output_module::sacarPantalla
-	(declare (salience 10))
-	(escribir)
-	?f<-(imprimir_sesion (num ?n))
-	?fc <- (object (is-a Session) (Dia ?n) (Ejercicios $?e))
-	=>
-	(printout t "EJERCICIOS PARA EL DIA " ?n ":" crlf)
-	(imprimir_ejercicios ?fc)
-	(retract ?f)
-)
+;(defrule output_module::sacarPantalla
+;	(declare (salience 10))
+;	(escribir)
+;	?f<-(imprimir_sesion (num ?n))
+;	?fc <- (object (is-a Session) (Dia ?n) (Ejercicios $?e))
+;	=>
+;	(printout t "EJERCICIOS PARA EL DIA " ?n ":" crlf)
+;	(imprimir_ejercicios ?fc)
+;	(retract ?f)
+;)
 	
-(defrule output_module::cuidadoCaidas
-	(declare (salience 10))
-	(escribir)
-	?f<-(caida)
-	=>
-	(printout t "Se recomienda realizar los ejercicios con cuidado, focalizandose en los ejercicios de equilibrio. " crlf)
-	(retract ?f)
-	)
+;(defrule output_module::cuidadoCaidas
+;	(declare (salience 10))
+;	(escribir)
+;	?f<-(caida)
+;	=>
+;	(printout t "Se recomienda realizar los ejercicios con cuidado, focalizandose en los ejercicios de equilibrio. " crlf)
+;	(retract ?f)
+;	)
 	
 	
 	

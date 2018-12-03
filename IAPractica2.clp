@@ -632,7 +632,7 @@
 		
 (deftemplate question_module::edad (slot numero (type INTEGER)))
 
-(deftemplate question_module::capacidad (slot valor (type INTEGER) (range 1 3)))
+(deftemplate question_module::capacidad_fisica (slot valor (type INTEGER) (range 0 10)))
 
 (deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
 
@@ -646,31 +646,44 @@
 		=>
     	(bind ?f (pregunta-numerica "Indique cual es su edad" 0 100) )
 		(assert (edad (numero ?f)))
-		(if (< ?f 65) then
-			(focus finish)
-		))
+        )
 		
 	(defrule question_module::es_menor
 		(declare (salience 10))
 		(edad (numero ?f))
 		=>
 		(if (< ?f 65) then
+                        (printout t "Vaya, parece que no esta dentro de la franja de edad necesaria para usar la aplicacion, \ 
+				pero no tema, ya tendra tiempo para ser viejo; por ahora disfrute de los resquizos de juventud que le quedan" crlf)
 			(pop-focus)
-		))
+        ))
 		
-		
+	(defrule question_module::estado_civil
+                (declare (salience 10))
+                (newRutine)
+                =>
+                (bind ?f (pregunta-numerica "Indique su estado civil:\
+                                1-> Soltero/a\
+                                2-> Casado/a\
+                                3-> Viudo/a\
+                                4-> Divorciado/a" 1 4))
+                (if (= ?f 2) then 
+                    (assert (Casado))
+                 else
+                    (assert (pot-dep)))
+        )	
+
+        
 		
 	;REALIZA EJERCICIO
 	(defrule question_module::realiza_ejercicio
 		(declare (salience 10))
 		(newRutine)
 		=>
-	    (bind ?f (ask-question "Indique la frecuencia con la que realiza ejercicio: \
-					1- No realizo mas esfuerzos de los necesarios \
-					2- Ocasionalmente realizo alguna actividad fisica \
-					3- Regularmente realizo actividades fisicas" 1 2 3))
-		(bind ?aux (- ?f 1))
-		(assert (capacidad (valor ?aux)))
+	    (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
+                            (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10))
+		(assert (capacidad_fisica (valor ?f)))
+
 	)
 	
 	
@@ -698,6 +711,8 @@
 		(assert (colesterol (nivel ?f)))
 		(retract ?g)
 	)
+
+        
 
 		
 	(defrule question_module::caidas
@@ -875,17 +890,3 @@
 	
 	
 
-; -------------------- FINISH MODULE --------------------------
-
-(defmodule finish
-;(import MAIN ?ALL)
-    (import question_module ?ALL)
-    (export ?ALL)
-)
-
-(defrule finish::sacarFuera
-	(declare (salience 10))
-	=>
-	(printout t "Vaya, parece que no esta dentro de la franja de edad necesaria para usar la aplicacion, \ 
-				pero no tema, ya tendra tiempo para ser viejo; por ahora disfrute de los resquizos de juventud que le quedan" crlf)
-	(pop-focus))

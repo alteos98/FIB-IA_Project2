@@ -636,6 +636,8 @@
 
 (deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
 
+(deftemplate question_module::enfermedad (slot numero (type INTEGER) (range 0 9)))
+
 
 ;------------ RULES ------------------------------
 
@@ -680,24 +682,43 @@
 		(declare (salience 10))
 		(newRutine)
 		=>
-	    (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
+	        (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
                             (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10))
 		(assert (capacidad_fisica (valor ?f)))
 
 	)
 	
+        ;MEDICAMENTOS
+        (defrule question_module::toma_medicamento
+                (declare (salience 10))
+                (newRutine)
+                =>
+                (if (yes-or-no-p "Toma medicamentos del tipo: Antigripales, Pastillas para dormir, Antihistaminicos y Analgesicos? [si/no]") then
+                    (assert (medicamento)))
+        )
+
+        ;FAMADOR
+        ()
 	
-	;ENFERMEDADES CARDIOVASCULARES
-	(defrule question_module::question-enfermedad-cardiovascular
+	;ENFERMEDADES
+	(defrule question_module::question-enfermedad
 		(declare (salience 10))
 		(newRutine)
 		=>
-		(if (yes-or-no-p "Sufre de alguna enfermedad cardiovascular? [S/N]") then
-			(assert (enfermedad-cardiovascular))
-		else
-			(assert (colesterol (nivel 0)))
-		)
+		(bind ?f (pregunta_numerica "Sufre de alguna de siguientes enfermedades?\
+                        0-> Ninguna\
+                        1-> Enfermedad Cardiovascular\
+                        2-> Hipertension\
+                        3-> Sobrepeso u obesidad\
+                        4-> Diabetes tipo 2\
+                        5-> Enfermedad pulmonar obstructiva cronica\
+                        6-> Osteoporosis\
+                        7-> Cancer\
+                        8-> Artritis rematoide\
+                        9-> Filerosis quistica" 0 9))
+			(assert (enfermedad (numero ?f)))
 	)
+
 
 	(defrule question_module::question-colesterol
 		(declare (salience 10))

@@ -634,10 +634,13 @@
 
 (deftemplate question_module::capacidad_fisica (slot valor (type INTEGER) (range 0 10)))
 
+(deftemplate question_module::autocapacidad (slot valor (type INTEGER) (range 0 10)))
+
 (deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
 
 (deftemplate question_module::enfermedad (slot numero (type INTEGER) (range 0 9)))
 
+(deftemplate question_module::fumador (slot frequencia (type INTEGER) (range 1 10)))
 
 ;------------ RULES ------------------------------
 
@@ -660,6 +663,7 @@
 			(pop-focus)
         ))
 		
+        ;ESTADO CIVIL
 	(defrule question_module::estado_civil
                 (declare (salience 10))
                 (newRutine)
@@ -675,7 +679,23 @@
                     (assert (pot-dep)))
         )	
 
-        
+        ;VALORACION CAPACIDAD FISICA
+        (defrule question_module::valoracion_fisica
+            (declare (salience 10))
+            (newRutine)
+            =>
+            (bind ?f (pregunta-numerica "Como valoraria su capacidad fisica?" 0 10 ))
+            (assert (autocapacidad (valor ?f)))
+        )
+        (defrule question_module::tiene_dep
+            (declare (salience 10))
+            (newRutine)
+            (Casado)
+            (autocapacidad(valor ?v))
+            => 
+            (if (<= ?v 5) then 
+                (assert (pot-dep)))
+        )
 		
 	;REALIZA EJERCICIO
 	(defrule question_module::realiza_ejercicio
@@ -693,19 +713,36 @@
                 (declare (salience 10))
                 (newRutine)
                 =>
-                (if (yes-or-no-p "Toma medicamentos del tipo: Antigripales, Pastillas para dormir, Antihistaminicos y Analgesicos? [si/no]") then
+                (if (yes-or-no-p "Toma medicamentos del tipo: Pastillas para dormir, Antihistaminicos y Analgesicos? [si/no]") then
                     (assert (medicamento)))
         )
 
-        ;FAMADOR
-        ()
+        ;FUMADOR
+        (defrule question_module::es_fumador
+            (declare (salience 10))
+            (newRutine)
+            =>
+            (if (yes-or-no-p "Es usted fumador? [si/no]") then
+                (assert (Fuma))
+        ))
+        (defrule question_module::frequencia_fuma
+                (declare (salience 10))
+                (NewRutine)
+                ?f<-(Fuma)
+                => 
+                (bind ?p (pregunta-numerica "Con que frecuencia fuma?" 1 10))
+                (assert (fumador (frequencia ?p)))
+                (retract ?f)
+        )
+
+        
 	
 	;ENFERMEDADES
 	(defrule question_module::question-enfermedad
 		(declare (salience 10))
 		(newRutine)
 		=>
-		(bind ?f (pregunta_numerica "Sufre de alguna de siguientes enfermedades?\
+		(bind ?f (pregunta-numerica "Sufre de alguna de siguientes enfermedades?\
                         0-> Ninguna\
                         1-> Enfermedad Cardiovascular\
                         2-> Hipertension\

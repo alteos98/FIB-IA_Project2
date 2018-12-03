@@ -584,11 +584,22 @@
 
 (deftemplate question_module::autocapacidad (slot valor (type INTEGER) (range 0 10)))
 
-(deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
-
 (deftemplate question_module::enfermedad (slot numero (type INTEGER) (range 0 9)))
 
 (deftemplate question_module::fumador (slot frequencia (type INTEGER) (range 1 10)))
+
+
+(deftemplate question_module::depresion (slot nivel (type INTEGER) (range 0 2)))
+
+
+(deftemplate question_module::coeficiente (slot coef (type FLOAT) (range 0.0 1.0)))
+
+(deftemplate question_module::res (slot nivel (type INTEGER) (range 0 3)))
+(deftemplate question_module::fuer (slot nivel (type INTEGER) (range 0 3)))
+(deftemplate question_module::eq (slot nivel (type INTEGER) (range 0 2)))
+(deftemplate question_module::cal (slot nivel (type INTEGER) (range 0 3)))
+
+
 
 ;------------ RULES ------------------------------
 
@@ -704,22 +715,7 @@
 			(assert (enfermedad (numero ?f)))
 	)
 
-
-	(defrule question_module::question-colesterol
-		(declare (salience 10))
-		(newRutine)
-		?g <- (enfermedad-cardiovascular)
-		=>
-		(bind ?f (ask-question "Como tiene el colesterol? \
-				1- Normal \
-				2- Elevado \
-				3- Muy Alto" 1 2 3))
-		(assert (colesterol (nivel ?f)))
-		(retract ?g)
-	)
-
         
-
 		
 	(defrule question_module::caidas
 		(declare (salience 10))
@@ -754,6 +750,28 @@
     (export ?ALL)
 )
 
+(deftemplate inference_module::sesiones (slot numero (type INTEGER) (range 3 7)))
+
+(deftemplate inference_module::sesion (slot num (type INTEGER) (range 1 7)))
+
+(deftemplate inference_module::imprimir_sesion (slot num (type INTEGER) (range 1 7)))
+
+
+
+;Retornar un multislot sense els elements que exerciten les cames
+(deffunction inference_module::no_piernas ($?allowed-values)
+
+)
+
+
+;Retornar un multislot amb ?num elements de $?allowed-values aleatoris
+(deffunction inference_module::randomSlots (?num $?allowed-values)
+
+)
+
+
+
+
 (deffunction inference_module::programaSesion (?s $?allowed-values)
 	(make-instance (gensym) of Session (Dia ?s) (Ejercicios $?allowed-values))
 ;	(switch ?s (case 1 then (make-instance sesion1 of Session (Dia ?s) (Ejercicios $?allowed-values)))
@@ -766,17 +784,17 @@
 ;		)
 )		
 
-(deffunction inference_module::randomSlot ($?allowed-values)
-	(bind ?tam (length $?allowed-values))
-	(bind ?i (random 1 ?tam))
-	(bind ?ejercicio (nth$ ?i $?allowed-values))
-	?ejercicio
-)
-			
-			
-(deftemplate inference_module::sesion (slot num (type INTEGER)))
+;(deffunction inference_module::randomSlot ($?allowed-values)
+;	(bind ?tam (length $?allowed-values))
+;	(bind ?i (random 1 ?tam))
+;	(bind ?ejercicio (nth$ ?i $?allowed-values))
+;	?ejercicio
+;)
 
-(deftemplate inference_module::imprimir_sesion (slot num (type INTEGER)))
+
+			
+		
+
 
 
 
@@ -816,6 +834,188 @@
 ;	(retract ?f)
 ;	(assert (imprimir_sesion (num ?s)))
 ;	)
+
+
+
+
+;DEFINIR ESTADO CUALITATIVO
+
+(defrule inference_module::otros_tipos
+	(declare (salience 10))
+	(conclusions)
+	=>
+	(assert (res (nivel 1)))
+	(assert (fuer (nivel 1)))
+	(assert (cal (nivel 1)))
+)
+
+
+(defrule inference_module::probables_equilibrio
+	(declare (salience 10))
+	(conclusions)
+	?f<- (enfermedad (numero ?e))
+	(not (eq (nivel ?n)))
+	=>
+	(if (= ?e 2) then	(assert (eq (nivel 1))))
+	(if (= ?e 6) then	(assert (eq (nivel 1))))
+	(if (= ?e 8) then	(assert (eq (nivel 1))))
+)
+
+(defrule inference_module::vacio_equilibrio
+	(declare (salience 10))
+	(conclusions)
+	(not (eq (nivel ?n)))
+	=>
+	(assert (eq (nivel 0)))
+)
+
+
+
+(defrule inference_module::sinpierna
+	(declare (salience 10))
+	(conclusions)
+	(or (no_usar_pierna) (rehabilitar_pierna))
+	?s <- (res (nivel ?n))
+	?f <- (cal (nivel ?m))
+	=>
+	(modify ?s (nivel (- 1 ?n)))
+	(modify ?f (nivel (- 1 ?m)))
+)
+
+
+;DEFINIR ESTADO CUANTITATIVO
+
+(defrule inference_module::def_num_ses
+	(declare (salience 10))
+	(conclusions)
+	(res (nivel ?n))
+	(coeficiente (coef ?c))
+	=>
+	(if (< ?c 0.4) then (assert (sesiones (numero 3))))
+	(if (and (>= ?c 0.4) (< ?c 0.5)) then (assert (sesiones (numero 4))))
+	(if (and (>= ?c 0.5) (< ?c 0.6)) then (assert (sesiones (numero 5))))
+	(if (and (>= ?c 0.6) (< ?c 0.7)) then (assert (sesiones (numero 6))))
+	(if (>= ?c 0.7) then (assert (sesiones (numero 7))))
+)
+
+
+(defrule inference_module::def_num_ses_sin_res
+	(declare (salience 10))
+	(conclusions)
+	(not (res (nivel ?n)))
+	=>
+	(assert (sesiones (numero 3)))	
+)
+
+
+
+(defrule inference_module::asignar_res
+	(declare (salience 10))
+	(conclusions)
+	(coeficiente (coef ?c))
+	?r<-(res (nivel ?n))
+	(depresion (nivel ?v))
+	=>
+	(if (and (not (= ?v 2)) (and (>= ?c 0.4) (< ?c 0.6))) then (modify ?r (nivel (+ 1 ?n))))
+	(if (and (= ?v 0) (>= ?c 0.6)) then (modify ?r (nivel (+ 2 ?n))))
+)
+
+(defrule inference_module::asignar_cal
+	(declare (salience 10))
+	(conclusions)
+	(coeficiente (coef ?c))
+	?r<-(cal (nivel ?n))
+	(depresion (nivel ?v))
+	=>
+	(if (and (not (= ?v 2)) (and (>= ?c 0.4) (< ?c 0.6))) then (modify ?r (nivel (+ 1 ?n))))
+	(if (and (= ?v 0) (>= ?c 0.6)) then (modify ?r (nivel (+ 2 ?n))))
+)
+
+(defrule inference_module::asignar_fuer
+	(declare (salience 10))
+	(conclusions)
+	(coeficiente (coef ?c))
+	?r<-(fuer (nivel ?n))
+	=>
+	(if (and (>= ?c 0.35) (< ?c 0.55)) then (modify ?r (nivel (+ 1 ?n))))
+	(if (>= ?c 0.55) then (modify ?r (nivel (+ 2 ?n))))
+)
+
+(defrule inference_module::trat_med
+	(declare (salience 10))
+	(conclusions)
+	(or (infarto) (medicamento))
+	?r<-(res (nivel ?n))
+	=>
+	(if (= ?n 3) then (modify ?r (nivel (- 1 ?n))))
+)
+
+(defrule inference_module::trat_fumar
+	(declare (salience 10))
+	(conclusions)
+	(fumador (frequencia ?f))
+	?r<-(res (nivel ?n))
+	=>
+	(if (and (= ?n 3)(and (>= ?f 3) (< ?f 7))) then (modify ?r (nivel (- 1 ?n))))
+	(if (and (= ?n 3)(>= ?f 7)) then (modify ?r (nivel (- 2 ?n))))
+	(if (and (= ?n 2)(>= ?f 7)) then (modify ?r (nivel (- 1 ?n))))
+)
+
+(defrule inference_module::trat_no_brazo
+	(declare (salience 10))
+	(conclusions)
+	(or (no_usar_brazo) (rehabilitar_brazo))
+	?r<-(fuer (nivel ?n))
+	=>
+	(if (not (= ?n 1)) then (modify ?r (nivel (- 1 ?n))))
+)
+
+(defrule inference_module::planificar_sesiones
+	(declare (salience 10))
+	(conclusions)
+	?f <-(sesiones (numero ?n))
+	=>
+	(assert (sesion (num 2)))
+	(assert (sesion (num 4)))
+	(assert (sesion (num 6)))
+	(if (> ?n 3) then (assert (sesion (num 1))))
+	(if (> ?n 4) then (assert (sesion (num 3))))
+	(if (> ?n 5) then (assert (sesion (num 5))))
+	(if (> ?n 6) then (assert (sesion (num 7))))
+	(retract ?f)
+)
+
+
+(defrule inference_module::planificar_sesiones
+	(declare (salience 10))
+	(conclusions)
+	(res (nivel ?n1))
+	(cal (nivel ?n2))
+	(fuer (nivel ?n3))
+	(eq (nivel ?n4))
+	?f <-(sesion (num ?numero))
+	=>
+	(if (not(= ?n1 0)) then
+		(bind $?aer (find-instance ((?inst Aerobico)) (= ?inst:Intensidad 0))))
+			
+	(if (not(= ?n3 0)) then																;if (?n3 = 1,2,3) 4,6,8 exercicis respectivament
+;		(bind $?fuer (find-all-instances ((?inst Fuerza)) ))							;if (?n2 = 1,2,3) 5,7,9 exercicis respectivament
+;		(if (= ?n3 1) then																;if (?n4 = 1,2) 4,6 ex respectivament
+;			)
+		
+		)
+		
+	
+	
+	
+	
+	
+;	(slot-insert$ res1 $?ejs 999 ?aer)
+	
+	(programaSesion ?numero $?aer)
+	(assert (imprimir_sesion (num ?numero)))
+	(retract ?f)
+)
 
 
 

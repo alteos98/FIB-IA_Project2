@@ -9,6 +9,12 @@
 ;+ (build "Build 663")
 
 
+; Mon Dec 03 17:37:13 CET 2018
+; 
+;+ (version "3.5")
+;+ (build "Build 663")
+
+
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
@@ -21,10 +27,8 @@
 		(range 0 2)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Repeticiones_Ejercicio
+	(single-slot Num_repeticiones
 		(type INTEGER)
-		(range 0 100)
-		(default 1)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Duracion
@@ -37,9 +41,42 @@
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot num_Repeticiones
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot IAPractica2_Class7
 		(type STRING)
 ;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot Sesiones
+		(type INSTANCE)
+;+		(allowed-classes Session)
+		(cardinality 3 7)
+		(create-accessor read-write))
+	(multislot Partes_ejercitadas
+		(type STRING)
+		(create-accessor read-write))
+	(single-slot Repeticiones
+		(type INTEGER)
+		(range 0 10)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot num_repeticiones
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot partes_Ejercitadas
+		(type STRING)
+		(create-accessor read-write))
+	(single-slot Repeticiones_Ejercicio
+		(type INTEGER)
+		(range 0 100)
+		(default 1)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot partes_ejercitadas
+		(type STRING)
 		(create-accessor read-write))
 	(single-slot Nombre_Deporte
 		(type STRING)
@@ -52,10 +89,16 @@
 	(multislot Partes_Ejercitadas
 		(type STRING)
 		(create-accessor read-write))
-	(multislot Sesiones
+	(multislot Deportes
 		(type INSTANCE)
-;+		(allowed-classes Session)
-		(cardinality 3 7)
+;+		(allowed-classes Deporte)
+		(create-accessor read-write))
+	(multislot IAPractica2_Class10004
+		(type STRING)
+		(create-accessor read-write))
+	(single-slot IAPractica2_Class10005
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Nombre_Ejercicio
 ;+		(comment "Nombre del ejercicio")
@@ -64,11 +107,6 @@
 		(create-accessor read-write))
 	(single-slot nombre
 		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot Repeticiones
-		(type INTEGER)
-		(range 0 10)
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
@@ -92,10 +130,8 @@
 		(range 0 2)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot Repeticiones_Ejercicio
+	(single-slot Num_repeticiones
 		(type INTEGER)
-		(range 0 100)
-		(default 1)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Nombre_Ejercicio
@@ -109,7 +145,7 @@
 		(default 0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(multislot Partes_Ejercitadas
+	(multislot partes_Ejercitadas
 		(type STRING)
 		(create-accessor read-write)))
 
@@ -135,8 +171,12 @@
 	(single-slot Nombre_Deporte
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot Intensidad
+		(type INTEGER)
+		(range 0 2)
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
-
 
 ; --------------------------------------------------------------------------------------------------------------------
 ; -----------------------------------------------  INSTANCES  --------------------------------------------------------
@@ -145,392 +185,300 @@
 
 (definstances Instancias
 
-; Fri Nov 30 19:58:55 GMT+01:00 2018
-; 
-;+ (version "3.5")
-;+ (build "Build 663")
-
-([IAPractica2_Class0] of  Aerobico
-
-	(Duracion 10)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Marcha")
-	(Partes_Ejercitadas "Piernas"))
 
 ([IAPractica2_Class10] of  Aerobico
 
-	(Duracion 20)
+	(Duracion 30)
 	(Intensidad 0)
-	(Nombre_Ejercicio "Caminar")
-	(Partes_Ejercitadas "Piernas"))
+	(Nombre_Ejercicio "caminar")
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10007] of  Flexibilidad
 
-	(Duracion 5)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Rotacion_Simple_Cadera")
-	(Partes_Ejercitadas
-		"Piernas"
-		"Torso")
-	(Repeticiones_Ejercicio 3))
+	(Duracion 7)
+	(Intensidad 1)
+	(Nombre_Ejercicio "estiramiento de los tendones del muslo")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10008] of  Aerobico
 
 	(Duracion 30)
 	(Intensidad 1)
-	(Nombre_Ejercicio "Pedalear")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 1))
-
-([IAPractica2_Class10009] of  Aerobico
-
-	(Duracion 60)
-	(Intensidad 2)
-	(Nombre_Ejercicio "Pedalear")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 1))
+	(Nombre_Ejercicio "pedalear")
+	(partes_Ejercitadas
+		"brazos"
+		"piernas"))
 
 ([IAPractica2_Class10010] of  Fuerza
 
-	(Duracion 5)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Elevar_Piernas")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 10))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "levantar los brazos")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class10011] of  Fuerza
 
-	(Duracion 4)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Extension_Cadera")
-	(Partes_Ejercitadas
-		"Piernas"
-		"Torso")
-	(Repeticiones_Ejercicio 4))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "flexion de hombros")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class10013] of  Fuerza
 
-	(Duracion 2)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Flexion_Cadera")
-	(Partes_Ejercitadas
-		"Piernas"
-		"Torso")
-	(Repeticiones_Ejercicio 1))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "ejercicios de biceps")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class10014] of  Fuerza
 
-	(Duracion 4)
+	(Duracion 7)
 	(Intensidad 2)
-	(Nombre_Ejercicio "Flexion_Cadera")
-	(Partes_Ejercitadas
-		"Piernas"
-		"Torso")
-	(Repeticiones_Ejercicio 2))
+	(Nombre_Ejercicio "extension de triceps")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class10015] of  Fuerza
 
-	(Duracion 2)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Extension_Rodilla")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 10))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "levantarse de una silla")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10017] of  Fuerza
 
-	(Duracion 2)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Flexion_Rodilla")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 10))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "flexion plantar")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10018] of  Fuerza
 
-	(Duracion 2)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Flexion_Plantar")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 10))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "flexion de rodilla")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10019] of  Fuerza
 
-	(Duracion 2)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Levantarse_De_Silla")
-	(Partes_Ejercitadas
-		"Piernas"
-		"Torso")
-	(Repeticiones_Ejercicio 10))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "extension de rodilla")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10020] of  Fuerza
 
-	(Duracion 2)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Extension_Triceps")
-	(Partes_Ejercitadas "Brazos")
-	(Repeticiones_Ejercicio 10))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "flexion de cadera")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10021] of  Fuerza
 
-	(Duracion 4)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Extension_Triceps")
-	(Partes_Ejercitadas "Brazos")
-	(Repeticiones_Ejercicio 20))
+	(Duracion 7)
+	(Intensidad 2)
+	(Nombre_Ejercicio "extension de cadera")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10022] of  Fuerza
 
-	(Duracion 6)
+	(Duracion 7)
 	(Intensidad 2)
-	(Nombre_Ejercicio "Extension_Triceps")
-	(Partes_Ejercitadas "Brazos")
-	(Repeticiones_Ejercicio 30))
-
-([IAPractica2_Class10023] of  Fuerza
-
-	(Duracion 2)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Flexion_Hombro")
-	(Partes_Ejercitadas
-		"Brazos"
-		"Torso")
-	(Repeticiones_Ejercicio 10))
-
-([IAPractica2_Class10024] of  Fuerza
-
-	(Duracion 4)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Flexion_Hombro")
-	(Partes_Ejercitadas
-		"Brazos"
-		"Torso")
-	(Repeticiones_Ejercicio 20))
-
-([IAPractica2_Class10025] of  Fuerza
-
-	(Duracion 6)
-	(Intensidad 2)
-	(Nombre_Ejercicio "Flexion_Hombro")
-	(Partes_Ejercitadas
-		"Brazos"
-		"Torso")
-	(Repeticiones_Ejercicio 30))
+	(Nombre_Ejercicio "elevar piernas a los lados")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10026] of  Equilibrio
 
-	(Duracion 5)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Saltos_Torsion")
-	(Partes_Ejercitadas
-		"Torso"
-		"Piernas"
-		"Brazos")
-	(Repeticiones_Ejercicio 20))
+	(Duracion 15)
+	(Intensidad 0)
+	(Nombre_Ejercicio "flexion plantar")
+	(Num_repeticiones 15))
 
 ([IAPractica2_Class10027] of  Equilibrio
 
-	(Duracion 5)
+	(Duracion 15)
 	(Intensidad 0)
-	(Nombre_Ejercicio "Equilibrio_En_Barra")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 1))
+	(Nombre_Ejercicio "flexion de rodilla")
+	(Num_repeticiones 15))
 
 ([IAPractica2_Class10028] of  Equilibrio
 
-	(Duracion 5)
-	(Intensidad 2)
-	(Nombre_Ejercicio "Pie_Talon")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 1))
+	(Duracion 15)
+	(Intensidad 0)
+	(Nombre_Ejercicio "flexion de cadera")
+	(Num_repeticiones 15))
 
 ([IAPractica2_Class10029] of  Equilibrio
 
-	(Duracion 2)
-	(Intensidad 2)
-	(Nombre_Ejercicio "Plancha")
-	(Partes_Ejercitadas
-		"Torso"
-		"Piernas"
-		"Brazos")
-	(Repeticiones_Ejercicio 1))
-
-([IAPractica2_Class11] of  Aerobico
-
-	(Duracion 30)
-	(Intensidad 2)
-	(Nombre_Ejercicio "Correr")
-	(Partes_Ejercitadas "Piernas"))
-
-([IAPractica2_Class12] of  Aerobico
-
-	(Duracion 20)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Marcha")
-	(Partes_Ejercitadas "Piernas"))
+	(Duracion 15)
+	(Intensidad 0)
+	(Nombre_Ejercicio "extension de cadera")
+	(Num_repeticiones 15))
 
 ([IAPractica2_Class13] of  Aerobico
 
-	(Duracion 15)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Subir_Escaleras")
-	(Partes_Ejercitadas "Piernas"))
-
-([IAPractica2_Class14] of  Aerobico
-
-	(Duracion 30)
-	(Intensidad 2)
-	(Nombre_Ejercicio "Subir_Escaleras")
-	(Partes_Ejercitadas "Piernas"))
-
-([IAPractica2_Class15] of  Aerobico
-
-	(Duracion 30)
-	(Intensidad 1)
-	(Nombre_Ejercicio "Caminar")
-	(Partes_Ejercitadas "Piernas"))
+	(Duracion 3)
+	(Intensidad 0)
+	(Nombre_Ejercicio "subir escaleras")
+	(Num_repeticiones 3)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class16] of  Aerobico
 
 	(Duracion 30)
-	(Intensidad 2)
-	(Nombre_Ejercicio "Marcha")
-	(Partes_Ejercitadas "Piernas"))
+	(Intensidad 1)
+	(Nombre_Ejercicio "natacion"))
 
 ([IAPractica2_Class17] of  Aerobico
 
-	(Duracion 40)
+	(Duracion 20)
 	(Intensidad 2)
-	(Nombre_Ejercicio "Caminar")
-	(Partes_Ejercitadas "Piernas"))
+	(Nombre_Ejercicio "remar")
+	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class19] of  Equilibrio
 
-	(Duracion 5)
+	(Duracion 15)
 	(Intensidad 0)
-	(Nombre_Ejercicio "Flexion_Plantar")
-	(Repeticiones_Ejercicio 3))
+	(Nombre_Ejercicio "levantar pierna")
+	(Num_repeticiones 15))
 
-([IAPractica2_Class2] of  Flexibilidad
+([IAPractica2_Class20009] of  Deporte
 
-	(Duracion 10)
+	(Intensidad 0)
+	(Nombre_Deporte "paseo marcha o senderismo"))
+
+([IAPractica2_Class20010] of  Deporte
+
 	(Intensidad 2)
-	(Nombre_Ejercicio "Rotacion_Doble_Cadera")
-	(Partes_Ejercitadas "Torso")
-	(Repeticiones_Ejercicio 20))
+	(Nombre_Deporte "footing"))
+
+([IAPractica2_Class20011] of  Deporte
+
+	(Intensidad 1)
+	(Nombre_Deporte "aquagym"))
+
+([IAPractica2_Class20012] of  Deporte
+
+	(Intensidad 1)
+	(Nombre_Deporte "golf"))
+
+([IAPractica2_Class20013] of  Deporte
+
+	(Intensidad 1)
+	(Nombre_Deporte "vela"))
+
+([IAPractica2_Class20014] of  Deporte
+
+	(Intensidad 1)
+	(Nombre_Deporte "ciclismo"))
+
+([IAPractica2_Class20015] of  Aerobico
+
+	(Duracion 30)
+	(Intensidad 1)
+	(Nombre_Ejercicio "danza")
+	(partes_Ejercitadas "piernas"))
+
+([IAPractica2_Class20016] of  Flexibilidad
+
+	(Duracion 7)
+	(Intensidad 1)
+	(Nombre_Ejercicio "estiramiento de la pantorrilla")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
+
+([IAPractica2_Class20017] of  Deporte
+
+	(Intensidad 2)
+	(Nombre_Deporte "baloncesto"))
+
+([IAPractica2_Class20018] of  Deporte
+
+	(Intensidad 1)
+	(Nombre_Deporte "tenis"))
+
+([IAPractica2_Class20019] of  Deporte
+
+	(Intensidad 0)
+	(Nombre_Deporte "taichi"))
 
 ([IAPractica2_Class22] of  Equilibrio
 
-	(Duracion 5)
+	(Duracion 15)
 	(Intensidad 0)
-	(Nombre_Ejercicio "Flexion_Rodilla")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 3))
-
-([IAPractica2_Class23] of  Equilibrio
-
-	(Duracion 5)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Flexion_Cadera")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 3))
-
-([IAPractica2_Class24] of  Equilibrio
-
-	(Duracion 5)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Levantar_Pierna")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 3))
+	(Nombre_Ejercicio "equilibrio, caminar recto")
+	(Num_repeticiones 15))
 
 ([IAPractica2_Class25] of  Flexibilidad
 
-	(Duracion 5)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Estiramiento_Muneca")
-	(Partes_Ejercitadas "Brazos")
-	(Repeticiones_Ejercicio 3))
+	(Duracion 7)
+	(Intensidad 1)
+	(Nombre_Ejercicio "estiramiento de tobillo")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas
+		"brazos"
+		"piernas"))
 
 ([IAPractica2_Class26] of  Flexibilidad
 
-	(Duracion 3)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Rotacion_Hombro")
-	(Partes_Ejercitadas
-		"Torso"
-		"Brazos")
-	(Repeticiones_Ejercicio 3))
+	(Duracion 7)
+	(Intensidad 1)
+	(Nombre_Ejercicio "estiramiento de triceps")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class27] of  Flexibilidad
 
-	(Duracion 5)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Estiramiento_Quadriceps")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 3))
-
-([IAPractica2_Class28] of  Fuerza
-
-	(Duracion 2)
+	(Duracion 7)
 	(Intensidad 1)
-	(Nombre_Ejercicio "Levantar_Brazos")
-	(Partes_Ejercitadas
-		"Brazos"
-		"Torso")
-	(Repeticiones_Ejercicio 3))
-
-([IAPractica2_Class29] of  Fuerza
-
-	(Duracion 2)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Extension_Cadera")
-	(Partes_Ejercitadas
-		"Piernas"
-		"Torso")
-	(Repeticiones_Ejercicio 2))
+	(Nombre_Ejercicio "estiramiento de muñeca")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class3] of  Flexibilidad
 
-	(Duracion 5)
+	(Duracion 7)
 	(Intensidad 1)
-	(Nombre_Ejercicio "Estiramiento_Tendones_Muslo")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 3))
-
-([IAPractica2_Class30] of  Fuerza
-
-	(Duracion 5)
-	(Intensidad 2)
-	(Nombre_Ejercicio "Flexiones")
-	(Partes_Ejercitadas
-		"Brazos"
-		"Piernas")
-	(Repeticiones_Ejercicio 5))
+	(Nombre_Ejercicio "rotacion de hombros")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class4] of  Flexibilidad
 
-	(Duracion 3)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Estiramiento_Pantorrilla")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 3))
+	(Duracion 7)
+	(Intensidad 1)
+	(Nombre_Ejercicio "estiramiento de quadriceps")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas
+		"brazos"
+		"piernas"))
 
 ([IAPractica2_Class5] of  Flexibilidad
 
-	(Duracion 5)
-	(Intensidad 0)
-	(Nombre_Ejercicio "Estiramiento_Tobillo")
-	(Partes_Ejercitadas "Piernas")
-	(Repeticiones_Ejercicio 3))
+	(Duracion 7)
+	(Intensidad 1)
+	(Nombre_Ejercicio "rotacion doble de cadera")
+	(Num_repeticiones 15)
+	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class6] of  Flexibilidad
 
-	(Duracion 3)
+	(Duracion 2)
 	(Intensidad 0)
-	(Nombre_Ejercicio "Estiramiento_Triceps")
-	(Partes_Ejercitadas
-		"Brazos"
-		"Torso")
-	(Repeticiones_Ejercicio 3))
+	(Nombre_Ejercicio "rotacion simple de cadera")
+	(partes_Ejercitadas "piernas"))
 
 
 
@@ -632,10 +580,15 @@
 		
 (deftemplate question_module::edad (slot numero (type INTEGER)))
 
-(deftemplate question_module::capacidad (slot valor (type INTEGER) (range 0 10)))
+(deftemplate question_module::capacidad_fisica (slot valor (type INTEGER) (range 0 10)))
+
+(deftemplate question_module::autocapacidad (slot valor (type INTEGER) (range 0 10)))
 
 (deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
 
+(deftemplate question_module::enfermedad (slot numero (type INTEGER) (range 0 9)))
+
+(deftemplate question_module::fumador (slot frequencia (type INTEGER) (range 1 10)))
 
 ;------------ RULES ------------------------------
 
@@ -658,6 +611,7 @@
 			(pop-focus)
         ))
 		
+        ;ESTADO CIVIL
 	(defrule question_module::estado_civil
                 (declare (salience 10))
                 (newRutine)
@@ -673,43 +627,95 @@
                     (assert (pot-dep)))
         )	
 
-        
+        ;VALORACION CAPACIDAD FISICA
+        (defrule question_module::valoracion_fisica
+            (declare (salience 10))
+            (newRutine)
+            =>
+            (bind ?f (pregunta-numerica "Como valoraria su capacidad fisica?" 0 10 ))
+            (assert (autocapacidad (valor ?f)))
+        )
+
+        (defrule question_module::tiene_dep
+            (declare (salience 10))
+            (newRutine)
+            (Casado)
+            (autocapacidad(valor ?v))
+            => 
+            (if (<= ?v 5) then 
+                (assert (pot-dep)))
+        )
 		
 	;REALIZA EJERCICIO
 	(defrule question_module::realiza_ejercicio
 		(declare (salience 10))
 		(newRutine)
 		=>
-	    (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
-                (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10))
-		(assert (capacidad (valor ?f)))
+	        (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
+                            (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 2))
+		(assert (capacidad_fisica (valor ?f)))
 
 	)
 	
+        ;MEDICAMENTOS
+        (defrule question_module::toma_medicamento
+                (declare (salience 10))
+                (newRutine)
+                =>
+                (if (yes-or-no-p "Toma medicamentos del tipo: Pastillas para dormir, Antihistaminicos y Analgesicos? [si/no]") then
+                    (assert (medicamento)))
+        )
+
+        ;FUMADOR
+        (defrule question_module::es_fumador
+            (declare (salience 10))
+            (newRutine)
+            =>
+            (if (yes-or-no-p "Es usted fumador? [si/no]") then
+                (assert (Fuma))
+        ))
+
+        (defrule question_module::frequencia_fuma
+                (declare (salience 10))
+                (NewRutine)
+                ?f<-(Fuma)
+                => 
+                (bind ?p (pregunta-numerica "Con que frecuencia fuma?" 1 10))
+                (assert (fumador (frequencia ?p)))
+                (retract ?f)
+        )
+
+        
 	
-	;ENFERMEDADES CARDIOVASCULARES
-	(defrule question_module::question-enfermedad-cardiovascular
+	;ENFERMEDADES
+	(defrule question_module::question-enfermedad
 		(declare (salience 10))
 		(newRutine)
 		=>
-		(if (yes-or-no-p "Sufre de alguna enfermedad cardiovascular? [S/N]") then
-			(assert (enfermedad-cardiovascular))
-		else
-			(assert (colesterol (nivel 0)))
-		)
+		(bind ?f (pregunta-numerica "Sufre de alguna de siguientes enfermedades?\
+                        0-> Ninguna\
+                        1-> Enfermedad Cardiovascular\
+                        2-> Hipertension\
+                        3-> Sobrepeso u obesidad\
+                        4-> Diabetes tipo 2\
+                        5-> Enfermedad pulmonar obstructiva cronica\
+                        6-> Osteoporosis\
+                        7-> Cancer\
+                        8-> Artritis rematoide\
+                        9-> Filerosis quistica" 0 9))
+			(assert (enfermedad (numero ?f)))
 	)
+
 
 	(defrule question_module::question-colesterol
 		(declare (salience 10))
 		(newRutine)
-		?g <- (enfermedad-cardiovascular)
 		=>
 		(bind ?f (ask-question "Como tiene el colesterol? \
 				1- Normal \
 				2- Elevado \
 				3- Muy Alto" 1 2 3))
 		(assert (colesterol (nivel ?f)))
-		(retract ?g)
 	)
 
         
@@ -749,6 +755,7 @@
 )
 
 (deffunction inference_module::programaSesion (?s $?allowed-values)
+	;(make-instance (gensym) of Session (Dia ?s) (Ejercicios $?allowed-values))
 	(switch ?s (case 1 then (make-instance sesion1 of Session (Dia ?s) (Ejercicios $?allowed-values)))
 			(case 2 then (make-instance sesion2 of Session (Dia ?s) (Ejercicios $?allowed-values)))
 			(case 3 then (make-instance sesion3 of Session (Dia ?s) (Ejercicios $?allowed-values)))	
@@ -773,41 +780,46 @@
 
 
 
-(defrule inference_module::numeroSesiones
-	(declare (salience 10))
-	(conclusions)
-	(capacidad (valor ?valor))
-	=>
-	(if (= ?valor 0) then (assert (sesion (num 5))) (assert (sesion (num 3))) (assert (sesion (num 1))))
-	(if (= ?valor 1) then (assert (sesion (num 7))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 1))))
-	(if (= ?valor 2) then (assert (sesion (num 7))) (assert (sesion (num 6))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 2))) (assert (sesion (num 1))))
-	)
+;(defrule inference_module::numeroSesiones
+;	(declare (salience 10))
+;	(conclusions)
+;	(capacidad_fisica (valor ?valor))
+;	=>
+;	(if (= ?valor 0) then (assert (sesion (num 5))) (assert (sesion (num 3))) (assert (sesion (num 1))))
+;	(if (= ?valor 1) then (assert (sesion (num 7))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 1))))
+;	(if (= ?valor 2) then (assert (sesion (num 7))) (assert (sesion (num 6))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 2))) (assert (sesion (num 1))))
+;	)
 	
 (defrule inference_module::programarSesion
 	(declare (salience 10))
-	(conclusions)
-	?f<-(sesion (num ?s))
-	(capacidad (valor ?valor))
-	(colesterol (nivel ?nivel))
+;	(conclusions)
+;	?f<-(sesion (num ?s))
+;	(capacidad_fisica (valor ?valor))
+;	(colesterol (nivel ?nivel))
 	=>
-	(bind $?flex (find-all-instances ((?inst Flexibilidad)) (= ?inst:Intensidad ?valor)))
-	(bind $?eq (find-all-instances ((?inst Equilibrio)) (= ?inst:Intensidad ?valor)))
-	(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Intensidad ?valor)))
+	(bind ?s 2)
+
+	(bind $?flex (find-all-instances ((?inst Flexibilidad))TRUE))
+	(bind $?eq (find-all-instances ((?inst Equilibrio))TRUE))
+	(bind $?fuer (find-all-instances ((?inst Fuerza))TRUE))
+	(bind $?res (find-all-instances ((?inst Aerobico))TRUE))
 	
-	(bind ?value 1)
-	(if (= ?nivel 0) then (bind ?value ?valor))
-	(if (= ?nivel 1) then (if (< ?valor 2) then (bind ?value ?valor)))
-	(if (= ?nivel 2) then (bind ?value 0))
+	(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
 	
-	(if (= ?nivel 3) then
-		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer))	
-	 else 
-		(bind $?res (find-all-instances ((?inst Aerobico)) (= ?inst:Intensidad ?value)))
-		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
-	)
+	;(bind ?value 1)
+	;(if (= ?nivel 0) then (bind ?value ?valor))
+	;(if (= ?nivel 1) then (if (< ?valor 2) then (bind ?value ?valor)))
+	;(if (= ?nivel 2) then (bind ?value 0))
 	
-	(retract ?f)
-	(assert (imprimir_sesion (num ?s)))
+	;(if (= ?nivel 3) then
+	;	(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer))	
+	;else 
+	;	(bind $?res (find-all-instances ((?inst Aerobico)) (= ?inst:Intensidad ?value)))
+	;	(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
+	;)
+	
+;	(retract ?f)
+;	(assert (imprimir_sesion (num ?s)))
 	)
 
 
@@ -834,54 +846,105 @@
     (export ?ALL)
 )
 
-(deffunction output_module::imprimir_ejercicios (?sesion)
+
+; FUNCIONES
+
+(deffunction output_module::function-indicaciones-ejercicios (?ses) "imprime indicaciones para cada uno de los ejercicios"
+)
+
+(deffunction output_module::function-imprimir-sesion (?ses) "imprime la informacion de la sesion pasada por parametro"
+	(printout t "|--------------------------------------------------------------------------------------------------------------------------------------|" crlf)
+	(printout t "|                                                              Dia " (send ?ses get-Dia)
+	"                                                                 |" crlf)
+	(printout t "|--------------------------------------------------------------------------------------------------------------------------------------|" crlf)
+	(printout t "|                   EJERCICIO                   |              TIPO              |        DURACION        |        REPETICIONES        |" crlf)
+	(printout t "|--------------------------------------------------------------------------------------------------------------------------------------|" crlf)
 	(bind ?i 1)
-	(while (<= ?i (length$ (send ?sesion get-Ejercicios)))
-	do
-		(bind ?ejercicio (nth$ ?i (send ?sesion get-Ejercicios)))
-		(printout t " - Realizaremos el ejercicio " (send ?ejercicio get-Nombre_Ejercicio) " durante un tiempo de " (send ?ejercicio get-Duracion) " minutos." crlf)
+	(while (<= ?i (length$ (send ?ses get-Ejercicios))) do
+		(bind ?ejercicio (nth$ ?i (send ?ses get-Ejercicios)))
+		(printout t "|           " (send ?ejercicio get-Nombre_Ejercicio))
+		(loop-for-count (?z 1 (- 48 (str-length (str-cat (send ?ejercicio get-Nombre_Ejercicio))))) do (printout t " ")) ; imprime espacios hasta TIPO
+		(printout t (class ?ejercicio))
+		(loop-for-count (?z 1 (- 34 (str-length (str-cat (class ?ejercicio)j)))) do (printout t " ")) ; imprime espacios hasta DURACION
+		(printout t (send ?ejercicio get-Duracion))
+		(loop-for-count (?z 1 (- 26 (str-length (str-cat (send ?ejercicio get-Duracion))))) do (printout t " ")) ; imprime espacios hasta REPETICIONES
+		(printout t (send ?ejercicio get-Num_repeticiones))
+		(loop-for-count (?z 1 (- 16 (str-length (str-cat (send ?ejercicio get-Num_repeticiones))))) do (printout t " ")) ; imprime espacios hasta el final
+		(printout t "|" crlf)
 		(bind ?i (+ ?i 1))
- )
-)
-
-
-(defrule output_module::general
-		(declare (salience 10))
-		(escribir)
-		=>
-		(printout t "Este es el diario de sesiones asociado a su diagnostico: " crlf)
-)
-
-(defrule output_module::comentarColesterol
-		(declare (salience 10))
-		(escribir)
-		?f <- (colesterol (nivel ?lev))
-		=>
-		(if (= ?lev 1) then (printout t "Tenga precaucion con los ejercicios de resistencia y no lleve su cuerpo al maximo." crlf))
-		(if (= ?lev 2) then (printout t "No se preocupe por realizar al completo los ejercicios de resistencia, tenga cuidado y no haga esfuerzos excesivos." crlf))
-		(if (= ?lev 3) then (printout t "Evite los esfuerzos excesivos, no llegue a un nivel de cansancio elevado; nosotros nos hemos preocupado de recomendarle ejercicios aptos para usted." crlf))
-		(retract ?f)
-		)
-		
-(defrule output_module::sacarPantalla
-	(declare (salience 10))
-	(escribir)
-	?f<-(imprimir_sesion (num ?n))
-	?fc <- (object (is-a Session) (Dia ?n) (Ejercicios $?e))
-	=>
-	(printout t "EJERCICIOS PARA EL DIA " ?n ":" crlf)
-	(imprimir_ejercicios ?fc)
-	(retract ?f)
-)
-	
-(defrule output_module::cuidadoCaidas
-	(declare (salience 10))
-	(escribir)
-	?f<-(caida)
-	=>
-	(printout t "Se recomienda realizar los ejercicios con cuidado, focalizandose en los ejercicios de equilibrio. " crlf)
-	(retract ?f)
 	)
+)
+
+; REGLAS
+
+(defrule output_module::imprimir-cabecera
+	(declare (salience 100))
+	(escribir)
+	=>
+	(printout t "|--------------------------------------------------------------------------------------------------------------------------------------|" crlf)
+	(printout t "|                                                                                                                                      |" crlf)
+	(printout t "|                                                         CONJUNTO DE SESIONES                                                         |" crlf)
+	(printout t "|                                                                                                                                      |" crlf)
+	(assert (print-sesiones))
+)
+
+(defrule output_module::imprimir-sesiones
+	(declare (salience 90))
+	(escribir)
+	(print-sesiones)
+	=>
+	(bind $?conjuntoSesiones (find-all-instances ((?ses Session))TRUE))
+	(loop-for-count (?i 1 (length$ ?conjuntoSesiones)) do
+		(bind ?aux (nth$ ?i ?conjuntoSesiones))
+			(function-imprimir-sesion ?aux)
+	)
+	(printout t "|--------------------------------------------------------------------------------------------------------------------------------------|" crlf)
+	(assert (print-indicaciones))
+)
+
+(defrule output_module::imprimir-indicaciones-ejercicios
+	(declare (salience 80))
+	(escribir)
+	(print-indicaciones)
+	=>
+
+)
+
+(defrule output_module::imprimir-comentarios-adicionales
+	(declare (salience 70))
+	=>
+)
+
+;(defrule output_module::comentarColesterol
+;		(declare (salience 10))
+;		(escribir)
+;		?f <- (colesterol (nivel ?lev))
+;		=>
+;		(if (= ?lev 1) then (printout t "Tenga precaucion con los ejercicios de resistencia y no lleve su cuerpo al maximo." crlf))
+;		(if (= ?lev 2) then (printout t "No se preocupe por realizar al completo los ejercicios de resistencia, tenga cuidado y no haga esfuerzos excesivos." crlf))
+;		(if (= ?lev 3) then (printout t "Evite los esfuerzos excesivos, no llegue a un nivel de cansancio elevado; nosotros nos hemos preocupado de recomendarle ejercicios aptos para usted." crlf))
+;		(retract ?f)
+;		)
+		
+;(defrule output_module::sacarPantalla
+;	(declare (salience 10))
+;	(escribir)
+;	?f<-(imprimir_sesion (num ?n))
+;	?fc <- (object (is-a Session) (Dia ?n) (Ejercicios $?e))
+;	=>
+;	(printout t "EJERCICIOS PARA EL DIA " ?n ":" crlf)
+;	(imprimir_ejercicios ?fc)
+;	(retract ?f)
+;)
+	
+;(defrule output_module::cuidadoCaidas
+;	(declare (salience 10))
+;	(escribir)
+;	?f<-(caida)
+;	=>
+;	(printout t "Se recomienda realizar los ejercicios con cuidado, focalizandose en los ejercicios de equilibrio. " crlf)
+;	(retract ?f)
+;	)
 	
 	
 	

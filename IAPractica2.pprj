@@ -1,4 +1,4 @@
-; Sun Dec 02 21:28:14 CET 2018
+; Mon Dec 03 17:34:22 CET 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -20,9 +20,9 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[IAPractica2_ProjectKB_Class10075]
-		[IAPractica2_ProjectKB_Class10076]
-		[IAPractica2_ProjectKB_Class10077]))
+		[IAPractica2_ProjectKB_Class10004]
+		[IAPractica2_ProjectKB_Class10005]
+		[IAPractica2_ProjectKB_Class10006]))
 
 ([CLSES_TAB] of  Widget
 
@@ -51,36 +51,36 @@
 ([IAPractica2_ProjectKB_Class10] of  Property_List
 )
 
-([IAPractica2_ProjectKB_Class10075] of  String
+([IAPractica2_ProjectKB_Class10004] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([IAPractica2_ProjectKB_Class10076] of  String
+([IAPractica2_ProjectKB_Class10005] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([IAPractica2_ProjectKB_Class10077] of  String
+([IAPractica2_ProjectKB_Class10006] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([IAPractica2_ProjectKB_Class10078] of  Map_Entry
+([IAPractica2_ProjectKB_Class10007] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([IAPractica2_ProjectKB_Class10079] of  Map_Entry
+([IAPractica2_ProjectKB_Class10008] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([IAPractica2_ProjectKB_Class10080] of  Map_Entry
+([IAPractica2_ProjectKB_Class10009] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -447,9 +447,9 @@
 ([KB_052335_Class1] of  Map
 
 	(entries
-		[IAPractica2_ProjectKB_Class10078]
-		[IAPractica2_ProjectKB_Class10079]
-		[IAPractica2_ProjectKB_Class10080]))
+		[IAPractica2_ProjectKB_Class10007]
+		[IAPractica2_ProjectKB_Class10008]
+		[IAPractica2_ProjectKB_Class10009]))
 
 ([KB_052335_Class100] of  String
 
@@ -543,7 +543,7 @@
 	(name "classes_file_name")
 	(string_value "IAPractica2.pont"))
 
-([KB_899958_Class3] of  Map
+([KB_652683_Class3] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List

@@ -1,4 +1,4 @@
-; Sun Dec 02 21:28:23 CET 2018
+; Mon Dec 03 17:37:13 CET 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -109,10 +109,6 @@
 	(multislot Ejercicios
 		(type INSTANCE)
 ;+		(allowed-classes Ejercicio)
-		(create-accessor read-write))
-	(multislot Deportes
-		(type INSTANCE)
-;+		(allowed-classes Deporte)
 		(create-accessor read-write)))
 
 (defclass Ejercicio

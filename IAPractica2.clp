@@ -632,10 +632,15 @@
 		
 (deftemplate question_module::edad (slot numero (type INTEGER)))
 
-(deftemplate question_module::capacidad (slot valor (type INTEGER) (range 1 3)))
+(deftemplate question_module::capacidad_fisica (slot valor (type INTEGER) (range 0 10)))
+
+(deftemplate question_module::autocapacidad (slot valor (type INTEGER) (range 0 10)))
 
 (deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
 
+(deftemplate question_module::enfermedad (slot numero (type INTEGER) (range 0 9)))
+
+(deftemplate question_module::fumador (slot frequencia (type INTEGER) (range 1 10)))
 
 ;------------ RULES ------------------------------
 
@@ -646,45 +651,111 @@
 		=>
     	(bind ?f (pregunta-numerica "Indique cual es su edad" 0 100) )
 		(assert (edad (numero ?f)))
-		(if (< ?f 65) then
-			(focus finish)
-		))
+        )
 		
 	(defrule question_module::es_menor
 		(declare (salience 10))
 		(edad (numero ?f))
 		=>
 		(if (< ?f 65) then
+                        (printout t "Vaya, parece que no esta dentro de la franja de edad necesaria para usar la aplicacion, \ 
+				pero no tema, ya tendra tiempo para ser viejo; por ahora disfrute de los resquizos de juventud que le quedan" crlf)
 			(pop-focus)
-		))
+        ))
 		
-		
+        ;ESTADO CIVIL
+	(defrule question_module::estado_civil
+                (declare (salience 10))
+                (newRutine)
+                =>
+                (bind ?f (pregunta-numerica "Indique su estado civil:\
+                                1-> Soltero/a\
+                                2-> Casado/a\
+                                3-> Viudo/a\
+                                4-> Divorciado/a" 1 4))
+                (if (= ?f 2) then 
+                    (assert (Casado))
+                 else
+                    (assert (pot-dep)))
+        )	
+
+        ;VALORACION CAPACIDAD FISICA
+        (defrule question_module::valoracion_fisica
+            (declare (salience 10))
+            (newRutine)
+            =>
+            (bind ?f (pregunta-numerica "Como valoraria su capacidad fisica?" 0 10 ))
+            (assert (autocapacidad (valor ?f)))
+        )
+        (defrule question_module::tiene_dep
+            (declare (salience 10))
+            (newRutine)
+            (Casado)
+            (autocapacidad(valor ?v))
+            => 
+            (if (<= ?v 5) then 
+                (assert (pot-dep)))
+        )
 		
 	;REALIZA EJERCICIO
 	(defrule question_module::realiza_ejercicio
 		(declare (salience 10))
 		(newRutine)
 		=>
-	    (bind ?f (ask-question "Indique la frecuencia con la que realiza ejercicio: \
-					1- No realizo mas esfuerzos de los necesarios \
-					2- Ocasionalmente realizo alguna actividad fisica \
-					3- Regularmente realizo actividades fisicas" 1 2 3))
-		(bind ?aux (- ?f 1))
-		(assert (capacidad (valor ?aux)))
+	        (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
+                            (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10))
+		(assert (capacidad_fisica (valor ?f)))
+
 	)
 	
+        ;MEDICAMENTOS
+        (defrule question_module::toma_medicamento
+                (declare (salience 10))
+                (newRutine)
+                =>
+                (if (yes-or-no-p "Toma medicamentos del tipo: Pastillas para dormir, Antihistaminicos y Analgesicos? [si/no]") then
+                    (assert (medicamento)))
+        )
+
+        ;FUMADOR
+        (defrule question_module::es_fumador
+            (declare (salience 10))
+            (newRutine)
+            =>
+            (if (yes-or-no-p "Es usted fumador? [si/no]") then
+                (assert (Fuma))
+        ))
+        (defrule question_module::frequencia_fuma
+                (declare (salience 10))
+                (NewRutine)
+                ?f<-(Fuma)
+                => 
+                (bind ?p (pregunta-numerica "Con que frecuencia fuma?" 1 10))
+                (assert (fumador (frequencia ?p)))
+                (retract ?f)
+        )
+
+        
 	
-	;ENFERMEDADES CARDIOVASCULARES
-	(defrule question_module::question-enfermedad-cardiovascular
+	;ENFERMEDADES
+	(defrule question_module::question-enfermedad
 		(declare (salience 10))
 		(newRutine)
 		=>
-		(if (yes-or-no-p "Sufre de alguna enfermedad cardiovascular? [S/N]") then
-			(assert (enfermedad-cardiovascular))
-		else
-			(assert (colesterol (nivel 0)))
-		)
+		(bind ?f (pregunta-numerica "Sufre de alguna de siguientes enfermedades?\
+                        0-> Ninguna\
+                        1-> Enfermedad Cardiovascular\
+                        2-> Hipertension\
+                        3-> Sobrepeso u obesidad\
+                        4-> Diabetes tipo 2\
+                        5-> Enfermedad pulmonar obstructiva cronica\
+                        6-> Osteoporosis\
+                        7-> Cancer\
+                        8-> Artritis rematoide\
+                        9-> Filerosis quistica" 0 9))
+			(assert (enfermedad (numero ?f)))
 	)
+
 
 	(defrule question_module::question-colesterol
 		(declare (salience 10))
@@ -698,6 +769,8 @@
 		(assert (colesterol (nivel ?f)))
 		(retract ?g)
 	)
+
+        
 
 		
 	(defrule question_module::caidas
@@ -734,14 +807,15 @@
 )
 
 (deffunction inference_module::programaSesion (?s $?allowed-values)
-	(switch ?s (case 1 then (make-instance sesion1 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 2 then (make-instance sesion2 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 3 then (make-instance sesion3 of Session (Dia ?s) (Ejercicios $?allowed-values)))	
-			(case 4 then (make-instance sesion4 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 5 then (make-instance sesion5 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 6 then (make-instance sesion6 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-			(case 7 then (make-instance sesion7 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-		)
+	(make-instance (gensym) of Session (Dia ?s) (Ejercicios $?allowed-values))
+;	(switch ?s (case 1 then (make-instance sesion1 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 2 then (make-instance sesion2 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 3 then (make-instance sesion3 of Session (Dia ?s) (Ejercicios $?allowed-values)))	
+;			(case 4 then (make-instance sesion4 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 5 then (make-instance sesion5 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 6 then (make-instance sesion6 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;			(case 7 then (make-instance sesion7 of Session (Dia ?s) (Ejercicios $?allowed-values)))
+;		)
 )		
 
 (deffunction inference_module::randomSlot ($?allowed-values)
@@ -758,42 +832,42 @@
 
 
 
-(defrule inference_module::numeroSesiones
-	(declare (salience 10))
-	(conclusions)
-	(capacidad (valor ?valor))
-	=>
-	(if (= ?valor 0) then (assert (sesion (num 5))) (assert (sesion (num 3))) (assert (sesion (num 1))))
-	(if (= ?valor 1) then (assert (sesion (num 7))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 1))))
-	(if (= ?valor 2) then (assert (sesion (num 7))) (assert (sesion (num 6))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 2))) (assert (sesion (num 1))))
-	)
+;(defrule inference_module::numeroSesiones
+;	(declare (salience 10))
+;	(conclusions)
+;	(capacidad (valor ?valor))
+;	=>
+;	(if (= ?valor 0) then (assert (sesion (num 5))) (assert (sesion (num 3))) (assert (sesion (num 1))))
+;	(if (= ?valor 1) then (assert (sesion (num 7))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 1))))
+;	(if (= ?valor 2) then (assert (sesion (num 7))) (assert (sesion (num 6))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 2))) (assert (sesion (num 1))))
+;	)
 	
-(defrule inference_module::programarSesion
-	(declare (salience 10))
-	(conclusions)
-	?f<-(sesion (num ?s))
-	(capacidad (valor ?valor))
-	(colesterol (nivel ?nivel))
-	=>
-	(bind $?flex (find-all-instances ((?inst Flexibilidad)) (= ?inst:Intensidad ?valor)))
-	(bind $?eq (find-all-instances ((?inst Equilibrio)) (= ?inst:Intensidad ?valor)))
-	(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Intensidad ?valor)))
-	
-	(bind ?value 1)
-	(if (= ?nivel 0) then (bind ?value ?valor))
-	(if (= ?nivel 1) then (if (< ?valor 2) then (bind ?value ?valor)))
-	(if (= ?nivel 2) then (bind ?value 0))
-	
-	(if (= ?nivel 3) then
-		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer))	
-	 else 
-		(bind $?res (find-all-instances ((?inst Aerobico)) (= ?inst:Intensidad ?value)))
-		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
-	)
-	
-	(retract ?f)
-	(assert (imprimir_sesion (num ?s)))
-	)
+;(defrule inference_module::programarSesion
+;	(declare (salience 10))
+;	(conclusions)
+;	?f<-(sesion (num ?s))
+;	(capacidad (valor ?valor))
+;	(colesterol (nivel ?nivel))
+;	=>
+;	(bind $?flex (find-all-instances ((?inst Flexibilidad)) (= ?inst:Intensidad ?valor)))
+;	(bind $?eq (find-all-instances ((?inst Equilibrio)) (= ?inst:Intensidad ?valor)))
+;	(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Intensidad ?valor)))
+;	
+;	(bind ?value 1)
+;	(if (= ?nivel 0) then (bind ?value ?valor))
+;	(if (= ?nivel 1) then (if (< ?valor 2) then (bind ?value ?valor)))
+;	(if (= ?nivel 2) then (bind ?value 0))
+;	
+;	(if (= ?nivel 3) then
+;		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer))	
+;	 else 
+;		(bind $?res (find-all-instances ((?inst Aerobico)) (= ?inst:Intensidad ?value)))
+;		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
+;	)
+;	
+;	(retract ?f)
+;	(assert (imprimir_sesion (num ?s)))
+;	)
 
 
 
@@ -837,36 +911,36 @@
 		(printout t "Este es el diario de sesiones asociado a su diagnostico: " crlf)
 )
 
-(defrule output_module::comentarColesterol
-		(declare (salience 10))
-		(escribir)
-		?f <- (colesterol (nivel ?lev))
-		=>
-		(if (= ?lev 1) then (printout t "Tenga precaucion con los ejercicios de resistencia y no lleve su cuerpo al maximo." crlf))
-		(if (= ?lev 2) then (printout t "No se preocupe por realizar al completo los ejercicios de resistencia, tenga cuidado y no haga esfuerzos excesivos." crlf))
-		(if (= ?lev 3) then (printout t "Evite los esfuerzos excesivos, no llegue a un nivel de cansancio elevado; nosotros nos hemos preocupado de recomendarle ejercicios aptos para usted." crlf))
-		(retract ?f)
-		)
+;(defrule output_module::comentarColesterol
+;		(declare (salience 10))
+;		(escribir)
+;		?f <- (colesterol (nivel ?lev))
+;		=>
+;		(if (= ?lev 1) then (printout t "Tenga precaucion con los ejercicios de resistencia y no lleve su cuerpo al maximo." crlf))
+;		(if (= ?lev 2) then (printout t "No se preocupe por realizar al completo los ejercicios de resistencia, tenga cuidado y no haga esfuerzos excesivos." crlf))
+;		(if (= ?lev 3) then (printout t "Evite los esfuerzos excesivos, no llegue a un nivel de cansancio elevado; nosotros nos hemos preocupado de recomendarle ejercicios aptos para usted." crlf))
+;		(retract ?f)
+;		)
 		
-(defrule output_module::sacarPantalla
-	(declare (salience 10))
-	(escribir)
-	?f<-(imprimir_sesion (num ?n))
-	?fc <- (object (is-a Session) (Dia ?n) (Ejercicios $?e))
-	=>
-	(printout t "EJERCICIOS PARA EL DIA " ?n ":" crlf)
-	(imprimir_ejercicios ?fc)
-	(retract ?f)
-)
+;(defrule output_module::sacarPantalla
+;	(declare (salience 10))
+;	(escribir)
+;	?f<-(imprimir_sesion (num ?n))
+;	?fc <- (object (is-a Session) (Dia ?n) (Ejercicios $?e))
+;	=>
+;	(printout t "EJERCICIOS PARA EL DIA " ?n ":" crlf)
+;	(imprimir_ejercicios ?fc)
+;	(retract ?f)
+;)
 	
-(defrule output_module::cuidadoCaidas
-	(declare (salience 10))
-	(escribir)
-	?f<-(caida)
-	=>
-	(printout t "Se recomienda realizar los ejercicios con cuidado, focalizandose en los ejercicios de equilibrio. " crlf)
-	(retract ?f)
-	)
+;(defrule output_module::cuidadoCaidas
+;	(declare (salience 10))
+;	(escribir)
+;	?f<-(caida)
+;	=>
+;	(printout t "Se recomienda realizar los ejercicios con cuidado, focalizandose en los ejercicios de equilibrio. " crlf)
+;	(retract ?f)
+;	)
 	
 	
 	
@@ -875,17 +949,3 @@
 	
 	
 
-; -------------------- FINISH MODULE --------------------------
-
-(defmodule finish
-;(import MAIN ?ALL)
-    (import question_module ?ALL)
-    (export ?ALL)
-)
-
-(defrule finish::sacarFuera
-	(declare (salience 10))
-	=>
-	(printout t "Vaya, parece que no esta dentro de la franja de edad necesaria para usar la aplicacion, \ 
-				pero no tema, ya tendra tiempo para ser viejo; por ahora disfrute de los resquizos de juventud que le quedan" crlf)
-	(pop-focus))

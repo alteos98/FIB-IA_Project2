@@ -632,7 +632,7 @@
 		
 (deftemplate question_module::edad (slot numero (type INTEGER)))
 
-(deftemplate question_module::capacidad_fisica (slot valor (type INTEGER) (range 0 10)))
+(deftemplate question_module::capacidad (slot valor (type INTEGER) (range 0 10)))
 
 (deftemplate question_module::colesterol (slot nivel (type INTEGER) (range 0 3)))
 
@@ -681,8 +681,8 @@
 		(newRutine)
 		=>
 	    (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
-                            (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10))
-		(assert (capacidad_fisica (valor ?f)))
+                (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10))
+		(assert (capacidad (valor ?f)))
 
 	)
 	

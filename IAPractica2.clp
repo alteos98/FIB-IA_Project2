@@ -653,7 +653,8 @@
             (autocapacidad(valor ?v))
             => 
             (if (<= ?v 5) then 
-                (assert (pot-dep)))
+                (assert (pot-dep))
+                (assert (pregunta-caida)))             
         )
 		
 	;REALIZA EJERCICIO
@@ -662,10 +663,22 @@
 		(newRutine)
 		=>
 	        (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
-                            (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10))
+                            0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10)
 		(assert (capacidad_fisica (valor ?f)))
 
 	)
+        (defrule question_module::tipo-ejercicio
+            (declare (salience 10))
+            (newRutine)
+            (capacidad_fisica(valor ?f))
+            =>
+            (if (> 0 ?f) then
+                (if (yes-or-no-p "Realiza ejercicios de resistencia?") then
+                    (assert(fa-resistencia))
+                )
+                (if (yes-or-no-p "Realiza ejercicios de fuerza?") then
+                    (assert (fa-fuerza))))
+        )
 	
         ;MEDICAMENTOS
         (defrule question_module::toma_medicamento
@@ -694,7 +707,37 @@
                 (retract ?f)
         )
 
-        
+        ;CONDICION FISICA A DESTACAR   
+        (defrule question_module::condicion_fisica
+            (declare (salience 10))
+            (NewRutine)
+            =>
+            (if (yes-or-no-p "Padece alguna condicion fisica a destacar?") then
+                (bind ?f (pregunta-numerica "Tiene problemas al ejercer los musculos relacionados con la pierna o el brazo? \
+                            0 -> No\
+                            1 -> Brazo\
+                            2 -> Pierna
+                            3 -> Brazo y pierna" 0 3))
+                (if (= 1 ?f) then (assert (no-usa-brazo)))
+                (if (= 2 ?f) then (assert (no-usa-pierna)))
+                (if (= 3 ?f) then 
+                    (assert (no-usa-brazo))
+                    (assert (no-usa-pierna))
+                )
+                (if (yes-or-no-p "Realiza reabilitacion?") then
+                    (bind ?p (pregunta-numerica "De alguna/s de estas partes:\
+                            0 -> Brazo\
+                            1 -> Pierna\
+                            2 -> Brazo y pierna" 0 2))
+                    (if (= 1 ?f) then (assert (reabilita-brazo)))
+                    (if (= 2 ?f) then (assert (reabilita-pierna)))
+                    (if (= 3 ?f) then 
+                        (assert (reabilita-brazo))
+                        (assert (reabilita-pierna))
+                    )      
+                )
+            )
+        )
 	
 	;ENFERMEDADES
 	(defrule question_module::question-enfermedad
@@ -714,16 +757,26 @@
                         9-> Filerosis quistica" 0 9))
 			(assert (enfermedad (numero ?f)))
 	)
+        (defrule quiestion_module::enfermedad-causa-dep
+            (declare (salience 10))
+            (newRutine)
+            (enfermedad(numero ?f))
+            =>
+            (if (= 0 ?f) then
+                (assert (pot-dep)))
+        )
 
         
 		
 	(defrule question_module::caidas
-		(declare (salience 10))
+		(declare (salience 11))
 		(newRutine)
+                ?f<-(pregunta-caida)
 		=>
 		(if (yes-or-no-p "Ha sufrido alguna caida recientemente? [S/N]") then
 			(assert (caida))
 		)
+                (reject (?f))
 	)
 
 
@@ -766,31 +819,10 @@
 
 ;Retornar un multislot amb ?num elements de $?allowed-values aleatoris
 (deffunction inference_module::randomSlots (?num $?allowed-values)
-	; iterar de manera aleatoria sobre $?allowed-values ?num veces
-	(bind ?max (length ?allowed-values))
-	(bind ?i (random 1 ?max))
-	(while (< ?num (length$ ?allowed-values))
-		; seleccionar instancia
-		(bind ?aux (nth$ ?i ?allowed-values))
-		; eliminar una instancia de $?allowed-values
-		(slot-delete$ (instance-name ?aux) ?allowed-values ?i ?i)
-		; siguiente índice
-		(bind ?max (length ?allowed-values))
-		(bind ?i (random 1 ?max))
-	)
-	; devolver multislot
-	?allowed-values
+
 )
 
-;Entran dos multislots y se devuelve multi1 con todos los elementos
-(deffunction inference_module::juntarMultiSlots (?multi1 ?multi2)
-	;Recorremos multi2 y vamos añadiendo cada una de sus instancias a multi1
-	(loop-for-count (?i 1 (length$ ?multi2)) do
-		(bind ?aux (nth$ ?i ?multi2))
-			(slot-insert$ (instance-name ?aux) ?multi1 (length$ ?multi1) ?aux)
-	)
-	?multi1
-)
+
 
 
 (deffunction inference_module::programaSesion (?s $?allowed-values)

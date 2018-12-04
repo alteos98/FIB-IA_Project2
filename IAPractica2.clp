@@ -766,10 +766,31 @@
 
 ;Retornar un multislot amb ?num elements de $?allowed-values aleatoris
 (deffunction inference_module::randomSlots (?num $?allowed-values)
-
+	; iterar de manera aleatoria sobre $?allowed-values ?num veces
+	(bind ?max (length ?allowed-values))
+	(bind ?i (random 1 ?max))
+	(while (< ?num (length$ ?allowed-values))
+		; seleccionar instancia
+		(bind ?aux (nth$ ?i ?allowed-values))
+		; eliminar una instancia de $?allowed-values
+		(slot-delete$ (instance-name ?aux) ?allowed-values ?i ?i)
+		; siguiente índice
+		(bind ?max (length ?allowed-values))
+		(bind ?i (random 1 ?max))
+	)
+	; devolver multislot
+	?allowed-values
 )
 
-
+;Entran dos multislots y se devuelve multi1 con todos los elementos
+(deffunction inference_module::juntarMultiSlots (?multi1 ?multi2)
+	;Recorremos multi2 y vamos añadiendo cada una de sus instancias a multi1
+	(loop-for-count (?i 1 (length$ ?multi2)) do
+		(bind ?aux (nth$ ?i ?multi2))
+			(slot-insert$ (instance-name ?aux) ?multi1 (length$ ?multi1) ?aux)
+	)
+	?multi1
+)
 
 
 (deffunction inference_module::programaSesion (?s $?allowed-values)

@@ -580,8 +580,7 @@
 ;------------------------ FUNCIONES AUXILIARES --------------------
 
 
-		
-		
+			
 ;-------------------- DEFTEMPLATE ----------------------
 		
 (deftemplate question_module::edad (slot numero (type INTEGER)))
@@ -599,6 +598,7 @@
 
 
 (deftemplate question_module::coeficiente (slot coef (type FLOAT) (range 0.0 1.0)))
+(deftemplate question_module::nivel_depresion (slot nivel (type FLOAT)))
 
 (deftemplate question_module::res (slot nivel (type INTEGER) (range 0 3)))
 (deftemplate question_module::fuer (slot nivel (type INTEGER) (range 0 3)))
@@ -655,11 +655,11 @@
         (defrule question_module::tiene_dep
             (declare (salience 10))
             (newRutine)
-            (Casado)
             (autocapacidad(valor ?v))
             => 
             (if (<= ?v 5) then 
-                (assert (pot-dep)))
+                (assert (pot-dep))
+                (assert (pregunta-caida)))             
         )
 		
 	;REALIZA EJERCICIO
@@ -672,6 +672,18 @@
 		(assert (capacidad_fisica (valor ?f)))
 
 	)
+        (defrule question_module::tipo-ejercicio
+            (declare (salience 11))
+            (newRutine)
+            (capacidad_fisica (valor ?f))
+            =>
+            (if (< 0 ?f) then
+                (if (yes-or-no-p "Realiza ejercicios de resistencia?") then
+                    (assert(fa-resistencia))
+                )
+                (if (yes-or-no-p "Realiza ejercicios de fuerza?") then
+                    (assert (fa-fuerza))))
+        )
 	
         ;MEDICAMENTOS
         (defrule question_module::toma_medicamento
@@ -691,16 +703,47 @@
                 (assert (Fuma))
         ))
         (defrule question_module::frequencia_fuma
-                (declare (salience 10))
-                (NewRutine)
+                (declare (salience 11))
+                (newRutine)
                 ?f<-(Fuma)
                 => 
                 (bind ?p (pregunta-numerica "Con que frecuencia fuma?" 1 10))
                 (assert (fumador (frequencia ?p)))
                 (retract ?f)
         )
-
         
+       
+        ;CONDICION FISICA A DESTACAR   
+        (defrule question_module::condicion_fisica
+            (declare (salience 10))
+            (newRutine)
+            =>
+            (if (yes-or-no-p "Padece alguna condicion fisica a destacar?") then
+                (bind ?f (pregunta-numerica "Tiene problemas al ejercer los musculos relacionados con la pierna o el brazo? \
+                            0 -> No\
+                            1 -> Brazo\
+                            2 -> Pierna
+                            3 -> Brazo y pierna" 0 3))
+                (if (= 1 ?f) then (assert (no-usa-brazo)))
+                (if (= 2 ?f) then (assert (no-usa-pierna)))
+                (if (= 3 ?f) then 
+                    (assert (no-usa-brazo))
+                    (assert (no-usa-pierna))
+                )
+                (if (yes-or-no-p "Realiza reabilitacion?") then
+                    (bind ?p (pregunta-numerica "De alguna/s de estas partes:\
+                            0 -> Brazo\
+                            1 -> Pierna\
+                            2 -> Brazo y pierna" 0 2))
+                    (if (= 1 ?f) then (assert (reabilita-brazo)))
+                    (if (= 2 ?f) then (assert (reabilita-pierna)))
+                    (if (= 3 ?f) then 
+                        (assert (reabilita-brazo))
+                        (assert (reabilita-pierna))
+                    )      
+                )
+            )
+        )
 	
 	;ENFERMEDADES
 	(defrule question_module::question-enfermedad
@@ -720,19 +763,84 @@
                         9-> Filerosis quistica" 0 9))
 			(assert (enfermedad (numero ?f)))
 	)
+        (defrule question_module::enfermedad-causa-dep
+            (declare (salience 10))
+            (newRutine)
+            (enfermedad(numero ?f))
+            =>
+            (if (= 0 ?f) then
+                (assert (pot-dep)))
+        )
 
         
 		
 	(defrule question_module::caidas
-		(declare (salience 10))
+		(declare (salience 11))
 		(newRutine)
+                ?f<-(pregunta-caida)
 		=>
 		(if (yes-or-no-p "Ha sufrido alguna caida recientemente? [S/N]") then
 			(assert (caida))
 		)
+               (retract ?f)
 	)
-
-
+        ;TEST DE DEPRESION
+        (defrule question_module::quiere_test_dep
+            (declare (salience 9))
+            (newRutine)
+            ?f<-(pot-dep)
+            =>
+            (if (yes-or-no-p "Para generar un horario de sessiones mas acorde a sus necesidades y/o habilidades es \   
+      recomendable realizar un test de depresion.\
+      Desea realizarlo?") then
+                (assert (realizar-test))
+            )
+            (retract ?f)
+        )
+        
+        
+        (defrule question_module::test_dep
+            (declare (salience 9))
+            (newRutine)
+            ?f<-(realizar-test)
+            =>
+                (printout t "Responda sinceramente a las siguientes preguntas:")
+                (bind ?p1 (pregunta-numerica "Cual es su estado de animo?\
+                                            1 -> Por lo general bastante positivo\
+                                            2 -> Depende el dia\
+                                            3 -> Ultimamente me siento triste o melancolico" 1 3))
+                (bind ?p2 (pregunta-numerica "Como es su dia a dia?\
+                                            1 -> Esta lleno de anecdotas; buenas y malas\
+                                            2 -> No son muy interesantes\
+                                            3 -> Me aburre, se me hace repetitivo" 1 3))
+                (bind ?p3 (pregunta-numerica "Cuando miro hacia atras y pienso en las decisiones que he tomado...\
+                                            1 -> No me arrepiento de como he actuado estos años. Si me he equivocado ese error me valdra para aprender\
+                                            2 -> No todo lo que he hecho ha sido correcto, algunas cosas me gustaria cambiarlas
+                                            3 -> Estoy arrepentido de gran parte de lo que he hecho" 1 3))    
+                (bind ?p4 (pregunta-numerica "Cuando me comparo con otras personas...\
+                                            1 -> Nunca me comparo con la gente, no me hace falta
+                                            2 -> A veces gano yo, otras ganan ellos
+                                            3 -> Siempre salgo mal parado, la mayoria de gente es mejor que yo" 1 3))
+                (bind ?p5 (pregunta-numerica "Respecto al apetito...\
+                                            1 -> Cada dia tengo mas hambre, sobretodo de comerme el mundo\ 
+                                            2 -> He variado un poco, como mas o no como casi nada, depende el dia\
+                                            3 -> No me apetece comer, lo hago por obligacion"1 3))
+                (printout t "Gracias!")
+                (bind ?sum (+ ?p1 ?p2 ?p3 ?p4 ?p5))
+                (bind ?sum (/ ?sum 5))
+                (assert (nivel_depresion(nivel ?sum)))
+                (retract ?f)
+        )
+        (defrule question_module::calcular_nivel_dep
+            (declare (salience 9))
+            (newRutine)
+            ?f<-(nivel_depresion(nivel ?v))
+            =>
+            (if (<= ?v 1.5) then (assert (depresion(nivel 2))))
+            (if (and (> ?v 1.4) (<= ?v 2.0)) then (assert (depresion(nivel 1))))
+            (if (> ?v 2.0) then (assert (depresion(nivel 0))))
+            (retract ?f)
+        )
 
 
 ; PASAR MODULO INFERENCIA
@@ -743,6 +851,7 @@
 	(assert (conclusions))
 	(focus inference_module)
 )
+
 
 ; --------------------------------------------------------------------------------------------------------------------
 ; ---------------------------------------------  INFERENCE MODULE  ---------------------------------------------------

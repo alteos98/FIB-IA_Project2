@@ -1,7 +1,7 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; -----------------------------------------------  CLASSES  ----------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; Clases definidas en la ontologÃ­a (exportar de CLIPS)
+; Clases definidas en la ontología (exportar de CLIPS)
 
 ; Fri Nov 30 09:52:54 GMT+01:00 2018
 ; 
@@ -185,7 +185,7 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; -----------------------------------------------  INSTANCES  --------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; Instancias (de CLIPS tambiÃ©n)
+; Instancias (de CLIPS también)
 
 (definstances Instancias
 
@@ -448,7 +448,7 @@
 
 	(Duracion 7)
 	(Intensidad 1)
-	(Nombre_Ejercicio "estiramiento de muÃ±eca")
+	(Nombre_Ejercicio "estiramiento de muñeca")
 	(Num_repeticiones 4)
 	(partes_Ejercitadas "brazos"))
 
@@ -533,10 +533,10 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; ---------------------------------------------  QUESTION MODULE  ----------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; Definir preguntas para mÃ¡s adelante poder inferir
+; Definir preguntas para más adelante poder inferir
 
 
-; Definimos el mÃ³dulo para las preguntas
+; Definimos el módulo para las preguntas
 (defmodule question_module
 	(import MAIN ?ALL)
 	(export ?ALL)
@@ -580,7 +580,8 @@
 ;------------------------ FUNCIONES AUXILIARES --------------------
 
 
-			
+		
+		
 ;-------------------- DEFTEMPLATE ----------------------
 		
 (deftemplate question_module::edad (slot numero (type INTEGER)))
@@ -598,7 +599,9 @@
 
 
 (deftemplate question_module::coeficiente (slot coef (type FLOAT) (range 0.0 1.0)))
+
 (deftemplate question_module::nivel_depresion (slot nivel (type FLOAT)))
+
 
 (deftemplate question_module::res (slot nivel (type INTEGER) (range 0 3)))
 (deftemplate question_module::fuer (slot nivel (type INTEGER) (range 0 3)))
@@ -608,8 +611,8 @@
 
 
 ;------------ RULES ------------------------------
-
-	;PREGUNTA EDAD
+	
+	; EDAD
 	(defrule question_module::pregunta_edad
 		(declare (salience 10))
 		(newRutine)
@@ -629,47 +632,68 @@
 			(pop-focus)
         ))
 		
-        ;ESTADO CIVIL
+    ; ESTADO CIVIL
 	(defrule question_module::estado_civil
                 (declare (salience 10))
                 (newRutine)
                 =>
                 (bind ?f (pregunta-numerica "Indique su estado civil:\
-                                1-> Soltero/a\
-                                2-> Casado/a\
-                                3-> Viudo/a\
-                                4-> Divorciado/a" 1 4))
+												    1-> Soltero/a\
+												    2-> Casado/a\
+												    3-> Viudo/a\
+												    4-> Divorciado/a" 1 4))
                 (if (= ?f 2) then 
-                    (assert (Casado))
+                    (assert (casado))
                  else
                     (assert (pot-dep)))
         )	
 
-        ;VALORACION CAPACIDAD FISICA
-        (defrule question_module::valoracion_fisica
-            (declare (salience 10))
-            (newRutine)
-            =>
-            (bind ?f (pregunta-numerica "Como valoraria su capacidad fisica?" 0 10 ))
-            (assert (autocapacidad (valor ?f)))
-        )
-        (defrule question_module::tiene_dep
-            (declare (salience 10))
-            (newRutine)
-            (autocapacidad(valor ?v))
-            => 
-            (if (<= ?v 5) then 
-                (assert (pot-dep))
-                (assert (pregunta-caida)))             
-        )
+    ;VALORACION CAPACIDAD FISICA
+    (defrule question_module::valoracion_fisica
+        (declare (salience 10))
+        (newRutine)
+         =>
+        (bind ?f (pregunta-numerica "Como valoraria su capacidad fisica actual, respecto a la de unos anos atras?" 0 10 ))
+        (assert (autocapacidad (valor ?f)))
+    )
+	
+	(defrule question_module::tiene_dep
+        (declare (salience 10))
+        (newRutine)
+        (autocapacidad(valor ?v))
+		(test (<= ?v 5))
+		(not (pot-dep))
+        => 
+        (assert (pot-dep))
+    )
+	
+	(defrule question_module::tiene_dep_aux
+        (declare (salience 10))
+        (newRutine)
+        (autocapacidad(valor ?v))
+		(test (<= ?v 5))
+        => 
+         (assert (pregunta-caida))             
+    )
+	
+	
+	(defrule question_module::caidas
+		(declare (salience 11))
+		(newRutine)
+        ?f<-(pregunta-caida)
+		=>
+		(if (yes-or-no-p "Ha sufrido alguna caida recientemente? [SI/NO]") then
+			(assert (caida))
+		)
+        (retract ?f)
+	)
 		
 	;REALIZA EJERCICIO
 	(defrule question_module::realiza_ejercicio
 		(declare (salience 10))
 		(newRutine)
 		=>
-	        (bind ?f (pregunta-numerica "Indique la frecuencia con la que realiza ejercicio: \
-                            (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)" 0 10))
+	    (bind ?f (pregunta-numerica "Con que frecuencia realiza ejercicio? " 0 10))
 		(assert (capacidad_fisica (valor ?f)))
 
 	)
@@ -679,10 +703,10 @@
             (capacidad_fisica (valor ?f))
             =>
             (if (< 0 ?f) then
-                (if (yes-or-no-p "Realiza ejercicios de resistencia?") then
+                (if (yes-or-no-p "Realiza ejercicios de resistencia? [SI/NO]") then
                     (assert(fa-resistencia))
                 )
-                (if (yes-or-no-p "Realiza ejercicios de fuerza?") then
+                (if (yes-or-no-p "Realiza ejercicios de fuerza? [SI/NO]") then
                     (assert (fa-fuerza))))
         )
 	
@@ -691,7 +715,7 @@
                 (declare (salience 10))
                 (newRutine)
                 =>
-                (if (yes-or-no-p "Toma medicamentos del tipo: Pastillas para dormir, Antihistaminicos y Analgesicos? [si/no]") then
+                (if (yes-or-no-p "Toma algun tipo de medicamento (pastillas para dormir, antihistaminicos, analgesicos...)  [SI/NO]") then
                     (assert (medicamento)))
         )
 
@@ -700,7 +724,7 @@
             (declare (salience 10))
             (newRutine)
             =>
-            (if (yes-or-no-p "Es usted fumador? [si/no]") then
+            (if (yes-or-no-p "Es usted fumador? [SI/NO]") then
                 (assert (Fuma))
         ))
         (defrule question_module::frequencia_fuma
@@ -751,7 +775,7 @@
 		(declare (salience 10))
 		(newRutine)
 		=>
-		(bind ?f (pregunta-numerica "Sufre de alguna de siguientes enfermedades?\
+		(bind ?f (pregunta-numerica "Padece alguna de las siguientes enfermedades?\
                         0-> Ninguna\
                         1-> Enfermedad Cardiovascular\
                         2-> Hipertension\
@@ -764,39 +788,43 @@
                         9-> Filerosis quistica" 0 9))
 			(assert (enfermedad (numero ?f)))
 	)
-        (defrule question_module::enfermedad-causa-dep
-            (declare (salience 10))
-            (newRutine)
-            (enfermedad(numero ?f))
-            =>
-            (if (= 0 ?f) then
-                (assert (pot-dep)))
+   
+    (defrule question_module::enfermedad-causa-dep
+        (declare (salience 10))
+        (newRutine)
+        (enfermedad(numero ?f))
+		(not (pot-dep))
+        =>
+        (if (not(= 0 ?f)) then
+            (assert (pot-dep)))
+    )
+	
+	(defrule question_module::enfermedad-cardiovascular
+        (declare (salience 10))
+        (newRutine)
+        (enfermedad(numero 1))
+        =>
+        (if (yes-or-no-p "Ha tenido alguna angina de pecho o infarto? [SI/NO]") then
+                (assert (infarto))
         )
+    )	
+		
 
         
 		
-	(defrule question_module::caidas
-		(declare (salience 11))
-		(newRutine)
-                ?f<-(pregunta-caida)
-		=>
-		(if (yes-or-no-p "Ha sufrido alguna caida recientemente? [S/N]") then
-			(assert (caida))
-		)
-               (retract ?f)
-	)
+	
+	
+	
         ;TEST DE DEPRESION
         (defrule question_module::quiere_test_dep
             (declare (salience 9))
             (newRutine)
-            ?f<-(pot-dep)
+            (pot-dep)
             =>
-            (if (yes-or-no-p "Para generar un horario de sessiones mas acorde a sus necesidades y/o habilidades es \   
-      recomendable realizar un test de depresion.\
-      Desea realizarlo?") then
+            (if (yes-or-no-p "Para generar un horario de sesiones mas acorde a sus necesidades y/o habilidades es recomendable realizar un test de depresion.\
+      Desea realizarlo? [SI/NO]") then
                 (assert (realizar-test))
             )
-            (retract ?f)
         )
         
         
@@ -837,11 +865,12 @@
             (newRutine)
             ?f<-(nivel_depresion(nivel ?v))
             =>
-            (if (<= ?v 1.5) then (assert (depresion(nivel 2))))
+            (if (<= ?v 1.5) then (assert (depresion (nivel 2))))
             (if (and (> ?v 1.4) (<= ?v 2.0)) then (assert (depresion(nivel 1))))
-            (if (> ?v 2.0) then (assert (depresion(nivel 0))))
+            (if (> ?v 2.0) then (assert (depresion (nivel 0))))
             (retract ?f)
         )
+
 
 
 ; PASAR MODULO INFERENCIA
@@ -853,22 +882,23 @@
 	(focus inference_module)
 )
 
-
 ; --------------------------------------------------------------------------------------------------------------------
 ; ---------------------------------------------  INFERENCE MODULE  ---------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; MÃ³dulo para hacer la inferencia de datos segÃºn las preguntas
+; Módulo para hacer la inferencia de datos según las respuestas a las preguntas
 
-; Definimos el mÃ³dulo para la inferencia de datos
+
+; Definimos el módulo para la inferencia de datos
 (defmodule inference_module
 	(import MAIN ?ALL)
     (import question_module ?ALL)
     (export ?ALL)
 )
 
-(deftemplate inference_module::sesiones (slot numero (type INTEGER) (range 3 7)))
 
+(deftemplate inference_module::sesiones (slot numero (type INTEGER) (range 3 7)))
 (deftemplate inference_module::sesion (slot num (type INTEGER) (range 1 7)))
+(deftemplate inference_module::sesion_aux (slot num (type INTEGER) (range 1 7)))
 
 (deftemplate inference_module::rand (slot num (type INTEGER) ))
 
@@ -876,7 +906,6 @@
 (deftemplate inference_module::eq_aux (slot nivel (type INTEGER) ))
 (deftemplate inference_module::cal_aux (slot nivel (type INTEGER) ))
 (deftemplate inference_module::res_aux (slot nivel (type INTEGER) ))
-
 
 (deftemplate inference_module::num_fuerza (slot num (type INTEGER) ))
 (deftemplate inference_module::num_eq (slot num (type INTEGER) ))
@@ -892,153 +921,13 @@
 
 
 
-
-;Retornar un multislot amb ?num elements de $?allowed-values aleatoris			NO VA!!!!!
-(deffunction inference_module::randomSlots (?num)
-	
-;	(bind ?max 10)
-;	(bind ?var 0)
-;	(while (not(= ?var ?num))		
-;		(bind ?i (random 0 ?max))
-;		(bind ?aux (find-instance ((?inst Fuerza)) (not (=  ?inst:Duracion 22))))
-	;	(bind ?k (send ?aux get-Duracion))
-	;	(if (not (= ?k 22)) then
-;			(printout t ?aux crlf)
-;			(send ?aux put-Duracion 22)
-;			(bind ?var (+ ?var 1))
-	;	)
-;	)
-	
-	
-	
-	
-	
-;	(bind ?max (length$ ?allowed-values))
-;	(bind ?i (random 1 ?max))
-;	(bind $?aux2 (nth$ ?i ?allowed-values))
-;	(bind ?i (random 1 ?max))
-;	(bind ?var 1)
-;	(while (not(= ?var ?num))		
-;		(bind ?aux (nth$ ?i ?allowed-values))
-;		(bind ?straux (send ?aux get-Nombre_Ejercicio))
-;		(bind ?res 1)
-;		(loop-for-count (?i 1 (length$ ?aux2)) do
-;			(bind ?aux3 (nth$ ?i ?aux2))
-;			(bind ?straux3 (send ?aux3 get-Nombre_Ejercicio))
-;			(bind ?mirar (str-compare ?straux ?straux3))
-;			(if (= ?mirar 0) then (bind ?res 0))
-;		)
-;		(if (= ?res 1) then 
-;	;				(bind $?aux2 ?aux2 ?aux)
-;				(bind ?var (+ ?var 1))
-;		)
-; 		(bind ?i (random 1 ?max))
-;	) 
-;	?aux2
-	
-	
-	
-	
-	
-;	(while (< ?num (length$ ?allowed-values))
-;		; seleccionar instancia
-;		(bind ?aux (nth$ ?i ?allowed-values))
-;		; eliminar una instancia de $?allowed-values
-;		(printout t "Instancia " ?i "   " (length$ ?allowed-values)  crlf)
-;		(slot-delete$ (instance-name ?aux) ?allowed-values ?i ?i)
-;		; siguiente Ã­ndice
-;		(bind ?max (length ?allowed-values))
-;		(bind ?i (random 1 ?max))
-;	)
-;	; devolver multislot
-;	?allowed-values
-
-
-
-
-)
-
-
-
-;Entran dos multislots y se devuelve multi1 con todos los elementos
-(deffunction inference_module::juntarMultiSlots (?multi1 ?multi2)
-	;Recorremos multi2 y vamos aÃ±adiendo cada una de sus instancias a multi1
-	(loop-for-count (?i 1 (length$ ?multi2)) do
-		(bind ?aux (nth$ ?i ?multi2))
-			(slot-insert$ (instance-name ?aux) ?multi1 (length$ ?multi1) ?aux)
-	)
-	?multi1
-)
-
-
 (deffunction inference_module::programaSesion (?s $?allowed-values)
 	(make-instance (gensym) of Session (Dia ?s) (Ejercicios $?allowed-values))
-;	(switch ?s (case 1 then (make-instance sesion1 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-;			(case 2 then (make-instance sesion2 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-;			(case 3 then (make-instance sesion3 of Session (Dia ?s) (Ejercicios $?allowed-values)))	
-;			(case 4 then (make-instance sesion4 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-;			(case 5 then (make-instance sesion5 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-;			(case 6 then (make-instance sesion6 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-;			(case 7 then (make-instance sesion7 of Session (Dia ?s) (Ejercicios $?allowed-values)))
-;		)
 )		
 
-;(deffunction inference_module::randomSlot ($?allowed-values)
-;	(bind ?tam (length $?allowed-values))
-;	(bind ?i (random 1 ?tam))
-;	(bind ?ejercicio (nth$ ?i $?allowed-values))
-;	?ejercicio
-;)
 
 
-			
-		
-
-
-
-
-;(defrule inference_module::numeroSesiones
-;	(declare (salience 10))
-;	(conclusions)
-;	(capacidad (valor ?valor))
-;	=>
-;	(if (= ?valor 0) then (assert (sesion (num 5))) (assert (sesion (num 3))) (assert (sesion (num 1))))
-;	(if (= ?valor 1) then (assert (sesion (num 7))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 1))))
-;	(if (= ?valor 2) then (assert (sesion (num 7))) (assert (sesion (num 6))) (assert (sesion (num 5))) (assert (sesion (num 4))) (assert (sesion (num 3))) (assert (sesion (num 2))) (assert (sesion (num 1))))
-;	)
-	
-;(defrule inference_module::programarSesion
-;	(declare (salience 10))
-;	(conclusions)
-;	?f<-(sesion (num ?s))
-;	(capacidad (valor ?valor))
-;	(colesterol (nivel ?nivel))
-;	=>
-;	(bind $?flex (find-all-instances ((?inst Flexibilidad)) (= ?inst:Intensidad ?valor)))
-;	(bind $?eq (find-all-instances ((?inst Equilibrio)) (= ?inst:Intensidad ?valor)))
-;	(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Intensidad ?valor)))
-;	
-;	(bind ?value 1)
-;	(if (= ?nivel 0) then (bind ?value ?valor))
-;	(if (= ?nivel 1) then (if (< ?valor 2) then (bind ?value ?valor)))
-;	(if (= ?nivel 2) then (bind ?value 0))
-;	
-;	(if (= ?nivel 3) then
-;		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer))	
-;	 else 
-;		(bind $?res (find-all-instances ((?inst Aerobico)) (= ?inst:Intensidad ?value)))
-;		(programaSesion ?s (randomSlot $?flex) (randomSlot $?eq) (randomSlot $?fuer) (randomSlot $?res))
-;	)
-;	
-;	(retract ?f)
-;	(assert (imprimir_sesion (num ?s)))
-;	)
-
-
-
-
-;DEFINIR ESTADO CUALITATIVO
-
+;DEFINICION COEFICIENTE
 (defrule inference_module::definir_coeficiente
 	(declare (salience 10))
 	(conclusions)
@@ -1046,26 +935,39 @@
 	?g <- (capacidad_fisica (valor ?n2))
 	?h <- (autocapacidad (valor ?n3))
 	=>
-	(bind ?aux (- 100 ?n))
-	(bind ?aux2 (/ ?aux 100))
-	(bind ?aux3 (* ?aux2 0.4))
-	
-	(bind ?aux4 (/ ?n2 10))
-	(bind ?aux5 (* ?aux4 0.3))
-	
-	(bind ?aux6 (- 10 ?n3))
-	(bind ?aux7 (/ ?aux6 10))
-	(bind ?aux8 (* ?aux7 0.3))
-	
+	(bind ?aux (- 100 ?n))	(bind ?aux2 (/ ?aux 100))	(bind ?aux3 (* ?aux2 0.4))
+	(bind ?aux4 (/ ?n2 10))	(bind ?aux5 (* ?aux4 0.3))
+	(bind ?aux7 (/ ?n3 10))	(bind ?aux8 (* ?aux7 0.3))
 	(bind ?aux9 (+ ?aux3 ?aux5 ?aux8))
 	(assert (coeficiente (coef ?aux9)))
-	
-	(retract ?f)
-	(retract ?g)
-	(retract ?h)
+	(retract ?f) (retract ?g) (retract ?h)
+)
+
+(defrule inference_module::coef_fa_fuerza
+	(declare (salience 10))
+	(conclusions)
+	?r <- (fa-fuerza)
+	?f <- (coeficiente (coef ?v))
+	=>
+	(modify ?f (coef (+ ?v 0.05)))
+	(retract ?r)
+	(printout t "VALOR ES " ?v crlf)
+)
+
+(defrule inference_module::coef_fa_resistencia
+	(declare (salience 10))
+	(conclusions)
+	?r <- (fa-resistencia)
+	?f <- (coeficiente (coef ?v))
+	=>
+	(modify ?f (coef (+ ?v 0.05)))
+	(retract ?r)
+	(printout t "VALOR ES " ?v crlf)
 )
 
 
+
+;AGREGACION TIPOS DE EJERCICIOS
 (defrule inference_module::otros_tipos
 	(declare (salience 10))
 	(conclusions)
@@ -1075,7 +977,7 @@
 	(assert (cal (nivel 1)))
 )
 
-
+;EJERCICIOS DE EQUILIBRIO EN FUNCION DE LA ENFERMEDAD
 (defrule inference_module::probables_equilibrio
 	(declare (salience 10))
 	(conclusions)
@@ -1085,10 +987,11 @@
 	(if (= ?e 2) then	(assert (eq (nivel 1))))
 	(if (= ?e 6) then	(assert (eq (nivel 1))))
 	(if (= ?e 8) then	(assert (eq (nivel 1))))
+	(if (and (and (not(= ?e 2)) (not(= ?e 6))) (not(= ?e 8))) then (assert (eq (nivel 0))))
 	(retract ?f)
 )
 
-
+;SI TIENE PROBLEMAS CON LAS PIERNAS, NO REALIZAR EJERCICIOS DE RESISTENCIA Y CALENTAMIENTO
 (defrule inference_module::sinpierna
 	(declare (salience 10))
 	(conclusions)
@@ -1101,8 +1004,8 @@
 )
 
 
-;DEFINIR ESTADO CUANTITATIVO
 
+;DEFINIR EL NUMERO DE SESIONES (DE 3 A 7)
 (defrule inference_module::def_num_ses
 	(declare (salience 10))
 	(conclusions)
@@ -1116,7 +1019,6 @@
 	(if (>= ?c 0.7) then (assert (sesiones (numero 7))))
 )
 
-
 (defrule inference_module::def_num_ses_sin_res
 	(declare (salience 10))
 	(conclusions)
@@ -1125,8 +1027,7 @@
 	(assert (sesiones (numero 3)))	
 )
 
-
-
+;ASIGNAR UN NIVELL DE RESISTENCIA EN FUNCIO DEL COEFICIENT CALCULAT
 (defrule inference_module::asignar_res
 	(declare (salience 10))
 	(conclusions)
@@ -1139,6 +1040,7 @@
 	(if (and (= ?v 0) (>= ?c 0.6)) then (modify ?r (nivel (+ 2 ?n))))
 )
 
+;ASIGNAR UN NIVELL DE CALENTAMENT EN FUNCIO DEL COEFICIENT CALCULAT
 (defrule inference_module::asignar_cal
 	(declare (salience 10))
 	(conclusions)
@@ -1151,6 +1053,7 @@
 	(if (and (= ?v 0) (>= ?c 0.6)) then (modify ?r (nivel (+ 2 ?n))))
 )
 
+;ASIGNAR UN NIVELL DE FORÇA EN FUNCIO DEL COEFICIENT CALCULAT
 (defrule inference_module::asignar_fuer
 	(declare (salience 10))
 	(conclusions)
@@ -1162,15 +1065,17 @@
 	(if (>= ?c 0.55) then (modify ?r (nivel (+ 2 ?n))))
 )
 
+;NO RESISTENCIA AL MÀXIM SI HA TINGUT UN INFART O PREN ALGUN MEDICAMENT RELAXANT
 (defrule inference_module::trat_med
 	(declare (salience 10))
 	(conclusions)
 	(or (infarto) (medicamento))
 	?r<-(res (nivel ?n))
 	=>
-	(if (= ?n 3) then (modify ?r (nivel (- 1 ?n))))
+	(if (= ?n 3) then (modify ?r (nivel (- ?n 1))))
 )
 
+;EN FUNCIO DE LA FRECUENCIA AMB LA QUE FUMI, REDUIR EL NIVELL DELS EXERCICIS DE RESISTENCIA
 (defrule inference_module::trat_fumar
 	(declare (salience 10))
 	(conclusions)
@@ -1182,6 +1087,7 @@
 	(if (and (= ?n 2)(>= ?f 7)) then (modify ?r (nivel (- 1 ?n))))
 )
 
+;SI NO POT USAR EL BRAÇ, RESTAR UN NIVELL ALS EXERCICIS DE FORÇA
 (defrule inference_module::trat_no_brazo
 	(declare (salience 10))
 	(conclusions)
@@ -1192,6 +1098,9 @@
 )
 
 
+
+
+; CREAR INSTANCIES DE LES SESIONS
 (defrule inference_module::planificar_sesiones
 	(declare (salience 10))
 	(conclusions)
@@ -1218,23 +1127,25 @@
 	(not (fuer_aux (nivel ?n1)))	
 	(not (res_aux (nivel ?n2)))	
 	(not (cal_aux (nivel ?n3)))	
-	(not (eq_aux (nivel ?n4)))	
+	(not (eq_aux (nivel ?n4)))
+	(not (sucio))
 	=>
 	(printout t "SESIO  " ?n5 crlf)
+	(assert (sesion_aux (num ?n5)))
+	(assert (sesion_aux (num ?n5)))
 	(assert (fuer_aux (nivel ?n1)))	
 	(assert (res_aux (nivel ?n2)))	
 	(assert (cal_aux (nivel ?n3)))	
 	(assert (eq_aux (nivel ?n4)))	
-
 )
 
-
+;EXERCICIS DE FORÇA A FER EN UNA SESSIO EN FUNCIO DEL NIVELL
 (defrule inference_module::definir_ejs_fuerza
 	(declare (salience 10))
 	(conclusions)
 	?f <- (fuer_aux (nivel ?n))
 	=>
-	(printout t "SOY NIVEL DE FUERZA " ?n crlf)
+	(if (= ?n 0) then	(assert (num_fuerza (num 0))))
 	(if (= ?n 1) then	(assert (num_fuerza (num 4))))
 	(if (= ?n 2) then	(assert (num_fuerza (num 6))))
 	(if (= ?n 3) then	(assert (num_fuerza (num 8))))
@@ -1259,15 +1170,14 @@
 	(assert (rand (num (random 0 10))))
 )
 
-
-
+;EXERCICIS DE EQUILIBRI A FER EN UNA SESSIO EN FUNCIO DEL NIVELL
 (defrule inference_module::definir_ejs_eq
 	(declare (salience 9))
 	(conclusions)
 	?f <- (eq_aux (nivel ?n))
 	?t <- (rand (num ?n2))
 	=>
-	(printout t "SOY NIVEL DE EQUILIBRIO " ?n crlf)
+	(if (= ?n 0) then 	(assert (num_eq (num 0))))
 	(if (= ?n 1) then	(assert (num_eq (num 4))))
 	(if (= ?n 2) then	(assert (num_eq (num 6))))
 	(retract ?f)
@@ -1292,16 +1202,14 @@
 	(assert (rand (num (random 0 5))))
 )
 
-
-
-
+;EXERCICIS DE CALENTAMENT A FER EN UNA SESSIO EN FUNCIO DEL NIVELL
 (defrule inference_module::definir_ejs_cal
 	(declare (salience 8))
 	(conclusions)
 	?f <- (cal_aux (nivel ?n))
 	?t <- (rand (num ?n2))
 	=>
-	(printout t "SOY NIVEL DE CAL " ?n crlf)
+	(if (= ?n 0) then	(assert (num_cal (num 0))))
 	(if (= ?n 1) then	(assert (num_cal (num 5))))
 	(if (= ?n 2) then	(assert (num_cal (num 7))))
 	(if (= ?n 3) then	(assert (num_cal (num 9))))
@@ -1327,18 +1235,18 @@
 	(assert (rand (num (random 0 8))))
 )
 
-
+;GENERADOR D'INSTANCIES DE SESIO
 (defrule inference_module::planificar_sesion
 	(declare (salience 7))
 	(conclusions)
 	?g <- (res_aux (nivel ?n1))
+	?r <- (sesion_aux (num ?var))
 	?f <-(sesion (num ?numero))
+	(test (= ?var ?numero))
 	?a <- (num_cal (num ?n))
 	?b <- (num_eq (num ?n2))
 	?c <- (num_fuerza (num ?n3))
 	=>
-	(printout t "SOY NIVEL DE RES " ?n1 crlf)
-
 	(if (not(= ?n1 0)) then
 		(bind $?aer (find-instance ((?inst Aerobico)) (= ?inst:Intensidad 0)))
 	)
@@ -1350,14 +1258,16 @@
 	(programaSesion ?numero $?aux1 $?fuer $?equi $?cal)
 	(assert (sucio))
 	(retract ?f)
+	(retract ?r)
 	(retract ?g)
 	(retract ?a)
 	(retract ?b)
 	(retract ?c)
 )
 
+;NETEJAR APUNTADORS A INSTANCIES A EMPLEAR
 (defrule inference_module::limpiar
-	(declare (salience 100))
+	(declare (salience 10))
 	(conclusions)
 	(sucio)
 	?f <- (object (is-a Ejercicio) (Duracion 22))
@@ -1366,7 +1276,7 @@
 )
 
 (defrule inference_module::esta_limpio
-	(declare (salience 20))
+	(declare (salience 10))
 	(conclusions)
 	?f <-(sucio)
 	=>
@@ -1374,7 +1284,7 @@
 )
 
 
-
+;OUPUT_MODULE
 (defrule inference_module::finalizarAnalisis
 	(declare (salience 0))
 	(conclusions)

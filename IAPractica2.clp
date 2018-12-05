@@ -1,7 +1,7 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; -----------------------------------------------  CLASSES  ----------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; Clases definidas en la ontología (exportar de CLIPS)
+; Clases definidas en la ontologÃ­a (exportar de CLIPS)
 
 ; Fri Nov 30 09:52:54 GMT+01:00 2018
 ; 
@@ -185,7 +185,7 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; -----------------------------------------------  INSTANCES  --------------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; Instancias (de CLIPS también)
+; Instancias (de CLIPS tambiÃ©n)
 
 (definstances Instancias
 
@@ -448,7 +448,7 @@
 
 	(Duracion 7)
 	(Intensidad 1)
-	(Nombre_Ejercicio "estiramiento de muñeca")
+	(Nombre_Ejercicio "estiramiento de muÃ±eca")
 	(Num_repeticiones 4)
 	(partes_Ejercitadas "brazos"))
 
@@ -533,10 +533,10 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; ---------------------------------------------  QUESTION MODULE  ----------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; Definir preguntas para más adelante poder inferir
+; Definir preguntas para mÃ¡s adelante poder inferir
 
 
-; Definimos el módulo para las preguntas
+; Definimos el mÃ³dulo para las preguntas
 (defmodule question_module
 	(import MAIN ?ALL)
 	(export ?ALL)
@@ -616,6 +616,7 @@
 		=>
     	(bind ?f (pregunta-numerica "Indique cual es su edad" 0 100) )
 		(assert (edad (numero ?f)))
+		(assert (depresion (nivel 0)))
         )
 		
 	(defrule question_module::es_menor
@@ -814,7 +815,7 @@
                                             2 -> No son muy interesantes\
                                             3 -> Me aburre, se me hace repetitivo" 1 3))
                 (bind ?p3 (pregunta-numerica "Cuando miro hacia atras y pienso en las decisiones que he tomado...\
-                                            1 -> No me arrepiento de como he actuado estos a�os. Si me he equivocado ese error me valdra para aprender\
+                                            1 -> No me arrepiento de como he actuado estos años. Si me he equivocado ese error me valdra para aprender\
                                             2 -> No todo lo que he hecho ha sido correcto, algunas cosas me gustaria cambiarlas
                                             3 -> Estoy arrepentido de gran parte de lo que he hecho" 1 3))    
                 (bind ?p4 (pregunta-numerica "Cuando me comparo con otras personas...\
@@ -856,9 +857,9 @@
 ; --------------------------------------------------------------------------------------------------------------------
 ; ---------------------------------------------  INFERENCE MODULE  ---------------------------------------------------
 ; --------------------------------------------------------------------------------------------------------------------
-; Módulo para hacer la inferencia de datos según las preguntas
+; MÃ³dulo para hacer la inferencia de datos segÃºn las preguntas
 
-; Definimos el módulo para la inferencia de datos
+; Definimos el mÃ³dulo para la inferencia de datos
 (defmodule inference_module
 	(import MAIN ?ALL)
     (import question_module ?ALL)
@@ -945,7 +946,7 @@
 ;		; eliminar una instancia de $?allowed-values
 ;		(printout t "Instancia " ?i "   " (length$ ?allowed-values)  crlf)
 ;		(slot-delete$ (instance-name ?aux) ?allowed-values ?i ?i)
-;		; siguiente índice
+;		; siguiente Ã­ndice
 ;		(bind ?max (length ?allowed-values))
 ;		(bind ?i (random 1 ?max))
 ;	)
@@ -961,7 +962,7 @@
 
 ;Entran dos multislots y se devuelve multi1 con todos los elementos
 (deffunction inference_module::juntarMultiSlots (?multi1 ?multi2)
-	;Recorremos multi2 y vamos añadiendo cada una de sus instancias a multi1
+	;Recorremos multi2 y vamos aÃ±adiendo cada una de sus instancias a multi1
 	(loop-for-count (?i 1 (length$ ?multi2)) do
 		(bind ?aux (nth$ ?i ?multi2))
 			(slot-insert$ (instance-name ?aux) ?multi1 (length$ ?multi1) ?aux)

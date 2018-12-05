@@ -18,9 +18,10 @@
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
-	(multislot Dia
+	(single-slot Dia
 		(type INTEGER)
 		(range 1 7)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Intensidad
 		(type INTEGER)
@@ -33,9 +34,8 @@
 		(create-accessor read-write))
 	(single-slot Duracion
 		(type INTEGER)
-		(range 0 180)
 		(default 0)
-;+		(cardinality 1 1)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Beneficios
 		(type STRING)
@@ -46,6 +46,10 @@
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot IAPractica2_Class7
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot IAPractica2_Class1
 		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
@@ -113,9 +117,10 @@
 (defclass Session
 	(is-a USER)
 	(role concrete)
-	(multislot Dia
+	(single-slot Dia
 		(type INTEGER)
 		(range 1 7)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot Ejercicios
 		(type INSTANCE)
@@ -141,9 +146,8 @@
 		(create-accessor read-write))
 	(single-slot Duracion
 		(type INTEGER)
-		(range 0 180)
 		(default 0)
-;+		(cardinality 1 1)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot partes_Ejercitadas
 		(type STRING)
@@ -186,6 +190,7 @@
 (definstances Instancias
 
 
+
 ([IAPractica2_Class10] of  Aerobico
 
 	(Duracion 30)
@@ -198,7 +203,7 @@
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de los tendones del muslo")
-	(Num_repeticiones 15)
+	(Num_repeticiones 0)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10008] of  Aerobico
@@ -215,7 +220,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "levantar los brazos")
-	(Num_repeticiones 15)
+	(Num_repeticiones 0)
 	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class10011] of  Fuerza
@@ -223,7 +228,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "flexion de hombros")
-	(Num_repeticiones 15)
+	(Num_repeticiones 1)
 	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class10013] of  Fuerza
@@ -231,7 +236,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "ejercicios de biceps")
-	(Num_repeticiones 15)
+	(Num_repeticiones 2)
 	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class10014] of  Fuerza
@@ -239,7 +244,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "extension de triceps")
-	(Num_repeticiones 15)
+	(Num_repeticiones 3)
 	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class10015] of  Fuerza
@@ -247,7 +252,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "levantarse de una silla")
-	(Num_repeticiones 15)
+	(Num_repeticiones 4)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10017] of  Fuerza
@@ -255,7 +260,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "flexion plantar")
-	(Num_repeticiones 15)
+	(Num_repeticiones 5)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10018] of  Fuerza
@@ -263,7 +268,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "flexion de rodilla")
-	(Num_repeticiones 15)
+	(Num_repeticiones 6)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10019] of  Fuerza
@@ -271,7 +276,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "extension de rodilla")
-	(Num_repeticiones 15)
+	(Num_repeticiones 7)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10020] of  Fuerza
@@ -279,7 +284,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "flexion de cadera")
-	(Num_repeticiones 15)
+	(Num_repeticiones 8)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10021] of  Fuerza
@@ -287,7 +292,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "extension de cadera")
-	(Num_repeticiones 15)
+	(Num_repeticiones 9)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10022] of  Fuerza
@@ -295,7 +300,7 @@
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "elevar piernas a los lados")
-	(Num_repeticiones 15)
+	(Num_repeticiones 10)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class10026] of  Equilibrio
@@ -303,28 +308,28 @@
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "flexion plantar")
-	(Num_repeticiones 15))
+	(Num_repeticiones 0))
 
 ([IAPractica2_Class10027] of  Equilibrio
 
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "flexion de rodilla")
-	(Num_repeticiones 15))
+	(Num_repeticiones 1))
 
 ([IAPractica2_Class10028] of  Equilibrio
 
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "flexion de cadera")
-	(Num_repeticiones 15))
+	(Num_repeticiones 2))
 
 ([IAPractica2_Class10029] of  Equilibrio
 
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "extension de cadera")
-	(Num_repeticiones 15))
+	(Num_repeticiones 3))
 
 ([IAPractica2_Class13] of  Aerobico
 
@@ -352,7 +357,7 @@
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "levantar pierna")
-	(Num_repeticiones 15))
+	(Num_repeticiones 4))
 
 ([IAPractica2_Class20009] of  Deporte
 
@@ -396,7 +401,7 @@
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de la pantorrilla")
-	(Num_repeticiones 15)
+	(Num_repeticiones 1)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class20017] of  Deporte
@@ -419,14 +424,14 @@
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "equilibrio, caminar recto")
-	(Num_repeticiones 15))
+	(Num_repeticiones 5))
 
 ([IAPractica2_Class25] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de tobillo")
-	(Num_repeticiones 15)
+	(Num_repeticiones 2)
 	(partes_Ejercitadas
 		"brazos"
 		"piernas"))
@@ -436,7 +441,7 @@
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de triceps")
-	(Num_repeticiones 15)
+	(Num_repeticiones 3)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class27] of  Flexibilidad
@@ -444,7 +449,7 @@
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de muñeca")
-	(Num_repeticiones 15)
+	(Num_repeticiones 4)
 	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class3] of  Flexibilidad
@@ -452,7 +457,7 @@
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "rotacion de hombros")
-	(Num_repeticiones 15)
+	(Num_repeticiones 5)
 	(partes_Ejercitadas "brazos"))
 
 ([IAPractica2_Class4] of  Flexibilidad
@@ -460,7 +465,7 @@
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de quadriceps")
-	(Num_repeticiones 15)
+	(Num_repeticiones 6)
 	(partes_Ejercitadas
 		"brazos"
 		"piernas"))
@@ -470,7 +475,7 @@
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "rotacion doble de cadera")
-	(Num_repeticiones 15)
+	(Num_repeticiones 7)
 	(partes_Ejercitadas "piernas"))
 
 ([IAPractica2_Class6] of  Flexibilidad
@@ -478,6 +483,7 @@
 	(Duracion 2)
 	(Intensidad 0)
 	(Nombre_Ejercicio "rotacion simple de cadera")
+	(Num_repeticiones 8)
 	(partes_Ejercitadas "piernas"))
 
 
@@ -754,6 +760,19 @@
 
 (deftemplate inference_module::sesion (slot num (type INTEGER) (range 1 7)))
 
+(deftemplate inference_module::rand (slot num (type INTEGER) ))
+
+(deftemplate inference_module::fuer_aux (slot nivel (type INTEGER) ))
+(deftemplate inference_module::eq_aux (slot nivel (type INTEGER) ))
+(deftemplate inference_module::cal_aux (slot nivel (type INTEGER) ))
+(deftemplate inference_module::res_aux (slot nivel (type INTEGER) ))
+
+
+(deftemplate inference_module::num_fuerza (slot num (type INTEGER) ))
+(deftemplate inference_module::num_eq (slot num (type INTEGER) ))
+(deftemplate inference_module::num_cal (slot num (type INTEGER) ))
+
+
 
 
 ;Retornar un multislot sense els elements que exerciten les cames
@@ -765,29 +784,47 @@
 
 
 ;Retornar un multislot amb ?num elements de $?allowed-values aleatoris			NO VA!!!!!
-(deffunction inference_module::randomSlots (?num $?allowed-values)
-	(bind ?max (length$ ?allowed-values))
-	(bind ?i (random 1 ?max))
-	(bind $?aux2 (nth$ ?i ?allowed-values))
-	(bind ?i (random 1 ?max))
-	(bind ?var 1)
-	(while (not(= ?var ?num))		
-		(bind ?aux (nth$ ?i ?allowed-values))
-		(bind ?straux (send ?aux get-Nombre_Ejercicio))
-		(bind ?res 1)
-		(loop-for-count (?i 1 (length$ ?aux2)) do
-			(bind ?aux3 (nth$ ?i ?aux2))
-			(bind ?straux3 (send ?aux3 get-Nombre_Ejercicio))
-			(bind ?mirar (str-compare ?straux ?straux3))
-			(if (= ?mirar 0) then (bind ?res 0))
-		)
-		(if (= ?res 1) then 
-;				(bind $?aux2 ?aux2 ?aux)
-				(bind ?var (+ ?var 1))
-		)
-		(bind ?i (random 1 ?max))
-	) 
-	?aux2
+(deffunction inference_module::randomSlots (?num)
+	
+;	(bind ?max 10)
+;	(bind ?var 0)
+;	(while (not(= ?var ?num))		
+;		(bind ?i (random 0 ?max))
+;		(bind ?aux (find-instance ((?inst Fuerza)) (not (=  ?inst:Duracion 22))))
+	;	(bind ?k (send ?aux get-Duracion))
+	;	(if (not (= ?k 22)) then
+;			(printout t ?aux crlf)
+;			(send ?aux put-Duracion 22)
+;			(bind ?var (+ ?var 1))
+	;	)
+;	)
+	
+	
+	
+	
+	
+;	(bind ?max (length$ ?allowed-values))
+;	(bind ?i (random 1 ?max))
+;	(bind $?aux2 (nth$ ?i ?allowed-values))
+;	(bind ?i (random 1 ?max))
+;	(bind ?var 1)
+;	(while (not(= ?var ?num))		
+;		(bind ?aux (nth$ ?i ?allowed-values))
+;		(bind ?straux (send ?aux get-Nombre_Ejercicio))
+;		(bind ?res 1)
+;		(loop-for-count (?i 1 (length$ ?aux2)) do
+;			(bind ?aux3 (nth$ ?i ?aux2))
+;			(bind ?straux3 (send ?aux3 get-Nombre_Ejercicio))
+;			(bind ?mirar (str-compare ?straux ?straux3))
+;			(if (= ?mirar 0) then (bind ?res 0))
+;		)
+;		(if (= ?res 1) then 
+;	;				(bind $?aux2 ?aux2 ?aux)
+;				(bind ?var (+ ?var 1))
+;		)
+; 		(bind ?i (random 1 ?max))
+;	) 
+;	?aux2
 	
 	
 	
@@ -938,16 +975,8 @@
 	(if (= ?e 2) then	(assert (eq (nivel 1))))
 	(if (= ?e 6) then	(assert (eq (nivel 1))))
 	(if (= ?e 8) then	(assert (eq (nivel 1))))
+	(retract ?f)
 )
-
-(defrule inference_module::vacio_equilibrio
-	(declare (salience 10))
-	(conclusions)
-	(not (eq (nivel ?n)))
-	=>
-	(assert (eq (nivel 0)))
-)
-
 
 
 (defrule inference_module::sinpierna
@@ -1058,65 +1087,179 @@
 	(conclusions)
 	?f <-(sesiones (numero ?n))
 	=>
-	(assert (sesion (num 2)))
-	(assert (sesion (num 4)))
-	(assert (sesion (num 6)))
-	(if (> ?n 3) then (assert (sesion (num 1))))
-	(if (> ?n 4) then (assert (sesion (num 3))))
-	(if (> ?n 5) then (assert (sesion (num 5))))
 	(if (> ?n 6) then (assert (sesion (num 7))))
+	(assert (sesion (num 6)))
+	(if (> ?n 5) then (assert (sesion (num 5))))
+	(assert (sesion (num 4)))
+	(if (> ?n 4) then (assert (sesion (num 3))))
+	(assert (sesion (num 2)))
+	(if (> ?n 3) then (assert (sesion (num 1))))
 	(retract ?f)
 )
 
-(defrule inference_module::debug
-		(declare (salience 10))
-		(newRutine)
-		=>
-		(if (yes-or-no-p "debug") then
-			(assert (debug))
-		)
+(defrule inference_module::la_sesion
+	(declare (salience 10))
+	(conclusions)
+	?f <- (fuer (nivel ?n1))
+	?g <- (res (nivel ?n2))
+	?h <- (cal (nivel ?n3))
+	?j <- (eq (nivel ?n4))
+	?d <- (sesion (num ?n5))
+	(not (fuer_aux (nivel ?n1)))	
+	(not (res_aux (nivel ?n2)))	
+	(not (cal_aux (nivel ?n3)))	
+	(not (eq_aux (nivel ?n4)))	
+	=>
+	(printout t "SESIO  " ?n5 crlf)
+	(assert (fuer_aux (nivel ?n1)))	
+	(assert (res_aux (nivel ?n2)))	
+	(assert (cal_aux (nivel ?n3)))	
+	(assert (eq_aux (nivel ?n4)))	
+
+)
+
+
+(defrule inference_module::definir_ejs_fuerza
+	(declare (salience 10))
+	(conclusions)
+	?f <- (fuer_aux (nivel ?n))
+	=>
+	(printout t "SOY NIVEL DE FUERZA " ?n crlf)
+	(if (= ?n 1) then	(assert (num_fuerza (num 4))))
+	(if (= ?n 2) then	(assert (num_fuerza (num 6))))
+	(if (= ?n 3) then	(assert (num_fuerza (num 8))))
+	(retract ?f)
+	(assert (rand (num (random 0 10))))
+)
+
+(defrule inference_module::definir_ejs_fuerza_aux
+	(declare (salience 10))
+	(conclusions)
+	?g <- (num_fuerza (num ?n))
+	?t <- (rand (num ?n2))
+	?f <- (object (is-a Fuerza) (Num_repeticiones ?n2))
+	(test (not(= ?n 0)))
+	=>
+	(bind ?dur (send ?f get-Duracion))
+	(if (not(= ?dur 22)) then
+		(send ?f put-Duracion 22)
+		(modify ?g (num (- ?n 1)))
 	)
+	(retract ?t)
+	(assert (rand (num (random 0 10))))
+)
+
+
+
+(defrule inference_module::definir_ejs_eq
+	(declare (salience 9))
+	(conclusions)
+	?f <- (eq_aux (nivel ?n))
+	?t <- (rand (num ?n2))
+	=>
+	(printout t "SOY NIVEL DE EQUILIBRIO " ?n crlf)
+	(if (= ?n 1) then	(assert (num_eq (num 4))))
+	(if (= ?n 2) then	(assert (num_eq (num 6))))
+	(retract ?f)
+	(retract ?t)
+	(assert (rand (num (random 0 5))))
+)
+
+(defrule inference_module::definir_ejs_eq_aux
+	(declare (salience 9))
+	(conclusions)
+	?g <- (num_eq (num ?n))
+	?t <- (rand (num ?n2))
+	?f <- (object (is-a Equilibrio) (Num_repeticiones ?n2))
+	(test (not(= ?n 0)))
+	=>
+	(bind ?dur (send ?f get-Duracion))
+	(if (not(= ?dur 22)) then
+		(send ?f put-Duracion 22)
+		(modify ?g (num (- ?n 1)))
+	)
+	(retract ?t)
+	(assert (rand (num (random 0 5))))
+)
+
+
+
+
+(defrule inference_module::definir_ejs_cal
+	(declare (salience 8))
+	(conclusions)
+	?f <- (cal_aux (nivel ?n))
+	?t <- (rand (num ?n2))
+	=>
+	(printout t "SOY NIVEL DE CAL " ?n crlf)
+	(if (= ?n 1) then	(assert (num_cal (num 5))))
+	(if (= ?n 2) then	(assert (num_cal (num 7))))
+	(if (= ?n 3) then	(assert (num_cal (num 9))))
+	(retract ?f)
+	(retract ?t)
+	(assert (rand (num (random 0 8))))
+)
+
+(defrule inference_module::definir_ejs_cal_aux
+	(declare (salience 8))
+	(conclusions)
+	?g <- (num_cal (num ?n))
+	?t <- (rand (num ?n2))
+	?f <- (object (is-a Flexibilidad) (Num_repeticiones ?n2))
+	(test (not(= ?n 0)))
+	=>
+	(bind ?dur (send ?f get-Duracion))
+	(if (not(= ?dur 22)) then
+		(send ?f put-Duracion 22)
+		(modify ?g (num (- ?n 1)))
+	)
+	(retract ?t)
+	(assert (rand (num (random 0 8))))
+)
 
 
 (defrule inference_module::planificar_sesion
-	(declare (salience 10))
+	(declare (salience 7))
 	(conclusions)
-	(res (nivel ?n1))
-	(cal (nivel ?n2))
-	(fuer (nivel ?n3))
-	(eq (nivel ?n4))
+	?g <- (res_aux (nivel ?n1))
 	?f <-(sesion (num ?numero))
+	?a <- (num_cal (num ?n))
+	?b <- (num_eq (num ?n2))
+	?c <- (num_fuerza (num ?n3))
 	=>
-	
+	(printout t "SOY NIVEL DE RES " ?n1 crlf)
+
 	(if (not(= ?n1 0)) then
 		(bind $?aer (find-instance ((?inst Aerobico)) (= ?inst:Intensidad 0)))
 	)
 	(bind $?aux1 $?aer)
-			
-	(if (not(= ?n3 0)) then
-		(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Num_repeticiones 15) ))
-		(if (= ?n3 1) then	(bind $?fueraux (randomSlots 4 $?fuer)))
-		(if (= ?n3 2) then	(bind $?fueraux (randomSlots 6 $?fuer)))
-		(if (= ?n3 3) then	(bind $?fueraux (randomSlots 8 $?fuer)))
-	)	
-	(bind $?aux2 $?fueraux)
-	
-	(if (not(= ?n4 0)) then
-		(bind $?eq (find-all-instances ((?inst Equilibrio)) (= ?inst:Num_repeticiones 15) ))
-		(if (= ?n4 1) then	(bind $?eqaux (randomSlots 4 $?fuer)))
-		(if (= ?n4 2) then	(bind $?eqaux (randomSlots 6 $?fuer))) ;	
-	)
-	(bind $?aux3 $?eqaux)
-	
-	(if (not(= ?n2 0)) then
-		(bind $?cal (find-all-instances ((?inst Flexibilidad)) (= ?inst:Num_repeticiones 15) ))
-		(if (= ?n2 1) then	(bind $?calaux (randomSlots 5 $?fuer)))
-		(if (= ?n2 2) then	(bind $?calaux (randomSlots 7 $?fuer)))
-		(if (= ?n2 3) then	(bind $?calaux (randomSlots 9 $?fuer))) ;
-	)
-	(bind $?aux4 $?calaux)
+	(bind $?fuer (find-all-instances ((?inst Fuerza)) (= ?inst:Duracion 22) ))
+	(bind $?equi (find-all-instances ((?inst Equilibrio)) (= ?inst:Duracion 22) ))
+	(bind $?cal (find-all-instances ((?inst Flexibilidad)) (= ?inst:Duracion 22) ))
 
-	(programaSesion ?numero $?aux1 $?aux2 $?aux3 $?aux4)
+	(programaSesion ?numero $?aux1 $?fuer $?equi $?cal)
+	(assert (sucio))
+	(retract ?f)
+	(retract ?g)
+	(retract ?a)
+	(retract ?b)
+	(retract ?c)
+)
+
+(defrule inference_module::limpiar
+	(declare (salience 100))
+	(conclusions)
+	(sucio)
+	?f <- (object (is-a Ejercicio) (Duracion 22))
+	=>
+	(send ?f put-Duracion 15)
+)
+
+(defrule inference_module::esta_limpio
+	(declare (salience 20))
+	(conclusions)
+	?f <-(sucio)
+	=>
 	(retract ?f)
 )
 
@@ -1218,6 +1361,8 @@
 	(declare (salience 70))
 	=>
 )
+
+
 
 
 

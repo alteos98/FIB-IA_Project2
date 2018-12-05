@@ -1,0 +1,247 @@
+         CLIPS (Quicksilver Beta 3/26/08)
+CLIPS> (load "C:/Users/Sergi/Desktop/IAPractica2-vencidoAnteRandomSlots/IAPractica2.clp")
+Defining defclass: %3ACLIPS_TOP_LEVEL_SLOT_CLASS
+Defining defclass: Session
+Defining defclass: Ejercicio
+Defining defclass: Aerobico
+Defining defclass: Fuerza
+Defining defclass: Equilibrio
+Defining defclass: Flexibilidad
+Defining defclass: Deporte
+Defining definstances: Instancias
+
+[CSTRCPSR1] WARNING: Redefining defmodule: MAIN
+Defining defrule: initial_rule +j+j+j
+Defining defrule: cal_reset =j+j
+Defining defmodule: question_module
+Defining deffunction: ask-question
+Defining deffunction: yes-or-no-p
+Defining deffunction: pregunta-numerica
+Defining deftemplate: edad
+Defining deftemplate: capacidad_fisica
+Defining deftemplate: autocapacidad
+Defining deftemplate: enfermedad
+Defining deftemplate: fumador
+Defining deftemplate: depresion
+Defining deftemplate: coeficiente
+Defining deftemplate: res
+Defining deftemplate: fuer
+Defining deftemplate: eq
+Defining deftemplate: cal
+Defining defrule: pregunta_edad +j+j
+Defining defrule: es_menor +j+j
+Defining defrule: estado_civil =j+j
+Defining defrule: valoracion_fisica =j+j
+Defining defrule: tiene_dep =j+j+j+j
+Defining defrule: realiza_ejercicio =j+j
+Defining defrule: toma_medicamento =j+j
+Defining defrule: es_fumador =j+j
+Defining defrule: frequencia_fuma +j+j+j
+Defining defrule: question-enfermedad =j+j
+Defining defrule: caidas =j+j
+Defining defrule: end_questions =j+j
+Defining defmodule: inference_module
+Defining deftemplate: sesiones
+Defining deftemplate: sesion
+Defining deftemplate: rand
+Defining deftemplate: num_fuerza
+Defining deffunction: no_piernas
+Defining deffunction: randomSlots
+Defining deffunction: juntarMultiSlots
+Defining deffunction: programaSesion
+Defining defrule: definir_coeficiente +j+j+j+j+j
+Defining defrule: otros_tipos =j+j
+Defining defrule: probables_equilibrio =j+j+j+j
+Defining defrule: vacio_equilibrio =j+j+j
+Defining defrule: sinpierna =j+j+j+j+j
+=j+j+j+j+j
+Defining defrule: def_num_ses =j+j+j+j
+Defining defrule: def_num_ses_sin_res =j+j+j
+Defining defrule: asignar_res =j+j+j+j+j
+Defining defrule: asignar_cal =j=j+j+j+j
+Defining defrule: asignar_fuer =j=j+j+j
+Defining defrule: trat_med =j+j+j+j
+=j+j+j+j
+Defining defrule: trat_fumar =j+j+j+j
+Defining defrule: trat_no_brazo =j+j+j+j
+=j+j+j+j
+Defining defrule: planificar_sesiones =j+j+j
+Defining defrule: definir_ejs_fuerza =j+j+j
+Defining defrule: definir_ejs_fuerza_aux =j+j+j+j+j
+Defining defrule: planificar_sesion =j=j+j+j+j+j+j
+Defining defrule: finalizarAnalisis =j+j
+Defining defmodule: output_module
+Defining defrule: general +j+j
+Defining deffunction: function-indicaciones-ejercicios
+Defining deffunction: function-imprimir-sesion
+Defining defrule: imprimir-cabecera =j+j
+Defining defrule: imprimir-sesiones =j+j+j
+Defining defrule: imprimir-indicaciones-ejercicios =j+j+j
+Defining defrule: imprimir-comentarios-adicionales +j+j
+TRUE
+CLIPS> (reset)
+CLIPS> (run)
+SCB de rutinas
+por Sergi Aragall, Alberto Camacho y Albert Teira
+Indique cual es su edad[0,100]
+78
+Indique su estado civil:
+                                1-> Soltero/a
+                                2-> Casado/a
+                                3-> Viudo/a
+                                4-> Divorciado/a[1,4]
+3
+Como valoraria su capacidad fisica?[0,10]
+3
+Indique la frecuencia con la que realiza ejercicio: 
+                            (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)[0,10]
+3
+Toma medicamentos del tipo: Pastillas para dormir, Antihistaminicos y Analgesicos? [si/no]
+s
+Es usted fumador? [si/no]
+s
+Sufre de alguna de siguientes enfermedades?
+                        0-> Ninguna
+                        1-> Enfermedad Cardiovascular
+                        2-> Hipertension
+                        3-> Sobrepeso u obesidad
+                        4-> Diabetes tipo 2
+                        5-> Enfermedad pulmonar obstructiva cronica
+                        6-> Osteoporosis
+                        7-> Cancer
+                        8-> Artritis rematoide
+                        9-> Filerosis quistica[0,9]
+3
+Ha sufrido alguna caida recientemente? [S/N]
+s
+Este es el diario de sesiones asociado a su diagnostico: 
+|--------------------------------------------------------------------------------------------------------------------------------------|
+|                                                                                                                                      |
+|                                                         CONJUNTO DE SESIONES                                                         |
+|                                                                                                                                      |
+|--------------------------------------------------------------------------------------------------------------------------------------|
+CLIPS> (reset)
+CLIPS> (clear)
+CLIPS> (load "C:/Users/Sergi/Desktop/IAPractica2-vencidoAnteRandomSlots/IAPractica2.clp")
+Defining defclass: %3ACLIPS_TOP_LEVEL_SLOT_CLASS
+Defining defclass: Session
+Defining defclass: Ejercicio
+Defining defclass: Aerobico
+Defining defclass: Fuerza
+Defining defclass: Equilibrio
+Defining defclass: Flexibilidad
+Defining defclass: Deporte
+Defining definstances: Instancias
+
+[CSTRCPSR1] WARNING: Redefining defmodule: MAIN
+Defining defrule: initial_rule +j+j+j
+Defining defrule: cal_reset =j+j
+Defining defmodule: question_module
+Defining deffunction: ask-question
+Defining deffunction: yes-or-no-p
+Defining deffunction: pregunta-numerica
+Defining deftemplate: edad
+Defining deftemplate: capacidad_fisica
+Defining deftemplate: autocapacidad
+Defining deftemplate: enfermedad
+Defining deftemplate: fumador
+Defining deftemplate: depresion
+Defining deftemplate: coeficiente
+Defining deftemplate: res
+Defining deftemplate: fuer
+Defining deftemplate: eq
+Defining deftemplate: cal
+Defining defrule: pregunta_edad +j+j
+Defining defrule: es_menor +j+j
+Defining defrule: estado_civil =j+j
+Defining defrule: valoracion_fisica =j+j
+Defining defrule: tiene_dep =j+j+j+j
+Defining defrule: realiza_ejercicio =j+j
+Defining defrule: toma_medicamento =j+j
+Defining defrule: es_fumador =j+j
+Defining defrule: frequencia_fuma +j+j+j
+Defining defrule: question-enfermedad =j+j
+Defining defrule: caidas =j+j
+Defining defrule: end_questions =j+j
+Defining defmodule: inference_module
+Defining deftemplate: sesiones
+Defining deftemplate: sesion
+Defining deftemplate: rand
+Defining deftemplate: num_fuerza
+Defining deftemplate: num_eq
+Defining deftemplate: num_cal
+Defining deffunction: no_piernas
+Defining deffunction: randomSlots
+Defining deffunction: juntarMultiSlots
+Defining deffunction: programaSesion
+Defining defrule: definir_coeficiente +j+j+j+j+j
+Defining defrule: otros_tipos =j+j
+Defining defrule: probables_equilibrio =j+j+j+j
+Defining defrule: vacio_equilibrio =j+j+j
+Defining defrule: sinpierna =j+j+j+j+j
+=j+j+j+j+j
+Defining defrule: def_num_ses =j+j+j+j
+Defining defrule: def_num_ses_sin_res =j+j+j
+Defining defrule: asignar_res =j+j+j+j+j
+Defining defrule: asignar_cal =j=j+j+j+j
+Defining defrule: asignar_fuer =j=j+j+j
+Defining defrule: trat_med =j+j+j+j
+=j+j+j+j
+Defining defrule: trat_fumar =j+j+j+j
+Defining defrule: trat_no_brazo =j+j+j+j
+=j+j+j+j
+Defining defrule: planificar_sesiones =j+j+j
+Defining defrule: definir_ejs_fuerza =j+j+j
+Defining defrule: definir_ejs_fuerza_aux =j+j+j+j+j
+Defining defrule: definir_ejs_eq =j+j+j
+Defining defrule: definir_ejs_eq_aux =j+j+j+j+j
+Defining defrule: planificar_sesion =j=j+j+j+j+j+j
+Defining defrule: finalizarAnalisis =j+j
+Defining defmodule: output_module
+Defining defrule: general +j+j
+Defining deffunction: function-indicaciones-ejercicios
+Defining deffunction: function-imprimir-sesion
+Defining defrule: imprimir-cabecera =j+j
+Defining defrule: imprimir-sesiones =j+j+j
+Defining defrule: imprimir-indicaciones-ejercicios =j+j+j
+Defining defrule: imprimir-comentarios-adicionales +j+j
+TRUE
+CLIPS> (run)
+ERROR! falta cargar las instancias, haga (reset) antes de ejecutar el programa.
+CLIPS> (reset)
+CLIPS> (run)
+SCB de rutinas
+por Sergi Aragall, Alberto Camacho y Albert Teira
+Indique cual es su edad[0,100]
+78
+Indique su estado civil:
+                                1-> Soltero/a
+                                2-> Casado/a
+                                3-> Viudo/a
+                                4-> Divorciado/a[1,4]
+4
+Como valoraria su capacidad fisica?[0,10]
+1
+Indique la frecuencia con la que realiza ejercicio: 
+                            (0 -> no realizo ningun ejercicio y 10 -> realizo ejercicio a diario con buena intensidad)[0,10]
+1
+Toma medicamentos del tipo: Pastillas para dormir, Antihistaminicos y Analgesicos? [si/no]
+s
+Es usted fumador? [si/no]
+s
+Sufre de alguna de siguientes enfermedades?
+                        0-> Ninguna
+                        1-> Enfermedad Cardiovascular
+                        2-> Hipertension
+                        3-> Sobrepeso u obesidad
+                        4-> Diabetes tipo 2
+                        5-> Enfermedad pulmonar obstructiva cronica
+                        6-> Osteoporosis
+                        7-> Cancer
+                        8-> Artritis rematoide
+                        9-> Filerosis quistica[0,9]
+2
+Ha sufrido alguna caida recientemente? [S/N]
+s
+(clear)
+

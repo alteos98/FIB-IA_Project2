@@ -1,4 +1,4 @@
-; Tue Dec 04 00:58:34 CET 2018
+; Wed Dec 05 11:49:28 CET 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -23,9 +23,8 @@
 		(create-accessor read-write))
 	(single-slot Duracion
 		(type INTEGER)
-		(range 0 180)
 		(default 0)
-;+		(cardinality 1 1)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Beneficios
 		(type STRING)
@@ -136,9 +135,8 @@
 		(create-accessor read-write))
 	(single-slot Duracion
 		(type INTEGER)
-		(range 0 180)
 		(default 0)
-;+		(cardinality 1 1)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(multislot partes_Ejercitadas
 		(type STRING)

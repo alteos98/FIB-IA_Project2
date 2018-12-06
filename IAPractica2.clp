@@ -1374,24 +1374,19 @@
 )
 
 ; FUNCIONES
-
-(deffunction output_module::function-indicaciones-ejercicios (?ses) "imprime indicaciones para cada uno de los ejercicios"
-)
-
 (deffunction output_module::imprime_tiempo (?ses)
     (bind ?summax 0)
     (bind ?summin 0)
-   ; (bind ?aer "Aerobico")
+
     (loop-for-count (?i 1 (length$ (send ?ses get-Ejercicios))) do
-        (bind ?aux (send (nth$ ?i (send ?ses get-Ejercicios)) get-Duracion))
-         (if (or (= ?aux 20) (= ?aux 30) (= ?aux 3)) then 
-            (bind ?summax (+ ?summax ?aux))
-            (bind ?summin (+ ?summin ?aux))
-        )
-        (if (not (or (= ?aux 20) (= ?aux 30) (= ?aux 3))) then 
-           (bind ?summax (+ ?summax 7.5))
-           (bind ?summin (+ ?summin 1.3))
-        )
+        (bind ?aux (nth$ ?i (send ?ses get-Ejercicios)))
+		(if (and (= ?i 1) (= (str-length (class ?aux)) 8)) then
+			(bind ?summax (+ ?summax 30))
+            (bind ?summin (+ ?summin 20))
+		else
+			(bind ?summax (+ ?summax 7.5))
+            (bind ?summin (+ ?summin 2.5))
+		)
     )
     (if (> ?summax 90) then (bind ?summax 90))
     (if (< ?summin 30) then (bind ?summin 30))
@@ -1403,46 +1398,55 @@
 	(printout t "|" crlf)
 )
 
+
 (deffunction output_module::function-imprimir-sesion (?ses) "imprime la informacion de la sesion pasada por parametro"
 	(switch (send ?ses get-Dia)
-		(case 1 then (bind ?dia "Lunes    "))
-		(case 2 then (bind ?dia "Martes   "))
-		(case 3 then (bind ?dia "Miercoles"))
-		(case 4 then (bind ?dia "Jueves   "))
-		(case 5 then (bind ?dia "Viernes  "))
-		(case 6 then (bind ?dia "Sabado   "))
-		(case 7 then (bind ?dia "Domingo  "))
+		(case 1 then (bind ?dia "LUNES    "))
+		(case 2 then (bind ?dia "MARTES   "))
+		(case 3 then (bind ?dia "MIERCOLES"))
+		(case 4 then (bind ?dia "JUEVES   "))
+		(case 5 then (bind ?dia "VIERNES  "))
+		(case 6 then (bind ?dia "SABADO   "))
+		(case 7 then (bind ?dia "DOMINGO  "))
 	)
 	(printout t "|--------------------------------------------------------------------------------------------------------------------------------------|" crlf)
 	(printout t "|                                                              "?dia"                                                               |" crlf)
 	(printout t "|--------------------------------------------------------------------------------------------------------------------------------------|" crlf)
-	(printout t "|                                    EJERCICIO                                     |                       TIPO                        |" crlf)
+	(printout t "|                       TIPO                        |                                   EJERCICIO                                      |" crlf)
 	(printout t "|--------------------------------------------------------------------------------------------------------------------------------------|" crlf)
 	(bind ?i 1)
-	(bind ?primero-a 1)
-	(bind ?primero-e 1)
-	(bind ?primero-fl 1)
-	(bind ?primero-fu 1)
+	(bind ?str 0)
 	(while (<= ?i (length$ (send ?ses get-Ejercicios))) do
 		(bind ?ejercicio (nth$ ?i (send ?ses get-Ejercicios)))
-		(printout t "|                             " (send ?ejercicio get-Nombre_Ejercicio))
-		(loop-for-count (?z 1 (- 70 (str-length (str-cat (send ?ejercicio get-Nombre_Ejercicio))))) do (printout t " ")) ; imprime espacios hasta TIPO
-		(printout t (class ?ejercicio))
-		(loop-for-count (?z 1 (- 35 (str-length (str-cat (class ?ejercicio))))) do (printout t " ")) ; imprime espacios hasta el final
+		(bind ?aux (str-length (class ?ejercicio)))
+		(if (not (= ?str ?aux)) then
+			(printout t "|                -  " (class ?ejercicio))
+			(loop-for-count (?z 1 (- 50 (str-length (str-cat (class ?ejercicio))))) do (printout t " ")) ; imprime espacios hasta el final
+		else
+			(printout t "|")
+			(loop-for-count (?z 1 69) do (printout t " ")) ; imprime espacios hasta el final
+		)
+			
+		(printout t (send ?ejercicio get-Nombre_Ejercicio))
+		(loop-for-count (?z 1 (- 65 (str-length (str-cat (send ?ejercicio get-Nombre_Ejercicio))))) do (printout t " ")) ; imprime espacios hasta TIPO
+	
 		(printout t "|" crlf)
 		(bind ?i (+ ?i 1))
+		(bind ?str (str-length (class ?ejercicio)))
 	)
 )
 
-; REGLAS
 
+; GENERAL
 (defrule output_module::general
 		(declare (salience 110))
 		(escribir)
 		=>
-		(printout t "Este es el diario de sesiones asociado a su diagnostico:" crlf)
+		(printout t "El test ha finalizado. A continuacion se le muestra el horario semanal disenyado para usted: " crlf)
 )
 
+
+;IMPRIMIR CONJUNTO SESIONES
 (defrule output_module::imprimir-cabecera
 	(declare (salience 100))
 	(escribir)
@@ -1477,50 +1481,53 @@
 	(assert (print-indicaciones))
 )
 
+
 (defrule output_module::recom_tiempo 
     (declare (salience 10))
     (escribir)  
     ?f<-(coeficiente(coef ?c))
     =>
-    (printout t "Para cada ejercicio de fuerza, equilibrio y flexibilidad se recomienda realizar series, de 8 a 15 repeticiones, y de 10 a 30 segundos de duracion. " crlf)
-    (printout t "Dada sus capacidades avaluadas, nosotros recomendamos:" crlf)
-    (if (<= ?c 0.33) then (printout t "  -> De 8 a 10 repeticiones y cada una de 10 a 15 segundos."))
-    (if (and (<= ?c 0.66) (> ?c 0.33)) then (printout t "  -> De 10 a 12 repeticiones y cada una de 15 a 20 segundos."))
-    (if (and (<= ?c 1) (> ?c 0.66))  then (printout t "  -> De 12 a 15 repeticiones y cada una de 20 a 30 segundos."))
+    (printout t " - Para cada ejercicio de fuerza, equilibrio y flexibilidad se recomienda realizar series, de 8 a 15 repeticiones, de 10 a 30 segundos de duracion. " crlf)
+    (printout t "      Dada sus capacidades evaluadas, nosotros le recomendamos:" crlf)
+    (if (<= ?c 0.33) then (printout t "     -> Empiece por realizar cada ejercicio entre 8 y 10 repeticiones, cada una de 10 a 15 segundos. Puede incrementar el numero de repeticiones y el tiempo gradualmente conforme vaya mejorando."))
+    (if (and (<= ?c 0.66) (> ?c 0.33)) then (printout t "     -> Realice de 10 a 12 repeticiones y cada una de 15 a 20 segundos; puede aumentar ligeramente las repeticiones y el tiempo si lo ve necesario."))
+    (if (and (<= ?c 1) (> ?c 0.66))  then (printout t "     -> Realice de 12 a 15 repeticiones y cada una de ellas de 20 a 30 segundos."))
     (printout t crlf)
 )
 
-(defrule output_module::imprimir_tiempo_sesiones
+
+(defrule output_module::ej_res 
     (declare (salience 10))
     (escribir)
-    (optional)
-    =>
-    ;(bind ?b 0)
-    (bind $?conjuntoSesiones (find-all-instances ((?ses Session))TRUE))
-    (loop-for-count (?j 1 7) do 
-        (loop-for-count (?i 1 (length$ ?conjuntoSesiones)) do
-            (bind ?aux (nth$ ?i ?conjuntoSesiones))
-            (if (= ?j (send ?aux get-Dia)) then
-                (imprime_tiempo ?aux)
-               ; (bind ?j (+ 1 ?j))
-               ; (bind ?b 1)
-            )
-        )
-        ;(if (= ?b 0) then (bind ?j (+ 1 ?j)))
-    )
-)
-
-(defrule output_module::imprimir-indicaciones-ejercicios
-	(declare (salience 80))
-	(escribir)
-	(print-indicaciones)
+	?f <- (res (nivel ?n))
 	=>
-
+	(if (= ?n 0) then (printout t " - Dada su condicion fisica, no se le recomienda realizar ejercicios de resistencia; su conjunto de sesiones esta orientado a obtener los beneficios de la actividad fisica mediante otros tipos de ejercicios." crlf))
+	(if (= ?n 1) then (printout t " - Realice ejercicios de resistencia con prudencia. El ejercicio más recomendado para usted es caminar; puede complementarlo con subir escaleras. Maximo actividades de resistencia durante 20-25 minutos. " crlf))
+	(if (= ?n 2) then (printout t " - Comience realizando ejercicios de resistencia entre 20-25 min. Puede incrementar el tiempo gradualmente hasta 30-35 min. Combine caminar con subir escaleras, o eventualmente practique deportes como natacion o tenis, en funcion de sus posibilidades y gustos." crlf))
+	(if (= ?n 3) then (printout t " - Comience realizando ejercicios de resistencia entre 25-30 min. Puede incrementar el tiempo gradualmente hasta 35-40 min. Combine caminar con subir escaleras. Puede practicar deportes como natacion o tenis, en funcion de sus posibilidades y gustos." crlf))
+	(printout t crlf)
+	(if (not (= ?n 0)) then (printout t " - Se le han asociado ejercicios de flexibilidad que puede realizar para calentar musculos y evitar lesiones. Se recomienda realizarlos al final de una sesion diaria de ejercicios." crlf))
+	(printout t crlf)
 )
 
-(defrule output_module::imprimir-comentarios-adicionales
-	(declare (salience 70))
+(defrule output_module::ej_fuer
+    (declare (salience 10))
+    (escribir)
+	?f <- (fuer (nivel ?n))
 	=>
+	(if (= ?n 1) then (printout t " - Realice con calma los ejercicios de fuerza asignados. Los que requieran uso de pesas puede empezar con medio quilo o un quilo. " crlf))
+	(if (not (= ?n 1)) then (printout t " - Ejercite sus musculos con los ejercicios de fuerza que le hemos asignado. Pruebe a llegar a las 15 repeticiones por ejercicio con el tiempo. " crlf))
+	(printout t crlf)
+)
+
+(defrule output_module::ej_eq
+    (declare (salience 10))
+    (escribir)
+	?f <- (eq (nivel ?n))
+	=>
+	(if (= ?n 1) then (printout t " - No subestime los ejercicios de equilibrio de su horario generado. Realizelos con el mismo entusiasmo que pondria en los de fuerza. " crlf))
+	(if (= ?n 2) then (printout t " - Especial atencion a los ejercicios de equilibrio recomendados. Realizelos con entusiasmo y no prescinda de ellos. " crlf))
+	(printout t crlf)
 )
 
 
@@ -1530,50 +1537,11 @@
 
 
 
-;(deffunction output_module::imprimir_ejercicios (?sesion)
-;	(bind ?i 1)
-;	(while (<= ?i (length$ (send ?sesion get-Ejercicios)))
-;	do
-;		(bind ?ejercicio (nth$ ?i (send ?sesion get-Ejercicios)))
-;		(printout t " - Realizaremos el ejercicio " (send ?ejercicio get-Nombre_Ejercicio) " durante un tiempo de " (send ?ejercicio get-Duracion) " minutos." crlf)
-;		(bind ?i (+ ?i 1))
-; )
-;)
 
 
-;(defrule output_module::comentarColesterol
-;		(declare (salience 10))
-;		(escribir)
-;		?f <- (colesterol (nivel ?lev))
-;		=>
-;		(if (= ?lev 1) then (printout t "Tenga precaucion con los ejercicios de resistencia y no lleve su cuerpo al maximo." crlf))
-;		(if (= ?lev 2) then (printout t "No se preocupe por realizar al completo los ejercicios de resistencia, tenga cuidado y no haga esfuerzos excesivos." crlf))
-;		(if (= ?lev 3) then (printout t "Evite los esfuerzos excesivos, no llegue a un nivel de cansancio elevado; nosotros nos hemos preocupado de recomendarle ejercicios aptos para usted." crlf))
-;		(retract ?f)
-;		)
-		
-;(defrule output_module::sacarPantalla
-;	(declare (salience 10))
-;	(escribir)
-;	?f<-(imprimir_sesion (num ?n))
-;	?fc <- (object (is-a Session) (Dia ?n) (Ejercicios $?e))
-;	=>
-;	(printout t "EJERCICIOS PARA EL DIA " ?n ":" crlf)
-;	(imprimir_ejercicios ?fc)
-;	(retract ?f)
-;)
-	
-;(defrule output_module::cuidadoCaidas
-;	(declare (salience 10))
-;	(escribir)
-;	?f<-(caida)
-;	=>
-;	(printout t "Se recomienda realizar los ejercicios con cuidado, focalizandose en los ejercicios de equilibrio. " crlf)
-;	(retract ?f)
-;	)
-	
-	
-	
+
+
+
 	
 	
 	

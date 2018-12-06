@@ -1,4 +1,4 @@
-; Wed Dec 05 11:49:28 CET 2018
+; Thu Dec 06 00:46:34 CET 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -10,6 +10,10 @@
 	(single-slot Dia
 		(type INTEGER)
 		(range 1 7)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot parte_Ejercitada
+		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot Intensidad
@@ -137,9 +141,6 @@
 		(type INTEGER)
 		(default 0)
 ;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot partes_Ejercitadas
-		(type STRING)
 		(create-accessor read-write)))
 
 (defclass Aerobico "Aerobico o resistencia"
@@ -148,7 +149,11 @@
 
 (defclass Fuerza "Fuerza o musculacion"
 	(is-a Ejercicio)
-	(role concrete))
+	(role concrete)
+	(single-slot parte_Ejercitada
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
 
 (defclass Equilibrio
 	(is-a Ejercicio)

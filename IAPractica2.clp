@@ -1400,6 +1400,9 @@
 		(printout t (class ?ejercicio))
 		(loop-for-count (?z 1 (- 34 (str-length (str-cat (class ?ejercicio)j)))) do (printout t " ")) ; imprime espacios hasta DURACION
 		(printout t (send ?ejercicio get-Duracion))
+                (bind ?dur (send ?ejercicio get-Num_repeticiones))
+                (if (= 0 ?dur) then (printout t " min"))
+                (if (< 0 ?dur) then (printout t " seg"))
 		(loop-for-count (?z 1 (- 26 (str-length (str-cat (send ?ejercicio get-Duracion))))) do (printout t " ")) ; imprime espacios hasta REPETICIONES
 		(printout t (send ?ejercicio get-Num_repeticiones))
 		(loop-for-count (?z 1 (- 16 (str-length (str-cat (send ?ejercicio get-Num_repeticiones))))) do (printout t " ")) ; imprime espacios hasta el final
@@ -1409,6 +1412,66 @@
 )
 
 ; REGLAS
+
+
+;------------------------------------------------------------------------ DURACION, REPETICION RECOMENDACION ------------------------
+
+(defrule output_module::recom_tiempo 
+    (declare (salience 10))
+    (escribir)  
+    ?f<-(coeficiente(coef ?c))
+    =>
+    (printout t "Para cada ejercicio de fuerza, equilibrio y flexibilidad se recomienda realizar series, de 8 a 15 repeticiones, y de 10 a 30 segundos de duracion. " crlf)
+    (printout t "Dada sus capacidades avaluadas, nosotros recomendamos:" crlf)
+    (if (<= ?c 0.33) then (printout t "De 8 a 10 repeticiones y cada una de 10 a 15 segundos."))
+    (if (and (<= ?c 0.66) (> ?c 0.33)) then (printout t "De 10 a 12 repeticiones y cada una de 15 a 20 segundos."))
+    (if (and (<= ?c 1) (> ?c 0.66))  then (printout t "De 12 a 15 repeticiones y cada una de 20 a 30 segundos."))
+    (printout t crlf)
+)
+
+(deffunction output_module::imprime_tiempo (?ses)
+    (bind ?summax 0)
+    (bind ?summin 0)
+   ; (bind ?aer "Aerobico")
+    (loop-for-count (?i 1 (length$ (send ?ses get-Ejercicios))) do
+        (bind ?aux (send (nth$ ?i (send ?ses get-Ejercicios)) get-Duracion))
+         (if (or (= ?aux 20) (= ?aux 30) (= ?aux 3)) then 
+            (bind ?summax (+ ?summax ?aux))
+            (bind ?summin (+ ?summin ?aux))
+        )
+        (if (not (or (= ?aux 20) (= ?aux 30) (= ?aux 3))) then 
+           (bind ?summax (+ ?summax 7.5))
+           (bind ?summin (+ ?summin 1.3))
+        )
+    )
+    (if (> ?summax 90) then (bind ?summax 120))
+    (if (< ?summin 30) then (bind ?summin 30))
+    (printout t "[" ?summin ", " ?summax "]" crlf)
+)
+
+(defrule output_module::imprimir_tiempo_sesiones
+    (declare (salience 10))
+    (escribir)
+    (optional)
+    =>
+    ;(bind ?b 0)
+    (bind $?conjuntoSesiones (find-all-instances ((?ses Session))TRUE))
+    (loop-for-count (?j 1 7) do 
+        (loop-for-count (?i 1 (length$ ?conjuntoSesiones)) do
+            (bind ?aux (nth$ ?i ?conjuntoSesiones))
+            (if (= ?j (send ?aux get-Dia)) then
+                (imprime_tiempo ?aux)
+               ; (bind ?j (+ 1 ?j))
+               ; (bind ?b 1)
+            )
+        )
+        ;(if (= ?b 0) then (bind ?j (+ 1 ?j)))
+    )
+)
+
+
+
+
 
 (defrule output_module::imprimir-cabecera
 	(declare (salience 100))

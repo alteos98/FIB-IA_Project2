@@ -1,4 +1,4 @@
-; Sun Dec 02 21:28:23 CET 2018
+; Thu Dec 06 00:46:34 CET 2018
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -7,149 +7,143 @@
 
 	(Duracion 30)
 	(Intensidad 0)
-	(Nombre_Ejercicio "caminar")
-	(partes_Ejercitadas "piernas"))
+	(Nombre_Ejercicio "caminar"))
 
 ([IAPractica2_Class10007] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de los tendones del muslo")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 0))
 
 ([IAPractica2_Class10008] of  Aerobico
 
 	(Duracion 30)
 	(Intensidad 1)
-	(Nombre_Ejercicio "pedalear")
-	(partes_Ejercitadas
-		"brazos"
-		"piernas"))
+	(Nombre_Ejercicio "pedalear"))
 
 ([IAPractica2_Class10010] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "levantar los brazos")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "brazos"))
+	(Num_repeticiones 0)
+	(parte_Ejercitada "brazos"))
 
 ([IAPractica2_Class10011] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "flexion de hombros")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "brazos"))
+	(Num_repeticiones 1)
+	(parte_Ejercitada "brazos"))
 
 ([IAPractica2_Class10013] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "ejercicios de biceps")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "brazos"))
+	(Num_repeticiones 2)
+	(parte_Ejercitada "brazos"))
 
 ([IAPractica2_Class10014] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "extension de triceps")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "brazos"))
+	(Num_repeticiones 3)
+	(parte_Ejercitada "brazos"))
 
 ([IAPractica2_Class10015] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "levantarse de una silla")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 4)
+	(parte_Ejercitada "piernas"))
 
 ([IAPractica2_Class10017] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "flexion plantar")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 5)
+	(parte_Ejercitada "piernas"))
 
 ([IAPractica2_Class10018] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "flexion de rodilla")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 6)
+	(parte_Ejercitada "piernas"))
 
 ([IAPractica2_Class10019] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "extension de rodilla")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 7)
+	(parte_Ejercitada "piernas"))
 
 ([IAPractica2_Class10020] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "flexion de cadera")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 8)
+	(parte_Ejercitada "piernas"))
 
 ([IAPractica2_Class10021] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "extension de cadera")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 9)
+	(parte_Ejercitada "piernas"))
 
 ([IAPractica2_Class10022] of  Fuerza
 
 	(Duracion 7)
 	(Intensidad 2)
 	(Nombre_Ejercicio "elevar piernas a los lados")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 10)
+	(parte_Ejercitada "piernas"))
 
 ([IAPractica2_Class10026] of  Equilibrio
 
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "flexion plantar")
-	(Num_repeticiones 15))
+	(Num_repeticiones 0))
 
 ([IAPractica2_Class10027] of  Equilibrio
 
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "flexion de rodilla")
-	(Num_repeticiones 15))
+	(Num_repeticiones 1))
 
 ([IAPractica2_Class10028] of  Equilibrio
 
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "flexion de cadera")
-	(Num_repeticiones 15))
+	(Num_repeticiones 2))
 
 ([IAPractica2_Class10029] of  Equilibrio
 
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "extension de cadera")
-	(Num_repeticiones 15))
+	(Num_repeticiones 3))
 
 ([IAPractica2_Class13] of  Aerobico
 
 	(Duracion 3)
 	(Intensidad 0)
 	(Nombre_Ejercicio "subir escaleras")
-	(Num_repeticiones 3)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 3))
 
 ([IAPractica2_Class16] of  Aerobico
 
@@ -161,15 +155,14 @@
 
 	(Duracion 20)
 	(Intensidad 2)
-	(Nombre_Ejercicio "remar")
-	(partes_Ejercitadas "brazos"))
+	(Nombre_Ejercicio "remar"))
 
 ([IAPractica2_Class19] of  Equilibrio
 
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "levantar pierna")
-	(Num_repeticiones 15))
+	(Num_repeticiones 4))
 
 ([IAPractica2_Class20009] of  Deporte
 
@@ -205,16 +198,14 @@
 
 	(Duracion 30)
 	(Intensidad 1)
-	(Nombre_Ejercicio "danza")
-	(partes_Ejercitadas "piernas"))
+	(Nombre_Ejercicio "danza"))
 
 ([IAPractica2_Class20016] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de la pantorrilla")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 1))
 
 ([IAPractica2_Class20017] of  Deporte
 
@@ -236,63 +227,53 @@
 	(Duracion 15)
 	(Intensidad 0)
 	(Nombre_Ejercicio "equilibrio, caminar recto")
-	(Num_repeticiones 15))
+	(Num_repeticiones 5))
 
 ([IAPractica2_Class25] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de tobillo")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas
-		"brazos"
-		"piernas"))
+	(Num_repeticiones 2))
 
 ([IAPractica2_Class26] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de triceps")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 3))
 
 ([IAPractica2_Class27] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de muñeca")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "brazos"))
+	(Num_repeticiones 4))
 
 ([IAPractica2_Class3] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "rotacion de hombros")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "brazos"))
+	(Num_repeticiones 5))
 
 ([IAPractica2_Class4] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "estiramiento de quadriceps")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas
-		"brazos"
-		"piernas"))
+	(Num_repeticiones 6))
 
 ([IAPractica2_Class5] of  Flexibilidad
 
 	(Duracion 7)
 	(Intensidad 1)
 	(Nombre_Ejercicio "rotacion doble de cadera")
-	(Num_repeticiones 15)
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 7))
 
 ([IAPractica2_Class6] of  Flexibilidad
 
 	(Duracion 2)
 	(Intensidad 0)
 	(Nombre_Ejercicio "rotacion simple de cadera")
-	(partes_Ejercitadas "piernas"))
+	(Num_repeticiones 8))
